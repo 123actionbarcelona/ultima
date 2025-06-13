@@ -955,6 +955,9 @@ function initializeApp(initialChars, initialPacks) {
 
             // Reinitialize setup so player name inputs regenerate with preserved data
             initializeFreshSetupState();
+            if (typeof setupProgressiveFlow === 'function') {
+                setupProgressiveFlow();
+            }
 
             domElements['setup-section'].scrollIntoView({ behavior: 'smooth', block: 'start' });
 
