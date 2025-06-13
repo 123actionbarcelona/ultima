@@ -53,14 +53,14 @@
         <div class="bloque bloque-2">
             <div class="setup-control-group" style="margin-top: 20px; margin-bottom: 20px;">
                 <label for="event-date-input">🗓️ ¿<strong>Cuándo juegas</strong>?</label>
-                <input type="date" id="event-date-input" class="player-name-box" />
+                <input type="date" id="event-date-input" class="player-name-box" required/>
             </div>
         </div>
 
         <div class="bloque bloque-3">
             <div class="setup-control-group" style="margin-bottom: 15px;">
                 <label for="host-name-input">Tu Nombre (<strong>Organizador</strong>):</label>
-                <input class="player-name-box" id="host-name-input" placeholder="Nombre del Organizador" type="text"/>
+                <input class="player-name-box" id="host-name-input" placeholder="Nombre del Organizador" type="text" required/>
             </div>
         </div>
 
@@ -175,7 +175,12 @@
             </div>
         </div>
 
-        <div id="assignment-dashboard-section">
+        <div id="completion-banner">
+            <h4><i class="fas fa-stamp"></i> ¡Expediente completo! Listo para sellar.</h4>
+            <button id="print-dashboard-btn" class="boton-panel-pdf"><i class="fas fa-share-alt"></i> Compartir / Guardar Panel (PDF)</button>
+        </div>
+
+        <div id="assignment-dashboard-section" class="hidden-section">
             <div class="folder-tab">📂 <span><strong>Panel Detectivesco</strong></span></div>
             <div class="table-responsive-wrapper">
                 <div id="assignment-table-container">
@@ -186,11 +191,8 @@
                     </table>
                 </div>
             </div>
-            <div id="assignment-dashboard-buttons-container">
-                <button id="print-dashboard-btn" class="boton-panel-pdf"><i class="fas fa-share-alt"></i> Compartir / Guardar Panel (PDF)</button>
-            </div>
+        </div>
         </div>
     </div>
-  </div>
 <script src="script.js?v=1.0"></script></body>
 </html>
