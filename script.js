@@ -196,8 +196,10 @@ function initializeApp(initialChars, initialPacks) {
                     addBtn.style.display = 'none';
                     honoreesContainer.innerHTML = '';
                 }
-                generatePlayerNameInputs(parseInt(domElements['player-count'].value),
-                    Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
+                generatePlayerNameInputs(
+                    parseInt(domElements['player-count'].value),
+                    Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value),
+                    false
                 );
             });
         }
@@ -210,8 +212,10 @@ function initializeApp(initialChars, initialPacks) {
          if (domElements['host-name-input']) {
             domElements['host-name-input'].addEventListener('blur', () => {
                  hostName = domElements['host-name-input'].value.trim();
-                 generatePlayerNameInputs(parseInt(domElements['player-count'].value),
-                    Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
+                 generatePlayerNameInputs(
+                    parseInt(domElements['player-count'].value),
+                    Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value),
+                    false
                  );
             });
             domElements['host-name-input'].addEventListener('keydown', function(event) {
@@ -306,7 +310,7 @@ function initializeApp(initialChars, initialPacks) {
                                        .map(input => input.value.trim())
                                        .filter(name => name);
 
-            generatePlayerNameInputs(parseInt(domElements['player-count'].value), existingNames);
+            generatePlayerNameInputs(parseInt(domElements['player-count'].value), existingNames, false);
         }
 
         if(domElements['decrement-player-count'] && domElements['increment-player-count'] && domElements['player-count']) {
@@ -329,7 +333,23 @@ function initializeApp(initialChars, initialPacks) {
             });
         }
 
-        if(domElements['player-count']){domElements['player-count'].addEventListener('input',()=>{const c=parseInt(domElements['player-count'].value);const mn=parseInt(domElements['player-count'].min);const mx=parseInt(domElements['player-count'].max);if(c>=mn&&c<=mx){generatePlayerNameInputs(c, Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value));}else if(domElements['player-names-grid-container']&&domElements['player-names-grid-container'].innerHTML!==""&&(c<mn||c>mx)){if(c<mn&&c>=1)generatePlayerNameInputs(mn);else if(c>mx)generatePlayerNameInputs(mx);}});}
+        if(domElements['player-count']) {
+            domElements['player-count'].addEventListener('input', () => {
+                const c = parseInt(domElements['player-count'].value);
+                const mn = parseInt(domElements['player-count'].min);
+                const mx = parseInt(domElements['player-count'].max);
+                if (c >= mn && c <= mx) {
+                    generatePlayerNameInputs(
+                        c,
+                        Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value),
+                        true
+                    );
+                } else if (domElements['player-names-grid-container'] && domElements['player-names-grid-container'].innerHTML !== '' && (c < mn || c > mx)) {
+                    if (c < mn && c >= 1) generatePlayerNameInputs(mn, [], true);
+                    else if (c > mx) generatePlayerNameInputs(mx, [], true);
+                }
+            });
+        }
 
         // Las funciones de renderizado y acciones principales se definen en los siguientes bloques.
         // A continuación, se asocian los eventos a las funciones que se definirán más adelante.
@@ -359,8 +379,10 @@ function initializeApp(initialChars, initialPacks) {
             newInput.className = 'player-name-box honoree-name-input';
             newInput.value = name;
             newInput.addEventListener('blur', () => {
-                generatePlayerNameInputs(parseInt(domElements['player-count'].value),
-                    Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
+                generatePlayerNameInputs(
+                    parseInt(domElements['player-count'].value),
+                    Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value),
+                    false
                 );
             });
             newInput.addEventListener('keydown', function(event) {
@@ -389,8 +411,10 @@ function initializeApp(initialChars, initialPacks) {
             removeBtn.className = 'remove-honoree-btn';
             removeBtn.onclick = function() {
                 inputGroup.remove();
-                generatePlayerNameInputs(parseInt(domElements['player-count'].value),
-                    Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
+                generatePlayerNameInputs(
+                    parseInt(domElements['player-count'].value),
+                    Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value),
+                    false
                 );
             };
 
@@ -430,7 +454,7 @@ function initializeApp(initialChars, initialPacks) {
             }, duration);
         }
 
-        function generatePlayerNameInputs(count, existingPlayerNamesFromGrid = []) {
+        function generatePlayerNameInputs(count, existingPlayerNamesFromGrid = [], autoFocusFirst = false) {
             if (!domElements['player-names-grid-container']) { return; }
 
             const currentHostNameVal = domElements['host-name-input'] ? domElements['host-name-input'].value.trim() : "";
@@ -509,7 +533,7 @@ function initializeApp(initialChars, initialPacks) {
                     }
                 });
                  input.addEventListener('blur', () => {}); // Se deja el listener vacío por si se reintroduce lógica
-                if (i === playerBoxIndex && !input.value) {
+                if (i === playerBoxIndex && autoFocusFirst && !input.value) {
                      setTimeout(() => input.focus(), 50);
                 }
             }
