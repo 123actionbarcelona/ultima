@@ -1365,6 +1365,7 @@ function setupProgressiveFlow() {
       b.classList.remove('hidden-section');
       b.classList.add('visible-section');
       triggerGoldenGlow(b);
+      b.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
