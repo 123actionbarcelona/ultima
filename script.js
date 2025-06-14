@@ -195,9 +195,15 @@ function initializeApp(initialChars, initialPacks) {
                 } else {
                     addBtn.style.display = 'none';
                     honoreesContainer.innerHTML = '';
+                    honoreeNames = [];
                 }
-                generatePlayerNameInputs(parseInt(domElements['player-count'].value),
-                    Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
+                generatePlayerNameInputs(
+                    parseInt(domElements['player-count'].value),
+                    Array.from(
+                        domElements['player-names-grid-container'].querySelectorAll(
+                            'input.player-name-box:not([readonly])'
+                        )
+                    ).map(ip => ip.value)
                 );
             });
         }
