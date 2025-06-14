@@ -1355,14 +1355,43 @@ function setupProgressiveFlow() {
     bloq.classList.add('hidden-section');
     bloq.classList.remove('visible-section');
   });
+  const isMobile = window.innerWidth <= 768;
+  let keyboardHeight = 0;
+  window.visualViewport?.addEventListener('resize', () => {
+    keyboardHeight = window.innerHeight - window.visualViewport.height;
+  });
+
+  const getScrollOffset = () => isMobile ? 100 : 50;
+
+  const scrollToElement = element => {
+    const elementPosition = element.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - getScrollOffset() - keyboardHeight;
+    window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+  };
+
   const showBloque = num => {
     const b = document.querySelector('.bloque-' + num);
     if (b && b.classList.contains('hidden-section')) {
       b.classList.remove('hidden-section');
       b.classList.add('visible-section');
+      setTimeout(() => {
+        scrollToElement(b);
+        const focusableElement = b.querySelector('input:not([readonly]), select, button');
+        if (focusableElement) focusableElement.focus();
+      }, isMobile ? 500 : 300);
       triggerGoldenGlow(b);
     }
   };
+
+  const debounce = (fn, delay = 200) => {
+    let timeoutId;
+    return (...args) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => fn(...args), delay);
+    };
+  };
+
+  const debouncedShowBloque = debounce(showBloque, 200);
 
   showBloque(2);
 
@@ -1376,12 +1405,26 @@ function setupProgressiveFlow() {
 
   if (dateInput) {
     dateInput.addEventListener('change', () => {
-      if (dateInput.value) showBloque(3);
+      if (dateInput.value) {
+        debouncedShowBloque(3);
+        if (window.innerWidth <= 768) {
+          setTimeout(() => {
+            document.querySelector('.bloque-3')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 400);
+        }
+      }
     });
   }
   if (hostInput) {
-    hostInput.addEventListener('input', () => {
-      if (hostInput.value.trim().length > 0) showBloque(4);
+    hostInput.addEventListener('blur', () => {
+      if (hostInput.value.trim().length > 0) {
+        debouncedShowBloque(4);
+        if (window.innerWidth <= 768) {
+          setTimeout(() => {
+            document.querySelector('.bloque-4')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 400);
+        }
+      }
     });
   }
 
@@ -1401,11 +1444,11 @@ function setupProgressiveFlow() {
     }
     
     // Mostramos el bloque 5 (Número de Jugadores)
-    showBloque(5);
+    debouncedShowBloque(5);
     
     // ¡Y AHORA LA MAGIA! Como tú sugeriste:
     // Mostramos inmediatamente el bloque 6 (Nombres de los Jugadores)
-    showBloque(6);
+    debouncedShowBloque(6);
   };
 
   if (honYes && honNo) {
@@ -1414,8 +1457,8 @@ function setupProgressiveFlow() {
   } else if (honChk) {
     // Si solo existiera el checkbox, mantenemos un fallback
     honChk.addEventListener('change', () => {
-        showBloque(5);
-        showBloque(6);
+        debouncedShowBloque(5);
+        debouncedShowBloque(6);
     });
   }
 
@@ -1426,7 +1469,7 @@ function setupProgressiveFlow() {
       const val = parseInt(playerCountInput.value);
       const min = parseInt(playerCountInput.min);
       const max = parseInt(playerCountInput.max);
-      if (!isNaN(val) && val >= min && val <= max) showBloque(6);
+      if (!isNaN(val) && val >= min && val <= max) debouncedShowBloque(6);
     });
   }
 
@@ -1434,7 +1477,7 @@ function setupProgressiveFlow() {
     namesContainer.addEventListener('input', () => {
       const total = parseInt(playerCountInput?.value || '0');
       const filled = Array.from(namesContainer.querySelectorAll('input.player-name-box')).filter(el => el.value.trim()).length;
-      if (filled === total) showBloque(7);
+      if (filled === total) debouncedShowBloque(7);
     });
   }
 }
