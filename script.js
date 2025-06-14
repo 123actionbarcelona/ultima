@@ -981,13 +981,35 @@ function initializeApp(initialChars, initialPacks) {
             domElements['main-content-area'].classList.remove('visible-section');
             domElements['setup-section'].style.display = 'block';
 
-            const existingNames = Array.from(domElements['player-names-grid-container']?.querySelectorAll('input.player-name-box'))
-                                        .map(input => input.value);
-            if (existingNames.length > 0) {
-                generatePlayerNameInputs(parseInt(domElements['player-count'].value), existingNames);
-            }
+            // Cancel any smooth scroll still in progress from the assignment view
+            window.scrollTo({ top: 0, behavior: 'auto' });
 
-            domElements['setup-section'].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Delay slightly so the layout settles before revealing fields again
+            setTimeout(() => {
+                // Ensure previously revealed blocks remain visible when returning
+                document.querySelectorAll('#setup-section .bloque').forEach(b => {
+                    if (b.classList.contains('hidden-section')) {
+                        b.classList.remove('hidden-section');
+                        b.classList.add('visible-section');
+                    }
+                });
+
+                // Restore previously entered host and date values
+                if (domElements['host-name-input']) {
+                    domElements['host-name-input'].value = hostName;
+                }
+                if (domElements['event-date-input']) {
+                    domElements['event-date-input'].value = eventDateValue;
+                }
+
+                const existingNames = Array.from(domElements['player-names-grid-container']?.querySelectorAll('input.player-name-box'))
+                                            .map(input => input.value);
+                if (existingNames.length > 0) {
+                    generatePlayerNameInputs(parseInt(domElements['player-count'].value), existingNames);
+                }
+
+                domElements['setup-section'].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
 
             showToastNotification('Has vuelto a la configuración. Los datos se conservan.', 'info');
         }
@@ -1365,6 +1387,7 @@ function setupProgressiveFlow() {
       b.classList.remove('hidden-section');
       b.classList.add('visible-section');
       triggerGoldenGlow(b);
+      b.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
@@ -1379,13 +1402,23 @@ function setupProgressiveFlow() {
   const namesContainer = document.getElementById('player-names-grid-container');
 
   if (dateInput) {
-    dateInput.addEventListener('change', () => {
+    // On some mobile browsers the `change` event fires as soon as the picker
+    // opens because a default value gets assigned. To avoid jumping to the next
+    // step prematurely we wait until the input loses focus.
+    dateInput.addEventListener('blur', () => {
       if (dateInput.value) showBloque(3);
     });
   }
   if (hostInput) {
-    hostInput.addEventListener('input', () => {
+    hostInput.addEventListener('blur', () => {
       if (hostInput.value.trim().length > 0) showBloque(4);
+    });
+    hostInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        hostInput.blur();
+        if (hostInput.value.trim().length > 0) showBloque(4);
+      }
     });
   }
 
@@ -1403,13 +1436,25 @@ function setupProgressiveFlow() {
       honChk.checked = hasHonoree;
       honChk.dispatchEvent(new Event('change'));
     }
-    
+
     // Mostramos el bloque 5 (Número de Jugadores)
     showBloque(5);
-    
-    // ¡Y AHORA LA MAGIA! Como tú sugeriste:
+
     // Mostramos inmediatamente el bloque 6 (Nombres de los Jugadores)
     showBloque(6);
+
+    // Si hay homenajeado/a nos desplazamos al bloque de la pregunta y
+    // enfocamos el primer campo de nombre para mantener el contexto visual
+    if (hasHonoree) {
+      const honBlock = document.querySelector('.bloque-4');
+      const firstHonInput = document.querySelector('#honorees-container .honoree-name-input');
+      if (honBlock) {
+        honBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      if (firstHonInput) {
+        firstHonInput.focus();
+      }
+    }
   };
 
   if (honYes && honNo) {
@@ -1420,6 +1465,16 @@ function setupProgressiveFlow() {
     honChk.addEventListener('change', () => {
         showBloque(5);
         showBloque(6);
+        if (honChk.checked) {
+          const honBlock = document.querySelector('.bloque-4');
+          const firstHonInput = document.querySelector('#honorees-container .honoree-name-input');
+          if (honBlock) {
+            honBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+          if (firstHonInput) {
+            firstHonInput.focus();
+          }
+        }
     });
   }
 

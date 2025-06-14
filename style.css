@@ -245,6 +245,17 @@ input.player-name-box:focus,
     color: var(--color-text-on-dark-bg);
 }
 
+/* Calendario más grande en pantallas amplias */
+@media (min-width: 1024px) {
+    #setup-section input[type="date"].player-name-box {
+        font-size: 1.2em;
+        padding: 14px 20px;
+    }
+    #setup-section input[type="date"].player-name-box::-webkit-calendar-picker-indicator {
+        transform: scale(1.35);
+    }
+}
+
 /* Controles de número de jugadores */
 .player-count-wrapper {
     display: flex;
@@ -563,16 +574,20 @@ button .fas, button .fab { margin-right: 8px; }
 }
 
 /* Separador para las secciones de Homenajeado y Nombres de Jugadores */
+
 .bloque.bloque-4,
 .bloque.bloque-6 {
     margin-top: 35px;
     padding-top: 30px;
-    border-top: 1px dashed var(--color-gold-medium);
+}
+
+/* Reduce gap after the honoree section */
+.bloque.bloque-4 {
+    margin-bottom: 10px;
 }
 
 :root.dark-mode .bloque.bloque-4,
 :root.dark-mode .bloque.bloque-6 {
-    border-top-color: var(--color-gold-dark);
 }
 
 /* ... aquí empiezan los estilos de #action-buttons-section ... */
