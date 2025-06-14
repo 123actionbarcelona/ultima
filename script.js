@@ -1360,6 +1360,11 @@ function setupProgressiveFlow() {
     if (b && b.classList.contains('hidden-section')) {
       b.classList.remove('hidden-section');
       b.classList.add('visible-section');
+      setTimeout(() => {
+        b.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+        const focusable = b.querySelector('input:not([readonly]), select, button');
+        if (focusable) focusable.focus();
+      });
       triggerGoldenGlow(b);
     }
   };
