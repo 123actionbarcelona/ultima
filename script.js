@@ -102,6 +102,20 @@ function triggerGoldenGlow(element) {
     }, 2000);
 }
 
+function getScrollOffset() {
+    return window.innerWidth <= 768 ? 100 : 50;
+}
+
+function scrollToElement(element) {
+    if (!element) return;
+    const elementPosition = element.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - getScrollOffset();
+    window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+    });
+}
+
 function getFormattedEventDate(dateStr) {
     if (!dateStr) return '';
     const date = new Date(dateStr + 'T00:00:00');
@@ -1355,11 +1369,20 @@ function setupProgressiveFlow() {
     bloq.classList.add('hidden-section');
     bloq.classList.remove('visible-section');
   });
+  const isMobile = window.innerWidth <= 768;
   const showBloque = num => {
     const b = document.querySelector('.bloque-' + num);
     if (b && b.classList.contains('hidden-section')) {
       b.classList.remove('hidden-section');
       b.classList.add('visible-section');
+      const delay = isMobile ? 500 : 300;
+      setTimeout(() => {
+        scrollToElement(b);
+        const focusableElement = b.querySelector('input:not([readonly]):not([disabled]), select, button');
+        if (focusableElement) {
+          focusableElement.focus();
+        }
+      }, delay);
       triggerGoldenGlow(b);
     }
   };
@@ -1380,7 +1403,7 @@ function setupProgressiveFlow() {
     });
   }
   if (hostInput) {
-    hostInput.addEventListener('input', () => {
+    hostInput.addEventListener('blur', () => {
       if (hostInput.value.trim().length > 0) showBloque(4);
     });
   }
