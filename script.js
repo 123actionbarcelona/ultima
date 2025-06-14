@@ -196,8 +196,12 @@ function initializeApp(initialChars, initialPacks) {
                     addBtn.style.display = 'none';
                     honoreesContainer.innerHTML = '';
                 }
-                generatePlayerNameInputs(parseInt(domElements['player-count'].value),
-                    Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
+                generatePlayerNameInputs(
+                    parseInt(domElements['player-count'].value),
+                    Array.from(domElements['player-names-grid-container']
+                        .querySelectorAll('input.player-name-box:not([readonly])'))
+                        .map(ip => ip.value),
+                    false
                 );
             });
         }
@@ -430,7 +434,7 @@ function initializeApp(initialChars, initialPacks) {
             }, duration);
         }
 
-        function generatePlayerNameInputs(count, existingPlayerNamesFromGrid = []) {
+        function generatePlayerNameInputs(count, existingPlayerNamesFromGrid = [], shouldFocus = true) {
             if (!domElements['player-names-grid-container']) { return; }
 
             const currentHostNameVal = domElements['host-name-input'] ? domElements['host-name-input'].value.trim() : "";
@@ -509,7 +513,7 @@ function initializeApp(initialChars, initialPacks) {
                     }
                 });
                  input.addEventListener('blur', () => {}); // Se deja el listener vacío por si se reintroduce lógica
-                if (i === playerBoxIndex && !input.value) {
+                if (shouldFocus && i === playerBoxIndex && !input.value) {
                      setTimeout(() => input.focus(), 50);
                 }
             }
