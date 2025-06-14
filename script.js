@@ -1365,6 +1365,7 @@ function setupProgressiveFlow() {
       b.classList.remove('hidden-section');
       b.classList.add('visible-section');
       triggerGoldenGlow(b);
+      b.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
@@ -1379,7 +1380,10 @@ function setupProgressiveFlow() {
   const namesContainer = document.getElementById('player-names-grid-container');
 
   if (dateInput) {
-    dateInput.addEventListener('change', () => {
+    // On some mobile browsers the `change` event fires as soon as the picker
+    // opens because a default value gets assigned. To avoid jumping to the next
+    // step prematurely we wait until the input loses focus.
+    dateInput.addEventListener('blur', () => {
       if (dateInput.value) showBloque(3);
     });
   }
@@ -1403,13 +1407,21 @@ function setupProgressiveFlow() {
       honChk.checked = hasHonoree;
       honChk.dispatchEvent(new Event('change'));
     }
-    
+
     // Mostramos el bloque 5 (Número de Jugadores)
     showBloque(5);
-    
-    // ¡Y AHORA LA MAGIA! Como tú sugeriste:
+
     // Mostramos inmediatamente el bloque 6 (Nombres de los Jugadores)
     showBloque(6);
+
+    // Si hay homenajeado/a nos desplazamos directamente al primer campo
+    if (hasHonoree) {
+      const firstHonInput = document.querySelector('#honorees-container .honoree-name-input');
+      if (firstHonInput) {
+        firstHonInput.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        firstHonInput.focus();
+      }
+    }
   };
 
   if (honYes && honNo) {
@@ -1420,6 +1432,13 @@ function setupProgressiveFlow() {
     honChk.addEventListener('change', () => {
         showBloque(5);
         showBloque(6);
+        if (honChk.checked) {
+          const firstHonInput = document.querySelector('#honorees-container .honoree-name-input');
+          if (firstHonInput) {
+            firstHonInput.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            firstHonInput.focus();
+          }
+        }
     });
   }
 
