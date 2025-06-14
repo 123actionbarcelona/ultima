@@ -65,16 +65,19 @@
         </div>
 
         <div class="bloque bloque-4">
-            <div class="setup-control-group" style="margin-bottom: 5px; display: flex; align-items: center;">
-                <span class="font-normal" style="font-weight:normal; text-transform: none; letter-spacing: normal; margin-right:8px;">¿Hay <strong>homenajead@</strong>?</span>
-                <div class="honoree-choice-container">
-                    <button type="button" id="honoree-yes" class="honoree-choice-btn">Sí</button>
-                    <button type="button" id="honoree-no" class="honoree-choice-btn">No</button>
-                </div>
-                <input id="has-honoree-checkbox" type="checkbox" style="display:none;"/>
-            </div>
-            <div id="honorees-container" style="margin-bottom:15px;"></div>
-            <button id="add-honoree-btn" style="display:none; margin-bottom: 15px; font-size: 0.9em; padding: 8px 15px;" type="button"><i class="fas fa-plus-circle"></i> Añadir Homenajeado/a</button>
+            <fieldset class="honoree-fieldset setup-control-group">
+                <legend class="honoree-legend font-normal">¿Hay <strong>homenajead@</strong>?</legend>
+                <label class="honoree-radio-label">
+                    <input type="radio" id="honoree-radio-yes" name="has-honoree" class="honoree-radio-input" value="yes">
+                    Sí
+                </label>
+                <label class="honoree-radio-label">
+                    <input type="radio" id="honoree-radio-no" name="has-honoree" class="honoree-radio-input" value="no">
+                    No
+                </label>
+            </fieldset>
+            <div id="honorees-container" class="honorees-container"></div>
+            <button id="add-honoree-btn" class="add-honoree-btn" type="button"><i class="fas fa-plus-circle"></i> Añadir Homenajeado/a</button>
         </div>
 
         <div class="bloque bloque-5">

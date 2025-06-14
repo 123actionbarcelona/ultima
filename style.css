@@ -310,6 +310,42 @@ input.player-name-box[readonly] { background-color: #f0f0f0; cursor: not-allowed
 .remove-honoree-btn { padding: 6px 10px; font-size: 0.8em; background-color: var(--color-danger); color: white; border: none; border-radius: var(--border-radius-soft); cursor: pointer; }
 .remove-honoree-btn:hover { background-color: var(--color-error-darker); }
 
+.honoree-fieldset {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: none;
+    padding: 0;
+}
+
+.honoree-legend {
+    font-weight: normal;
+    text-transform: none;
+    letter-spacing: normal;
+    margin-right: 8px;
+}
+
+.honoree-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-special), monospace;
+}
+
+.honoree-radio-input {
+    margin-right: 4px;
+}
+
+#honorees-container { margin-bottom: 15px; }
+
+#add-honoree-btn {
+    display: none;
+    font-size: 0.9em;
+    padding: 8px 15px;
+    margin-bottom: 15px;
+}
+
 /* Botones genéricos y botón principal de setup */
 button { font-family: var(--font-primary); font-weight: 600; border-radius: var(--border-radius-soft); text-transform: uppercase; letter-spacing: 1px; padding: 12px 28px; transition: var(--transition-smooth), background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, transform 0.2s ease, box-shadow 0.2s ease; margin: 8px; border: 1px solid var(--color-gold-dark); box-shadow: 0 3px 5px rgba(0,0,0,0.1); cursor: pointer; background-image: linear-gradient(to bottom, rgba(255,255,255,0.05), rgba(0,0,0,0.05)); }
 button:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }

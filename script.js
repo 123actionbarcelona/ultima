@@ -132,7 +132,7 @@ function initializeApp(initialChars, initialPacks) {
             'toast-notification', 'toast-message',
             'host-name-input',
             'event-date-input',
-            'has-honoree-checkbox', 'honorees-container', 'add-honoree-btn',
+            'honoree-radio-yes', 'honoree-radio-no', 'honorees-container', 'add-honoree-btn',
             'decrement-player-count', 'increment-player-count',
             'initial-report-target',
             'intro-line-1-heading'
@@ -183,11 +183,12 @@ function initializeApp(initialChars, initialPacks) {
         let eventDateValue = "";
 
         // La función addHonoreeInput se definirá en el Bloque 3, pero se llama desde aquí.
-        if (domElements['has-honoree-checkbox']) {
-            domElements['has-honoree-checkbox'].addEventListener('change', function() {
+        if (domElements['honoree-radio-yes'] && domElements['honoree-radio-no']) {
+            const handleRadioChange = function() {
                 const honoreesContainer = domElements['honorees-container'];
                 const addBtn = domElements['add-honoree-btn'];
-                if (this.checked) {
+                const hasHonoree = domElements['honoree-radio-yes'].checked;
+                if (hasHonoree) {
                     addBtn.style.display = 'inline-block';
                     if (honoreesContainer.children.length === 0) {
                         addHonoreeInput();
@@ -196,10 +197,17 @@ function initializeApp(initialChars, initialPacks) {
                     addBtn.style.display = 'none';
                     honoreesContainer.innerHTML = '';
                 }
-                generatePlayerNameInputs(parseInt(domElements['player-count'].value),
-                    Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
+                generatePlayerNameInputs(
+                    parseInt(domElements['player-count'].value),
+                    Array.from(
+                        domElements['player-names-grid-container'].querySelectorAll(
+                            'input.player-name-box:not([readonly])'
+                        )
+                    ).map(ip => ip.value)
                 );
-            });
+            };
+            domElements['honoree-radio-yes'].addEventListener('change', handleRadioChange);
+            domElements['honoree-radio-no'].addEventListener('change', handleRadioChange);
         }
         if (domElements['add-honoree-btn']) {
             domElements['add-honoree-btn'].addEventListener('click', () => {
@@ -217,12 +225,12 @@ function initializeApp(initialChars, initialPacks) {
             domElements['host-name-input'].addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
                     event.preventDefault();
-                    if (domElements['has-honoree-checkbox']) {
-                        domElements['has-honoree-checkbox'].focus();
+                    if (domElements['honoree-radio-yes']) {
+                        domElements['honoree-radio-yes'].focus();
                     } else if (domElements['event-date-input']) {
                         domElements['event-date-input'].focus();
                     } else {
-                         const firstPlayerInput = domElements['player-names-grid-container'].querySelector('input.player-name-box:not([readonly])');
+                        const firstPlayerInput = domElements['player-names-grid-container'].querySelector('input.player-name-box:not([readonly])');
                         if (firstPlayerInput) {
                             firstPlayerInput.focus();
                         } else if (domElements['player-count']) {
@@ -239,7 +247,7 @@ function initializeApp(initialChars, initialPacks) {
              domElements['event-date-input'].addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
                     event.preventDefault();
-                     const hasHonoreeChecked = domElements['has-honoree-checkbox'] ? domElements['has-honoree-checkbox'].checked : false;
+                     const hasHonoreeChecked = domElements['honoree-radio-yes'] ? domElements['honoree-radio-yes'].checked : false;
                     let nextFocusElement = null;
 
                     if (hasHonoreeChecked) {
@@ -286,10 +294,11 @@ function initializeApp(initialChars, initialPacks) {
             if(domElements['host-name-input']) domElements['host-name-input'].value = hostName; else hostName = "";
             if(domElements['event-date-input']) domElements['event-date-input'].value = eventDateValue; else eventDateValue = "";
 
-            if(domElements['has-honoree-checkbox']) {
-                domElements['has-honoree-checkbox'].checked = honoreeNames.length > 0;
+            if(domElements['honoree-radio-yes'] && domElements['honoree-radio-no']) {
+                domElements['honoree-radio-yes'].checked = honoreeNames.length > 0;
+                domElements['honoree-radio-no'].checked = !domElements['honoree-radio-yes'].checked;
                 const event = new Event('change');
-                domElements['has-honoree-checkbox'].dispatchEvent(event);
+                domElements['honoree-radio-yes'].dispatchEvent(event);
                  if (honoreeNames.length > 0 && domElements['honorees-container']) {
                     domElements['honorees-container'].innerHTML = '';
                     honoreeNames.forEach(name => addHonoreeInput(name));
@@ -1368,9 +1377,8 @@ function setupProgressiveFlow() {
 
   const dateInput = document.getElementById('event-date-input');
   const hostInput = document.getElementById('host-name-input');
-  const honYes = document.getElementById('honoree-yes');
-  const honNo = document.getElementById('honoree-no');
-  const honChk = document.getElementById('has-honoree-checkbox');
+  const honYes = document.getElementById('honoree-radio-yes');
+  const honNo = document.getElementById('honoree-radio-no');
   const playerCountInput = document.getElementById('player-count');
   const namesContainer = document.getElementById('player-names-grid-container');
 
@@ -1389,34 +1397,14 @@ function setupProgressiveFlow() {
 // ✅ NUEVO BLOQUE MEJORADO (Implementa tu idea)
 // ========================================================================
 
-  const handleHonoreeChoice = (hasHonoree, buttonClicked) => {
-    // Primero, gestionamos la selección visual de los botones
-    [honYes, honNo].forEach(btn => btn.classList.remove('active'));
-    if(buttonClicked) buttonClicked.classList.add('active');
-
-    // Actualizamos el estado del checkbox invisible
-    if (honChk) {
-      honChk.checked = hasHonoree;
-      honChk.dispatchEvent(new Event('change'));
-    }
-    
-    // Mostramos el bloque 5 (Número de Jugadores)
+  const handleHonoreeChoice = () => {
     showBloque(5);
-    
-    // ¡Y AHORA LA MAGIA! Como tú sugeriste:
-    // Mostramos inmediatamente el bloque 6 (Nombres de los Jugadores)
     showBloque(6);
   };
 
   if (honYes && honNo) {
-    honYes.addEventListener('click', () => handleHonoreeChoice(true, honYes));
-    honNo.addEventListener('click', () => handleHonoreeChoice(false, honNo));
-  } else if (honChk) {
-    // Si solo existiera el checkbox, mantenemos un fallback
-    honChk.addEventListener('change', () => {
-        showBloque(5);
-        showBloque(6);
-    });
+    honYes.addEventListener('change', handleHonoreeChoice);
+    honNo.addEventListener('change', handleHonoreeChoice);
   }
 
 // ========================================================================
