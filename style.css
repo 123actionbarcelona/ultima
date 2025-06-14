@@ -245,6 +245,17 @@ input.player-name-box:focus,
     color: var(--color-text-on-dark-bg);
 }
 
+/* Calendario más grande en pantallas amplias */
+@media (min-width: 1024px) {
+    #setup-section input[type="date"].player-name-box {
+        font-size: 1.2em;
+        padding: 14px 20px;
+    }
+    #setup-section input[type="date"].player-name-box::-webkit-calendar-picker-indicator {
+        transform: scale(1.35);
+    }
+}
+
 /* Controles de número de jugadores */
 .player-count-wrapper {
     display: flex;
