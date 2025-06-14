@@ -1365,6 +1365,7 @@ function setupProgressiveFlow() {
       b.classList.remove('hidden-section');
       b.classList.add('visible-section');
       triggerGoldenGlow(b);
+      b.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
@@ -1379,7 +1380,10 @@ function setupProgressiveFlow() {
   const namesContainer = document.getElementById('player-names-grid-container');
 
   if (dateInput) {
-    dateInput.addEventListener('change', () => {
+    // On some mobile browsers the `change` event fires as soon as the picker
+    // opens because a default value gets assigned. To avoid jumping to the next
+    // step prematurely we wait until the input loses focus.
+    dateInput.addEventListener('blur', () => {
       if (dateInput.value) showBloque(3);
     });
   }
