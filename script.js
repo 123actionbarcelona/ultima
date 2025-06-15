@@ -114,6 +114,15 @@ function isDesktop() {
     return !/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
 }
 
+function smoothScrollToSelector(selector) {
+    const el = document.querySelector(selector);
+    if (el) {
+        setTimeout(() => {
+            el.scrollIntoView({ behavior: 'smooth' });
+        }, 150);
+    }
+}
+
 function initializeApp(initialChars, initialPacks) {
     const packs = initialPacks;
 
@@ -216,6 +225,9 @@ function initializeApp(initialChars, initialPacks) {
                  generatePlayerNameInputs(parseInt(domElements['player-count'].value),
                     Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
                  );
+                 if (hostName) {
+                     smoothScrollToSelector('.bloque-4');
+                 }
             });
             domElements['host-name-input'].addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
@@ -238,6 +250,12 @@ function initializeApp(initialChars, initialPacks) {
         if (domElements['event-date-input']) {
             domElements['event-date-input'].addEventListener('change', () => {
                 eventDateValue = domElements['event-date-input'].value;
+                if (eventDateValue) {
+                    smoothScrollToSelector('.bloque-3');
+                }
+            });
+            domElements['event-date-input'].addEventListener('blur', () => {
+                if (domElements['event-date-input'].value) smoothScrollToSelector('.bloque-3');
             });
              domElements['event-date-input'].addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
@@ -365,6 +383,7 @@ function initializeApp(initialChars, initialPacks) {
                 generatePlayerNameInputs(parseInt(domElements['player-count'].value),
                     Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
                 );
+                if (newInput.value.trim()) smoothScrollToSelector('.bloque-5');
             });
             newInput.addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
