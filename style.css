@@ -611,7 +611,7 @@ button .fas, button .fab { margin-right: 8px; }
     gap: 10px;
 }
 
-#back-to-setup-btn, #print-dashboard-btn, #load-config-btn, #add-honoree-btn {
+#back-to-setup-btn, #load-config-btn, #add-honoree-btn {
     font-family: var(--font-special), monospace;
     background-color: #e8e0c9;
     color: #5d4c3c;
@@ -633,76 +633,30 @@ button .fas, button .fab { margin-right: 8px; }
     padding: 8px 12px;
     border-radius: var(--border-radius-soft);
 }
-#back-to-setup-btn:hover, #print-dashboard-btn:hover, #load-config-btn:hover, #add-honoree-btn:hover {
+#back-to-setup-btn:hover, #load-config-btn:hover, #add-honoree-btn:hover {
     background-color: #dcd2ba;
     color: #4a3b2a;
     border-color: var(--color-gold-dark);
     transform: translateY(-2px) scale(1.02);
     box-shadow: 0 4px 8px rgba(0,0,0,0.18), inset 0px 0px 1px rgba(255,255,255,0.5);
 }
-#back-to-setup-btn:active, #print-dashboard-btn:active, #load-config-btn:active, #add-honoree-btn:active {
+#back-to-setup-btn:active, #load-config-btn:active, #add-honoree-btn:active {
     transform: translateY(0px) scale(1);
     box-shadow: inset 2px 2px 4px rgba(0,0,0,0.1);
 }
-:root.dark-mode #back-to-setup-btn, :root.dark-mode #print-dashboard-btn, :root.dark-mode #load-config-btn, :root.dark-mode #add-honoree-btn {
+:root.dark-mode #back-to-setup-btn, :root.dark-mode #load-config-btn, :root.dark-mode #add-honoree-btn {
     background-color: #4a443b;
     color: var(--color-gold-light);
     border-color: var(--color-gold-dark);
     box-shadow: 2px 2px 4px rgba(0,0,0,0.3), inset 0px 0px 1px rgba(0,0,0,0.3);
     background-image: linear-gradient(to bottom, #5c564e, #4a443b);
 }
-:root.dark-mode #back-to-setup-btn:hover, :root.dark-mode #print-dashboard-btn:hover, :root.dark-mode #load-config-btn:hover, :root.dark-mode #add-honoree-btn:hover {
+:root.dark-mode #back-to-setup-btn:hover, :root.dark-mode #load-config-btn:hover, :root.dark-mode #add-honoree-btn:hover {
     background-color: #5c564e;
     color: #fff;
     border-color: var(--color-gold-medium);
 }
 
-#assignment-dashboard-buttons-container {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.boton-panel-pdf {
-    font-family: 'Special Elite', monospace;
-    background: #6D4C41;
-    color: var(--color-gold-pale, #faf3e0);
-    border: 2px solid #4E342E;
-    padding: 12px 25px;
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 1.1em;
-    letter-spacing: 1.5px;
-    border-radius: 5px 20px 5px 20px;
-    box-shadow: 2px 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.05);
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.boton-panel-pdf:hover {
-    background: #5D4037;
-    border-color: #3E2723;
-    transform: translateY(-1px) scale(1.02);
-    box-shadow: 3px 3px 6px rgba(0,0,0,0.25), inset 0 1px 2px rgba(255,255,255,0.05);
-}
-
-.boton-panel-pdf:active {
-    transform: translateY(0) scale(1);
-    box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2);
-}
-
-:root.dark-mode .boton-panel-pdf {
-    background: #563E34;
-    border-color: #3E2723;
-    color: var(--color-gold-light, #e8d8b0);
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
-    box-shadow: 2px 2px 4px rgba(0,0,0,0.3), inset 0 1px 2px rgba(0,0,0,0.1);
-}
-
-:root.dark-mode .boton-panel-pdf:hover {
-    background: #49332B;
-    border-color: #2c1b17;
-}
 
 /* ============================================= */
 /* Estilos Guía del Detective                    */
@@ -890,59 +844,265 @@ button .fas, button .fab { margin-right: 8px; }
 
 
 /* ============================================= */
+/* Barra de Progreso de Asignación               */
+/* ============================================= */
+#progress-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 260px;
+    padding: 8px;
+    background-color: var(--color-content-bg);
+    border: 1px solid var(--color-gold-dark);
+    border-radius: var(--border-radius-medium);
+    box-shadow: var(--box-shadow-medium);
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(15px);
+    pointer-events: none;
+    transition: var(--transition-elegant);
+}
+
+#progress-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.assignment-progress {
+    position: relative;
+    height: 24px;
+    background-color: var(--color-content-bg);
+    border: 1px solid var(--color-gold-dark);
+    border-radius: var(--border-radius-soft);
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--color-gold-medium);
+    transition: width 0.4s ease;
+}
+
+.progress-text {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: var(--color-text-dark);
+}
+
+:root.dark-mode #progress-container {
+    background-color: var(--color-cream-artdeco);
+    border-color: var(--color-gold-medium);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+}
+
+:root.dark-mode .assignment-progress {
+    background-color: var(--color-cream-artdeco);
+    border-color: var(--color-gold-medium);
+}
+
+:root.dark-mode .progress-bar {
+    background-color: var(--color-gold-dark);
+}
+
+/* ============================================= */
 /* Estilos Banner de Finalización                */
 /* ============================================= */
 #completion-banner {
+    position: relative;
     background-color: var(--color-gold-pale);
-    border: 2px dashed var(--color-gold-dark);
-    border-radius: var(--border-radius-soft);
-    padding: 20px;
-    margin: 0 0 35px 0;
-    text-align: center;
-    overflow: hidden;
-    
-    /* Estado inicial: oculto */
+    border: 3px solid var(--color-gold-dark);
+    border-radius: var(--border-radius-medium);
+    margin: 20px 0;
+    overflow: visible;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4), inset 0 0 40px rgba(0,0,0,0.3);
+    padding: 0;
+
     opacity: 0;
     transform: translateY(-20px);
     max-height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin-bottom: 0;
-    border-width: 0;
-    
     transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 #completion-banner.visible {
-    /* Estado visible: aparece */
     opacity: 1;
     transform: translateY(0);
-    max-height: 300px; /* Altura suficiente para el contenido */
-    padding-top: 25px;
-    padding-bottom: 25px;
-    margin-bottom: 35px;
-    border-width: 2px;
+    max-height: 1000px;
+    padding: 20px 0 40px;
+    border-width: 3px;
 }
 
-#completion-banner h4 {
-    font-family: var(--font-display);
-    font-size: 1.5em;
-    color: var(--color-gold-dark);
-    margin: 0 0 15px 0;
+.case-closed-stamp {
+    position: absolute;
+    top: -30px;
+    right: 30px;
+    width: 140px;
+    height: 140px;
+    transform: rotate(15deg);
+    z-index: 10;
 }
 
-#completion-banner h4 .fas {
-    margin-right: 10px;
+.stamp-circle {
+    width: 100%;
+    height: 100%;
+    border: 8px solid var(--color-error-darker);
+    border-radius: 50%;
+    background: rgba(211, 47, 47, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3), inset 0 0 20px rgba(0,0,0,0.2);
+}
+
+.stamp-text {
+    font-family: var(--font-special);
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--color-error-darker);
+    text-align: center;
     transform: rotate(-15deg);
 }
 
-:root.dark-mode #completion-banner {
-    background-color: #2f2d28;
-    border-color: var(--color-gold-medium);
+.folder-label {
+    position: absolute;
+    top: -1px;
+    left: 50px;
+    background: var(--color-gold-pale);
+    padding: 8px 25px;
+    border: 1px solid var(--color-gold-dark);
+    border-top: none;
+    font-family: var(--font-special);
+    font-size: 0.9em;
+    color: var(--color-text-dark);
+    transform: perspective(50px) rotateX(10deg);
+    box-shadow: 0 3px 5px rgba(0,0,0,0.2);
 }
 
-:root.dark-mode #completion-banner h4 {
-    color: var(--color-gold-light);
+.completion-content {
+    background: var(--color-gold-pale);
+    margin: 40px 20px 20px;
+    padding: 30px;
+    border: 1px solid var(--color-gold-medium);
+    box-shadow: 0 0 20px rgba(0,0,0,0.2), inset 0 0 30px rgba(255,255,255,0.1);
+    position: relative;
+}
+
+.completion-content::before {
+    content: 'CONFIDENCIAL';
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-family: var(--font-special);
+    color: rgba(140,112,60,0.3);
+    font-size: 0.8em;
+    transform: rotate(3deg);
+}
+
+.report-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--color-gold-medium);
+}
+
+.report-header h4 {
+    font-family: var(--font-special);
+    font-size: 1.8em;
+    color: var(--color-gold-dark);
+    margin: 0 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.report-subtitle {
+    font-family: var(--font-body);
+    font-size: 1.1em;
+    color: var(--color-text-medium);
+    font-style: italic;
+}
+
+.case-details {
+    background: #ffffff;
+    border: 1px solid var(--color-gold-light);
+    padding: 20px;
+    margin: 20px 0;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.case-details::before {
+    content: '📎';
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    font-size: 2em;
+    transform: rotate(-15deg);
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dotted var(--color-gold-light);
+    font-family: var(--font-special);
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    color: var(--color-text-medium);
+    text-transform: uppercase;
+    font-size: 0.85em;
+}
+
+.detail-value {
+    color: var(--color-text-dark);
+    font-weight: bold;
+}
+
+.completion-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.action-primary {
+    font-family: var(--font-special);
+    background: #6D4C41;
+    border: 2px solid #4E342E;
+    color: var(--color-gold-pale);
+    letter-spacing: 1.5px;
+    font-size: 1.1em;
+    padding: 12px 25px;
+    border-radius: 5px 20px 5px 20px;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.2), inset 0px 1px 2px rgba(255,255,255,0.05);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.action-primary:hover {
+    background: #5D4037;
+    border-color: #3E2723;
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 3px 3px 6px rgba(0,0,0,0.25), inset 0px 1px 2px rgba(255,255,255,0.05);
+}
+
+.action-primary .fas {
+    margin-right: 8px;
 }
 
 
@@ -1287,71 +1447,6 @@ button .fas, button .fab { margin-right: 8px; }
 :root.dark-mode .popover-text { color: var(--color-text-dark); }
 
 
-/* ============================================= */
-/* Panel de Asignación (Tabla)                   */
-/* ============================================= */
-
-#assignment-dashboard-section {
-    margin-top: 40px;
-    padding: 30px;
-    background-color: var(--color-gold-pale);
-    border: 1px solid var(--color-gold-light);
-    border-radius: var(--border-radius-soft);
-    transition: background-color 0.5s ease, border-color 0.5s ease;
-}
-:root.dark-mode #assignment-dashboard-section { background-color: #2f2d28; border-color: var(--color-gold-dark); }
-
-#assignment-dashboard-section h2 .fas { margin-right: 15px; color: var(--color-gold-medium); }
-:root.dark-mode #assignment-dashboard-section h2 .fas { color: var(--color-gold-light); }
-
-.table-responsive-wrapper {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    margin-bottom: 15px;
-}
-.table-responsive-wrapper::-webkit-scrollbar { height: 6px; }
-.table-responsive-wrapper::-webkit-scrollbar-thumb { background: var(--color-gold-medium); border-radius: 3px; }
-:root.dark-mode .table-responsive-wrapper::-webkit-scrollbar-thumb { background: var(--color-gold-dark); }
-
-#assignment-table-container {
-    max-height: none;
-    overflow-y: visible;
-    transition: border-color 0.5s ease;
-}
-:root.dark-mode #assignment-table-container { border-color: var(--color-gold-dark); }
-
-#assignment-dashboard-section table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 1em; min-width: 600px; border: 1px solid var(--color-gold-medium); border-radius: var(--border-radius-soft); box-shadow: var(--box-shadow-light); }
-:root.dark-mode #assignment-dashboard-section table { border-color: var(--color-gold-dark); }
-
-#assignment-dashboard-section th, #assignment-dashboard-section td { padding: 14px 18px; border-bottom: 1px solid var(--color-gold-light); text-align: left; vertical-align: middle; transition: border-color 0.5s ease, background-color 0.5s ease; font-family: var(--font-body); }
-#assignment-dashboard-section tr:first-child th:first-child { border-top-left-radius: var(--border-radius-soft); }
-#assignment-dashboard-section tr:first-child th:last-child { border-top-right-radius: var(--border-radius-soft); }
-#assignment-dashboard-section tr:last-child td { border-bottom: none; }
-#assignment-dashboard-section tr:last-child td:first-child { border-bottom-left-radius: var(--border-radius-soft); }
-#assignment-dashboard-section tr:last-child td:last-child { border-bottom-right-radius: var(--border-radius-soft); }
-:root.dark-mode #assignment-dashboard-section th, :root.dark-mode #assignment-dashboard-section td { border-bottom-color: #4a443b; }
-
-#assignment-dashboard-section th { background-color: var(--color-gold-pale); font-family: var(--font-display); font-weight: 700; font-size: 1.1em; color: var(--color-gold-dark); border-top: none; }
-:root.dark-mode #assignment-dashboard-section th { background-color: #38352e; color: var(--color-gold-light); }
-
-#assignment-dashboard-section td em { font-style: italic; color: var(--color-text-medium); transition: color 0.5s ease;}
-:root.dark-mode #assignment-dashboard-section td em { color: #a0998e; }
-#assignment-dashboard-section td:nth-child(3) { font-family: 'Special Elite', monospace; font-size: 1.05em; }
-
-#assignment-dashboard-section img {
-    width: 55px;
-    height: 70px;
-    object-fit:cover;
-    border-radius:4px;
-    margin-right: 12px;
-    border: 1px solid var(--color-gold-light);
-    transition: border-color 0.5s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-}
-:root.dark-mode #assignment-dashboard-section img {
-    border-color: #4a443b;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
-}
 
 /* 👉👉 FIN BLOQUE 3: ESTILOS DE COMPONENTES DE RENDERIZADO (TARJETAS Y PANELES) 👈👈 */
 
@@ -1646,8 +1741,6 @@ button .fas, button .fab { margin-right: 8px; }
     .character-column h3 { font-size: 1.5em; padding: 12px 20px;}
     .character-column h3::before, .character-column h3::after { width: 15px; }
     .character-portrait-image, .character-portrait-image-placeholder { height: 200px; }
-    #assignment-dashboard-section table { font-size: 0.9em;}
-    #assignment-dashboard-section th, #assignment-dashboard-section td { padding: 10px 8px;}
     .initial-report-main-event { font-size: 1.5em; }
     .initial-report-instructions { font-size: 1.05em; }
     .popover { width: 210px; }
@@ -1660,26 +1753,13 @@ button .fas, button .fab { margin-right: 8px; }
 @media print {
     body { font-family: 'Times New Roman', Times, serif; color: #000 !important; background-color: #fff !important;}
     body * { visibility: hidden; background-color: transparent !important; color: #000 !important; box-shadow: none !important; border-color: #ccc !important; }
-    #assignment-dashboard-section, #assignment-dashboard-section * { visibility: visible; }
     .table-responsive-wrapper { overflow-x: visible !important; }
-    #assignment-dashboard-section { position: absolute; left: 0; top: 0; width: 100%; margin: 0 !important; padding: 20px !important; border: none !important; }
-    #assignment-dashboard-section h2 { text-align: center !important; font-size: 18pt !important; margin-bottom: 15px !important; font-family: var(--font-display), serif !important; }
-    #assignment-dashboard-section h2 .fas { display: none !important; }
-    #assignment-dashboard-section table { width: 100% !important; font-size: 9pt !important; border-collapse: collapse !important; margin-top: 10px !important; min-width: auto !important; }
-    #assignment-dashboard-section th, #assignment-dashboard-section td { border: 1px solid #666 !important; padding: 6px 8px !important; }
-    #assignment-dashboard-section th:first-child, #assignment-dashboard-section td:first-child { display: none !important; }
-    #assignment-dashboard-section th { background-color: #f0f0f0 !important; font-weight: bold !important; font-family: var(--font-body), serif !important;}
-    #assignment-dashboard-section td { font-family: var(--font-body), serif !important;}
-    #assignment-dashboard-section img { max-width: 40px !important; max-height: 52px !important; border-radius: 3px !important; border: 1px solid #bbb !important; vertical-align: middle !important;}
-    #assignment-dashboard-section .extroversion-pill { padding: 2px 5px !important; font-size: 0.75em !important; border: 1px solid #555 !important; display: inline-block !important; border-radius: 3px !important; margin-left: 5px !important; font-family: var(--font-primary), sans-serif !important; transform: rotate(0deg) !important; box-shadow: none !important; }
-    .extroversion-pill strong { font-weight: normal !important; }
-    .extroversion-pill .fas, .extroversion-pill .fab { display: none !important; }
     .extroversion-Extrovertido { background-color: #ffebee !important; color: #c62828 !important; border-color: #c62828 !important;}
     .extroversion-Introvertido { background-color: #e3f2fd !important; color: #1565c0 !important; border-color: #1565c0 !important;}
     .extroversion-Neutro { background-color: #f5f5f5 !important; color: #424242 !important; border-color: #757575 !important;}
     #setup-section, #main-content-area > #action-buttons-section, #main-content-area > #assignment-section > h2,
     #main-content-area > #assignment-section > .character-columns-wrapper, #detective-guide-section,
-    .character-card-actions button, .copy-feedback, #darkModeToggleBtn, #print-dashboard-btn,
+    .character-card-actions button, .copy-feedback, #darkModeToggleBtn,
     #email-summary-btn, .character-portrait-content > label[for^="player-"],
     .character-portrait-content .player-assignment-select, .character-portrait-content .player-assignment-input,
     .character-card-actions, .fixed-level-indicator, .special-icon,
