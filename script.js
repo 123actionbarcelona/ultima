@@ -142,7 +142,8 @@ function initializeApp(initialChars, initialPacks) {
         domElementIds.forEach(id => {
             const element = document.getElementById(id);
             if (!element && !['guide-header-tab', 'load-config-btn',
-                              'assignment-dashboard-section', 'assignment-table-body'].includes(id)) {
+                              'assignment-dashboard-section', 'assignment-table-body',
+                              'print-dashboard-btn'].includes(id)) {
                 console.error(`ERROR DOM: ID '${id}' NO encontrado.`);
                 allElementsFound = false;
             } else {
@@ -818,8 +819,12 @@ function initializeApp(initialChars, initialPacks) {
             const sealBtn = document.getElementById('seal-case-btn');
             if (sealBtn) {
                 sealBtn.addEventListener('click', async () => {
-                    // Usar el mismo código del print-dashboard-btn
-                    domElements['print-dashboard-btn'].click();
+                    const printBtn = domElements['print-dashboard-btn'];
+                    if (printBtn) {
+                        printBtn.click();
+                    } else {
+                        console.error('Botón de impresión no encontrado');
+                    }
                 });
             }
         }
