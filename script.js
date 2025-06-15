@@ -116,6 +116,18 @@ function isDesktop() {
     return !/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
 }
 
+function applyStoredTheme() {
+    const stored = localStorage.getItem('darkMode');
+    if (stored === 'true') {
+        document.documentElement.classList.add('dark-mode');
+    } else if (stored === 'false') {
+        document.documentElement.classList.remove('dark-mode');
+    } else {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark-mode', prefersDark);
+    }
+}
+
 function initializeApp(initialChars, initialPacks) {
     const packs = initialPacks;
 
@@ -154,6 +166,9 @@ function initializeApp(initialChars, initialPacks) {
             domElements['darkModeToggleBtnSetup']
         ].filter(Boolean);
 
+        applyStoredTheme();
+        updateDarkModeVisuals();
+
         function updateDarkModeVisuals() {
             const isDarkMode = document.documentElement.classList.contains('dark-mode');
             darkModeButtons.forEach(btn => {
@@ -170,6 +185,7 @@ function initializeApp(initialChars, initialPacks) {
             btn.onclick = null;
             btn.addEventListener('click', () => {
                 document.documentElement.classList.toggle('dark-mode');
+                localStorage.setItem('darkMode', document.documentElement.classList.contains('dark-mode') ? 'true' : 'false');
                 updateDarkModeVisuals();
             });
         });
