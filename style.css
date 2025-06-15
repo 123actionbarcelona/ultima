@@ -1922,3 +1922,77 @@ button .fas, button .fab { margin-right: 8px; }
 }
 
 /* 👉👉 FIN BLOQUE 4 👈👈 */
+
+/* ============================================= */
+/* === MEJORAS MODO NOCHE PARA EL INFORME FINAL === */
+/* ============================================= */
+
+/* Cambia el fondo blanco del papel por un tono oscuro temático */
+:root.dark-mode .case-details {
+    background: #25231e; /* Un tono de papel antiguo oscuro */
+    border-color: var(--color-gold-dark);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4), inset 0 0 15px rgba(0,0,0,0.3);
+}
+
+/* Asegura que el texto de las etiquetas sea claro y legible */
+:root.dark-mode .case-details .detail-label {
+    color: var(--color-text-medium);
+}
+
+/* Asegura que los valores (nombres, fechas, etc.) también sean claros */
+:root.dark-mode .case-details .detail-value {
+    color: var(--color-text-dark);
+}
+
+/* ============================================= */
+/* === PROGRESS BAR DE ASIGNACION ============= */
+/* ============================================= */
+#assignment-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(0,0,0,0.65);
+    border-bottom: 1px solid var(--color-gold-medium);
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    padding: 6px 12px;
+    z-index: 999;
+    font-family: var(--font-special);
+    color: var(--color-gold-light);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+#assignment-progress .progress-text {
+    text-align: center;
+    font-size: 0.9em;
+}
+
+#assignment-progress .progress-bar-bg {
+    width: 80%;
+    height: 8px;
+    background: var(--color-black-artdeco);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+#assignment-progress .progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, var(--color-gold-dark), var(--color-gold-light));
+    transition: width 0.3s ease;
+}
+
+:root.dark-mode #assignment-progress {
+    background: rgba(20,20,20,0.7);
+    border-color: var(--color-gold-dark);
+}
+:root.dark-mode #assignment-progress .progress-bar-bg {
+    background: #555;
+}
