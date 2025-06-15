@@ -1287,71 +1287,6 @@ button .fas, button .fab { margin-right: 8px; }
 :root.dark-mode .popover-text { color: var(--color-text-dark); }
 
 
-/* ============================================= */
-/* Panel de Asignación (Tabla)                   */
-/* ============================================= */
-
-#assignment-dashboard-section {
-    margin-top: 40px;
-    padding: 30px;
-    background-color: var(--color-gold-pale);
-    border: 1px solid var(--color-gold-light);
-    border-radius: var(--border-radius-soft);
-    transition: background-color 0.5s ease, border-color 0.5s ease;
-}
-:root.dark-mode #assignment-dashboard-section { background-color: #2f2d28; border-color: var(--color-gold-dark); }
-
-#assignment-dashboard-section h2 .fas { margin-right: 15px; color: var(--color-gold-medium); }
-:root.dark-mode #assignment-dashboard-section h2 .fas { color: var(--color-gold-light); }
-
-.table-responsive-wrapper {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    margin-bottom: 15px;
-}
-.table-responsive-wrapper::-webkit-scrollbar { height: 6px; }
-.table-responsive-wrapper::-webkit-scrollbar-thumb { background: var(--color-gold-medium); border-radius: 3px; }
-:root.dark-mode .table-responsive-wrapper::-webkit-scrollbar-thumb { background: var(--color-gold-dark); }
-
-#assignment-table-container {
-    max-height: none;
-    overflow-y: visible;
-    transition: border-color 0.5s ease;
-}
-:root.dark-mode #assignment-table-container { border-color: var(--color-gold-dark); }
-
-#assignment-dashboard-section table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 1em; min-width: 600px; border: 1px solid var(--color-gold-medium); border-radius: var(--border-radius-soft); box-shadow: var(--box-shadow-light); }
-:root.dark-mode #assignment-dashboard-section table { border-color: var(--color-gold-dark); }
-
-#assignment-dashboard-section th, #assignment-dashboard-section td { padding: 14px 18px; border-bottom: 1px solid var(--color-gold-light); text-align: left; vertical-align: middle; transition: border-color 0.5s ease, background-color 0.5s ease; font-family: var(--font-body); }
-#assignment-dashboard-section tr:first-child th:first-child { border-top-left-radius: var(--border-radius-soft); }
-#assignment-dashboard-section tr:first-child th:last-child { border-top-right-radius: var(--border-radius-soft); }
-#assignment-dashboard-section tr:last-child td { border-bottom: none; }
-#assignment-dashboard-section tr:last-child td:first-child { border-bottom-left-radius: var(--border-radius-soft); }
-#assignment-dashboard-section tr:last-child td:last-child { border-bottom-right-radius: var(--border-radius-soft); }
-:root.dark-mode #assignment-dashboard-section th, :root.dark-mode #assignment-dashboard-section td { border-bottom-color: #4a443b; }
-
-#assignment-dashboard-section th { background-color: var(--color-gold-pale); font-family: var(--font-display); font-weight: 700; font-size: 1.1em; color: var(--color-gold-dark); border-top: none; }
-:root.dark-mode #assignment-dashboard-section th { background-color: #38352e; color: var(--color-gold-light); }
-
-#assignment-dashboard-section td em { font-style: italic; color: var(--color-text-medium); transition: color 0.5s ease;}
-:root.dark-mode #assignment-dashboard-section td em { color: #a0998e; }
-#assignment-dashboard-section td:nth-child(3) { font-family: 'Special Elite', monospace; font-size: 1.05em; }
-
-#assignment-dashboard-section img {
-    width: 55px;
-    height: 70px;
-    object-fit:cover;
-    border-radius:4px;
-    margin-right: 12px;
-    border: 1px solid var(--color-gold-light);
-    transition: border-color 0.5s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-}
-:root.dark-mode #assignment-dashboard-section img {
-    border-color: #4a443b;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
-}
 
 /* 👉👉 FIN BLOQUE 3: ESTILOS DE COMPONENTES DE RENDERIZADO (TARJETAS Y PANELES) 👈👈 */
 
@@ -1646,8 +1581,6 @@ button .fas, button .fab { margin-right: 8px; }
     .character-column h3 { font-size: 1.5em; padding: 12px 20px;}
     .character-column h3::before, .character-column h3::after { width: 15px; }
     .character-portrait-image, .character-portrait-image-placeholder { height: 200px; }
-    #assignment-dashboard-section table { font-size: 0.9em;}
-    #assignment-dashboard-section th, #assignment-dashboard-section td { padding: 10px 8px;}
     .initial-report-main-event { font-size: 1.5em; }
     .initial-report-instructions { font-size: 1.05em; }
     .popover { width: 210px; }
@@ -1660,18 +1593,6 @@ button .fas, button .fab { margin-right: 8px; }
 @media print {
     body { font-family: 'Times New Roman', Times, serif; color: #000 !important; background-color: #fff !important;}
     body * { visibility: hidden; background-color: transparent !important; color: #000 !important; box-shadow: none !important; border-color: #ccc !important; }
-    #assignment-dashboard-section, #assignment-dashboard-section * { visibility: visible; }
-    .table-responsive-wrapper { overflow-x: visible !important; }
-    #assignment-dashboard-section { position: absolute; left: 0; top: 0; width: 100%; margin: 0 !important; padding: 20px !important; border: none !important; }
-    #assignment-dashboard-section h2 { text-align: center !important; font-size: 18pt !important; margin-bottom: 15px !important; font-family: var(--font-display), serif !important; }
-    #assignment-dashboard-section h2 .fas { display: none !important; }
-    #assignment-dashboard-section table { width: 100% !important; font-size: 9pt !important; border-collapse: collapse !important; margin-top: 10px !important; min-width: auto !important; }
-    #assignment-dashboard-section th, #assignment-dashboard-section td { border: 1px solid #666 !important; padding: 6px 8px !important; }
-    #assignment-dashboard-section th:first-child, #assignment-dashboard-section td:first-child { display: none !important; }
-    #assignment-dashboard-section th { background-color: #f0f0f0 !important; font-weight: bold !important; font-family: var(--font-body), serif !important;}
-    #assignment-dashboard-section td { font-family: var(--font-body), serif !important;}
-    #assignment-dashboard-section img { max-width: 40px !important; max-height: 52px !important; border-radius: 3px !important; border: 1px solid #bbb !important; vertical-align: middle !important;}
-    #assignment-dashboard-section .extroversion-pill { padding: 2px 5px !important; font-size: 0.75em !important; border: 1px solid #555 !important; display: inline-block !important; border-radius: 3px !important; margin-left: 5px !important; font-family: var(--font-primary), sans-serif !important; transform: rotate(0deg) !important; box-shadow: none !important; }
     .extroversion-pill strong { font-weight: normal !important; }
     .extroversion-pill .fas, .extroversion-pill .fab { display: none !important; }
     .extroversion-Extrovertido { background-color: #ffebee !important; color: #c62828 !important; border-color: #c62828 !important;}

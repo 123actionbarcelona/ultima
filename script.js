@@ -123,7 +123,7 @@ function initializeApp(initialChars, initialPacks) {
         const domElementIds = [
             'player-count', 'player-names-grid-container', 'start-assignment',
             'player-count-error', 'setup-section', 'main-content-area',
-            'assignment-table-body', 'assignment-dashboard-section', 'female-characters-grid', 'male-characters-grid',
+            'female-characters-grid', 'male-characters-grid',
             'back-to-setup-btn',
             'darkModeToggleBtn', 'darkModeToggleBtnSetup',
             'print-dashboard-btn',
@@ -662,7 +662,6 @@ function initializeApp(initialChars, initialPacks) {
                         this.classList.remove('assigned');
                     }
                     updateAllPlayerSelects();
-                    updateAssignmentDashboard();
                     checkCompletionState(); // <--- LLAMADA A LA NUEVA LÓGICA
                 });
             }
@@ -721,43 +720,9 @@ function initializeApp(initialChars, initialPacks) {
             });
         }
 
-        function getRandomSmallAngle() {
-            const maxAngle = 5;
-            return (Math.random() * (maxAngle * 2)) - maxAngle;
-        }
-
-        function updateAssignmentDashboard() {
-            if(!domElements['assignment-table-body']){return;}domElements['assignment-table-body'].innerHTML='';if(currentCharacters.length===0)return;
-            currentCharacters.forEach(char=>{
-                const rawPlayerName = assignedPlayerMap.get(char.name);
-                const displayPlayerName = rawPlayerName ? rawPlayerName.replace("🎩"," (Anfitrión)").replace("🌟"," (Homenajeado)") : '<em>S/A</em>';
-
-                const r=domElements['assignment-table-body'].insertRow();const cI=r.insertCell();
-                if(char.imageUrl){
-                    const i=document.createElement('img');
-                    i.src=char.imageUrl;
-                    i.alt=char.name;
-                    i.style.transform = `rotate(${getRandomSmallAngle()}deg)`;
-                    i.onerror=function(){
-                        this.onerror=null;
-                        this.src='https://placehold.co/50x65/ccc/fff?text=X';
-                        this.alt=`${char.name} (imagen no disponible)`;
-                        this.style.transform = 'none';
-                    };
-                    cI.appendChild(i);
-                }else{
-                    cI.innerHTML='<i class="fas fa-image" style="font-size:24px;color:#ccc;"></i>';
-                }
-                const cN=r.insertCell();
-                cN.innerHTML=`${char.name}`;
-                const cP=r.insertCell();cP.innerHTML=displayPlayerName;
-                const cL=r.insertCell();cL.innerHTML=getExtroversionPill(char.interpretationLevel, char.gender);
-            });
-        }
 
         function checkCompletionState() {
             const banner = domElements['completion-banner'];
-            const dashboard = domElements['assignment-dashboard-section'];
             if (!banner) return;
 
             const totalCharacters = currentCharacters.length;
@@ -766,7 +731,6 @@ function initializeApp(initialChars, initialPacks) {
             if (totalCharacters > 0 && assignedCharacters === totalCharacters) {
                 const alreadyVisible = banner.classList.contains('visible');
                 banner.classList.add('visible');
-                if (dashboard) dashboard.classList.remove('hidden-section');
                 if (!alreadyVisible) {
                     setTimeout(() => {
                         banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -774,7 +738,6 @@ function initializeApp(initialChars, initialPacks) {
                 }
             } else {
                 banner.classList.remove('visible');
-                if (dashboard) dashboard.classList.add('hidden-section');
             }
         }
 
@@ -1115,7 +1078,6 @@ function initializeApp(initialChars, initialPacks) {
             }
 
             updateAllPlayerSelects();
-            updateAssignmentDashboard();
             checkCompletionState();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
