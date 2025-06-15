@@ -175,9 +175,31 @@
             </div>
         </div>
 
+        <div id="progress-container" class="progress-container"></div>
+
         <div id="completion-banner">
-            <h4><i class="fas fa-stamp"></i> ¡Expediente completo! Listo para sellar.</h4>
-            <button id="print-dashboard-btn" class="boton-panel-pdf"><i class="fas fa-share-alt"></i> Compartir / Guardar Panel (PDF)</button>
+            <div class="case-closed-stamp">
+                <div class="stamp-circle">
+                    <div class="stamp-text">CASO<br>CERRADO</div>
+                </div>
+            </div>
+            <div class="folder-label" id="case-id">EXPEDIENTE</div>
+            <div class="completion-content">
+                <div class="report-header">
+                    <h4>INFORME DE CIERRE DE INVESTIGACIÓN</h4>
+                    <p class="report-subtitle">Caso: "<span id="case-title">Expediente</span>"</p>
+                </div>
+                <div class="case-details">
+                    <div class="detail-row"><span class="detail-label">Detective a cargo:</span><span class="detail-value" id="detective-name"></span></div>
+                    <div class="detail-row"><span class="detail-label">Fecha de resolución:</span><span class="detail-value" id="resolution-date"></span></div>
+                    <div class="detail-row"><span class="detail-label">Sospechosos procesados:</span><span class="detail-value" id="processed-count"></span></div>
+                    <div class="detail-row"><span class="detail-label">Estado del caso:</span><span class="detail-value" style="color: var(--color-success-darker);">COMPLETADO ✓</span></div>
+                </div>
+                <p class="typewriter-effect" id="completion-quote">"Todos los sospechosos han sido debidamente asignados y catalogados."</p>
+                <div class="completion-actions">
+                    <button id="print-dashboard-btn" class="action-primary"><i class="fas fa-stamp"></i> Sellar Expediente Oficial</button>
+                </div>
+            </div>
         </div>
 
         <div id="assignment-dashboard-section" class="hidden-section">
