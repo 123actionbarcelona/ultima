@@ -141,13 +141,18 @@ function initializeApp(initialChars, initialPacks) {
         let allElementsFound = true;
         domElementIds.forEach(id => {
             const element = document.getElementById(id);
-            if (!element && id !== 'guide-header-tab' && id !== 'load-config-btn') {
+            if (!element && !['guide-header-tab', 'load-config-btn',
+                              'assignment-dashboard-section', 'assignment-table-body'].includes(id)) {
                 console.error(`ERROR DOM: ID '${id}' NO encontrado.`);
                 allElementsFound = false;
+            } else {
+                domElements[id] = element;
             }
-            else { domElements[id] = element; }
         });
-        if (!allElementsFound) { console.error("ERROR FATAL: Elementos DOM esenciales no encontrados."); return; }
+        if (!allElementsFound) {
+            console.error("ERROR FATAL: Elementos DOM esenciales no encontrados.");
+            return;
+        }
 
         const darkModeButtons = [
             domElements['darkModeToggleBtn'],
@@ -662,7 +667,6 @@ function initializeApp(initialChars, initialPacks) {
                         this.classList.remove('assigned');
                     }
                     updateAllPlayerSelects();
-                    updateAssignmentDashboard();
                     checkCompletionState(); // <--- LLAMADA A LA NUEVA LÓGICA
                 });
             }
@@ -721,39 +725,7 @@ function initializeApp(initialChars, initialPacks) {
             });
         }
 
-        function getRandomSmallAngle() {
-            const maxAngle = 5;
-            return (Math.random() * (maxAngle * 2)) - maxAngle;
-        }
 
-        function updateAssignmentDashboard() {
-            if(!domElements['assignment-table-body']){return;}domElements['assignment-table-body'].innerHTML='';if(currentCharacters.length===0)return;
-            currentCharacters.forEach(char=>{
-                const rawPlayerName = assignedPlayerMap.get(char.name);
-                const displayPlayerName = rawPlayerName ? rawPlayerName.replace("🎩"," (Anfitrión)").replace("🌟"," (Homenajeado)") : '<em>S/A</em>';
-
-                const r=domElements['assignment-table-body'].insertRow();const cI=r.insertCell();
-                if(char.imageUrl){
-                    const i=document.createElement('img');
-                    i.src=char.imageUrl;
-                    i.alt=char.name;
-                    i.style.transform = `rotate(${getRandomSmallAngle()}deg)`;
-                    i.onerror=function(){
-                        this.onerror=null;
-                        this.src='https://placehold.co/50x65/ccc/fff?text=X';
-                        this.alt=`${char.name} (imagen no disponible)`;
-                        this.style.transform = 'none';
-                    };
-                    cI.appendChild(i);
-                }else{
-                    cI.innerHTML='<i class="fas fa-image" style="font-size:24px;color:#ccc;"></i>';
-                }
-                const cN=r.insertCell();
-                cN.innerHTML=`${char.name}`;
-                const cP=r.insertCell();cP.innerHTML=displayPlayerName;
-                const cL=r.insertCell();cL.innerHTML=getExtroversionPill(char.interpretationLevel, char.gender);
-            });
-        }
 
         function checkCompletionState() {
             const banner = domElements['completion-banner'];
@@ -765,16 +737,111 @@ function initializeApp(initialChars, initialPacks) {
 
             if (totalCharacters > 0 && assignedCharacters === totalCharacters) {
                 const alreadyVisible = banner.classList.contains('visible');
-                banner.classList.add('visible');
-                if (dashboard) dashboard.classList.remove('hidden-section');
+
                 if (!alreadyVisible) {
+                    updateCompletionBanner();
+                    banner.classList.add('visible');
+                    if (dashboard) dashboard.classList.remove('hidden-section');
+
                     setTimeout(() => {
-                        banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        playStampSound();
                     }, 250);
                 }
             } else {
                 banner.classList.remove('visible');
+                banner.innerHTML = '';
                 if (dashboard) dashboard.classList.add('hidden-section');
+            }
+        }
+
+        // Nueva función para generar el contenido del banner CASO CERRADO
+        function updateCompletionBanner() {
+            const banner = domElements['completion-banner'];
+            if (!banner) return;
+
+            const hostNameDisplay = hostName || "Detective";
+            const totalCharacters = currentCharacters.length;
+            const expedientNumber = `#${new Date().getFullYear()}-TC${String(assignedPlayerMap.size).padStart(3, '0')}`;
+
+            banner.innerHTML = `
+                <div class="case-closed-stamp">
+                    <div class="stamp-circle">
+                        <div class="stamp-text">CASO<br>CERRADO</div>
+                    </div>
+                </div>
+                <div class="folder-label">EXPEDIENTE ${expedientNumber}</div>
+                <div class="completion-content">
+                    <div class="report-header">
+                        <h4>INFORME DE CIERRE DE INVESTIGACIÓN</h4>
+                        <p class="report-subtitle">Caso: \"El Testamento de Mr. Collins\"</p>
+                    </div>
+                    <div class="case-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Detective a cargo:</span>
+                            <span class="detail-value">${hostNameDisplay} 🎩</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Fecha de resolución:</span>
+                            <span class="detail-value">${getFormattedEventDate(eventDateValue)}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Sospechosos procesados:</span>
+                            <span class="detail-value">${totalCharacters} individuos</span>
+                        </div>
+                        ${honoreeNames.length > 0 ? `
+                        <div class="detail-row">
+                            <span class="detail-label">Homenajeado(s):</span>
+                            <span class="detail-value">${honoreeNames.join(', ')} 🌟</span>
+                        </div>` : ''}
+                        <div class="detail-row">
+                            <span class="detail-label">Estado del caso:</span>
+                            <span class="detail-value" style="color: var(--color-success-darker);">COMPLETADO ✓</span>
+                        </div>
+                    </div>
+                    <p class="typewriter-effect">
+                        "Todos los sospechosos han sido debidamente asignados y catalogados."
+                    </p>
+                    <div class="completion-actions">
+                        <button id="seal-case-btn" class="action-primary">
+                            <i class="fas fa-stamp"></i> SELLAR EXPEDIENTE OFICIAL
+                        </button>
+                    </div>
+                </div>
+                <div class="evidence-tags">
+                    <div class="evidence-tag">Evidencia A</div>
+                    <div class="evidence-tag">Prueba B</div>
+                </div>
+            `;
+
+            // Re-attach el evento del botón
+            const sealBtn = document.getElementById('seal-case-btn');
+            if (sealBtn) {
+                sealBtn.addEventListener('click', async () => {
+                    // Usar el mismo código del print-dashboard-btn
+                    domElements['print-dashboard-btn'].click();
+                });
+            }
+        }
+
+        // Función opcional para el sonido del sello
+        function playStampSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                oscillator.frequency.value = 100;
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.1);
+            } catch (e) {
+                console.log('Audio no disponible');
             }
         }
 
@@ -1115,7 +1182,6 @@ function initializeApp(initialChars, initialPacks) {
             }
 
             updateAllPlayerSelects();
-            updateAssignmentDashboard();
             checkCompletionState();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -1330,6 +1396,29 @@ function initializeApp(initialChars, initialPacks) {
                     }
                 });
             }
+        }
+
+        // Efecto de lupa siguiendo el mouse (opcional)
+        if (document.getElementById('magnifier')) {
+            document.addEventListener('mousemove', (e) => {
+                const magnifier = document.getElementById('magnifier');
+                if (magnifier) {
+                    magnifier.style.left = e.clientX - 50 + 'px';
+                    magnifier.style.top = e.clientY - 50 + 'px';
+                }
+            });
+
+            document.addEventListener('mouseenter', (e) => {
+                if (e.target.closest('.character-frame, .case-details')) {
+                    document.getElementById('magnifier')?.classList.add('active');
+                }
+            });
+
+            document.addEventListener('mouseleave', (e) => {
+                if (e.target.closest('.character-frame, .case-details')) {
+                    document.getElementById('magnifier')?.classList.remove('active');
+                }
+            });
         }
 
     }catch(e){console.error("ASIGNADOR ERROR GRAL:",e,e.stack);const b=document.body;if(b){let d=document.getElementById('critical-error');if(!d){d=document.createElement('div');d.id='critical-error';d.style.cssText='display:block;position:fixed;bottom:5px;left:50%;transform:translateX(-50%);z-index:10000;padding:15px;width:90%;max-width:700px;text-align:center;background-color:maroon;color:white;font-size:12px;border-radius:8px;';b.appendChild(d);}d.innerHTML=`Error: ${e.message}. Revisa consola (F12).`;}}
