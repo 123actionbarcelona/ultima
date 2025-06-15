@@ -1922,3 +1922,24 @@ button .fas, button .fab { margin-right: 8px; }
 }
 
 /* 👉👉 FIN BLOQUE 4 👈👈 */
+
+/* ============================================= */
+/* === MEJORAS MODO NOCHE PARA EL INFORME FINAL === */
+/* ============================================= */
+
+/* Cambia el fondo blanco del papel por un tono oscuro temático */
+:root.dark-mode .case-details {
+    background: #25231e; /* Un tono de papel antiguo oscuro */
+    border-color: var(--color-gold-dark);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4), inset 0 0 15px rgba(0,0,0,0.3);
+}
+
+/* Asegura que el texto de las etiquetas sea claro y legible */
+:root.dark-mode .case-details .detail-label {
+    color: var(--color-text-medium);
+}
+
+/* Asegura que los valores (nombres, fechas, etc.) también sean claros */
+:root.dark-mode .case-details .detail-value {
+    color: var(--color-text-dark);
+}
