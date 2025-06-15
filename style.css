@@ -1894,8 +1894,10 @@ button .fas, button .fab { margin-right: 8px; }
     #completion-message {
         /* Reduce el tamaño del texto para que quepa en pantallas pequeñas */
         font-size: 0.9em;
-        /* Forzamos que la animación de escritura se ajuste */
-        animation-duration: 2.5s;
+        /* Ajustes para evitar que el texto se corte */
+        animation: none;
+        white-space: normal;
+        overflow: visible;
     }
 }
 
