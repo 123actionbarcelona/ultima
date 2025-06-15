@@ -129,6 +129,7 @@ function initializeApp(initialChars, initialPacks) {
             'print-dashboard-btn',
             'detective-guide-section', 'guide-header-tab',
             'completion-banner',
+            'progress-container',
             'toast-notification', 'toast-message',
             'host-name-input',
             'event-date-input',
@@ -726,6 +727,25 @@ function initializeApp(initialChars, initialPacks) {
             return (Math.random() * (maxAngle * 2)) - maxAngle;
         }
 
+        // Mostrar progreso de asignación
+        function updateProgressIndicator() {
+            const container = document.getElementById('progress-container');
+            if (!container) return;
+
+            const total = currentCharacters.length;
+            const assigned = assignedPlayerMap.size;
+            const percentage = total > 0 ? (assigned / total) * 100 : 0;
+
+            const progressHTML = `
+                <div class="assignment-progress">
+                    <div class="progress-bar" style="width: ${percentage}%"></div>
+                    <span class="progress-text">${assigned} de ${total} asignados</span>
+                </div>
+            `;
+
+            container.innerHTML = progressHTML;
+        }
+
         function updateAssignmentDashboard() {
             if(!domElements['assignment-table-body']){return;}domElements['assignment-table-body'].innerHTML='';if(currentCharacters.length===0)return;
             currentCharacters.forEach(char=>{
@@ -756,6 +776,8 @@ function initializeApp(initialChars, initialPacks) {
         }
 
         function checkCompletionState() {
+            updateProgressIndicator();
+
             const banner = domElements['completion-banner'];
             const dashboard = domElements['assignment-dashboard-section'];
             if (!banner) return;
