@@ -176,22 +176,17 @@
         </div>
 
         <div id="completion-banner">
-            <h4><i class="fas fa-stamp"></i> ¡Expediente completo! Listo para sellar.</h4>
-            <button id="print-dashboard-btn" class="boton-panel-pdf"><i class="fas fa-share-alt"></i> Compartir / Guardar Panel (PDF)</button>
+            <!-- El contenido se generará dinámicamente desde JavaScript -->
+        </div>
+        <!-- Botón de impresión oculto para la lógica del PDF -->
+        <button id="print-dashboard-btn" class="boton-panel-pdf" style="display:none;"></button>
+
+        <!-- Lupa decorativa (opcional) -->
+        <div class="magnifier" id="magnifier" style="display: none;">
+            <div class="magnifier-glass"></div>
+            <div class="magnifier-handle"></div>
         </div>
 
-        <div id="assignment-dashboard-section" class="hidden-section">
-            <div class="folder-tab">📂 <span><strong>Panel Detectivesco</strong></span></div>
-            <div class="table-responsive-wrapper">
-                <div id="assignment-table-container">
-                    <table>
-                        <thead><tr><th>Retrato</th><th><strong>Sospechoso</strong></th><th><strong>Jugador/a</strong></th><th><strong>Personalidad</strong></th></tr></thead>
-                        <tbody id="assignment-table-body">
-                            </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
         </div>
     </div>
 <script src="script.js?v=1.0"></script></body>
