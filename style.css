@@ -1431,6 +1431,10 @@ button .fas, button .fab { margin-right: 8px; }
     z-index: 10;
     animation: stampAnimation 1s ease-out 0.5s both;
 }
+.case-closed-stamp img {
+    width: 100%;
+    height: 100%;
+}
 
 @keyframes stampAnimation {
     0% { opacity: 0; transform: rotate(15deg) scale(3); }
