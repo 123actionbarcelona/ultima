@@ -133,7 +133,8 @@ function initializeApp(initialChars, initialPacks) {
             'has-honoree-checkbox', 'honorees-container', 'add-honoree-btn',
             'decrement-player-count', 'increment-player-count',
             'initial-report-target',
-            'intro-line-1-heading'
+            'intro-line-1-heading',
+            'assignment-progress'
         ];
         const domElements = {};
         let allElementsFound = true;
@@ -725,9 +726,11 @@ function initializeApp(initialChars, initialPacks) {
         function checkCompletionState() {
             const banner = domElements['completion-banner'];
             if (!banner) return;
-    
+
             const totalCharacters = currentCharacters.length;
             const assignedCharacters = assignedPlayerMap.size;
+
+            updateAssignmentProgress(totalCharacters, assignedCharacters);
     
             if (totalCharacters > 0 && assignedCharacters === totalCharacters) {
                 const alreadyVisible = banner.classList.contains('visible');
@@ -741,6 +744,24 @@ function initializeApp(initialChars, initialPacks) {
             } else {
                 banner.classList.remove('visible');
             }
+        }
+
+        function updateAssignmentProgress(totalCharacters, assignedCharacters) {
+            const progressEl = domElements['assignment-progress'];
+            if (!progressEl) return;
+
+            const textEl = progressEl.querySelector('.progress-text');
+            const fillEl = progressEl.querySelector('.progress-bar-fill');
+
+            if (textEl) {
+                textEl.textContent = `${assignedCharacters} / ${totalCharacters}`;
+            }
+            if (fillEl) {
+                const percent = totalCharacters > 0 ? (assignedCharacters / totalCharacters) * 100 : 0;
+                fillEl.style.width = `${percent}%`;
+            }
+
+            progressEl.style.display = totalCharacters > 0 ? 'block' : 'none';
         }
 
         function populateAndShowCompletionBanner() {
@@ -1033,6 +1054,10 @@ function initializeApp(initialChars, initialPacks) {
                 domElements['setup-section'].scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 100);
 
+            if(domElements['assignment-progress']){
+                domElements['assignment-progress'].style.display = 'none';
+            }
+
             showToastNotification('Has vuelto a la configuración. Los datos se conservan.', 'info');
         }
 
@@ -1130,6 +1155,9 @@ function initializeApp(initialChars, initialPacks) {
             domElements['setup-section'].style.display = 'none';
             domElements['main-content-area'].classList.remove('hidden-section');
             domElements['main-content-area'].classList.add('visible-section');
+            if(domElements['assignment-progress']){
+                domElements['assignment-progress'].style.display = 'block';
+            }
             if (domElements['action-buttons-section']) {
                  domElements['action-buttons-section'].scrollIntoView({ behavior: 'smooth', block: 'start' });
             } else if (domElements['guide-header-tab']) {
