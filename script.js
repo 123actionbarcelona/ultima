@@ -194,6 +194,7 @@ function initializeApp(initialChars, initialPacks) {
                 } else {
                     addBtn.style.display = 'none';
                     honoreesContainer.innerHTML = '';
+                    honoreeNames = [];
                 }
                 generatePlayerNameInputs(
                     parseInt(domElements['player-count'].value),
@@ -447,6 +448,9 @@ function initializeApp(initialChars, initialPacks) {
                 currentHonoreeCleanNamesArr.forEach(hName => {
                     tempPreserved = tempPreserved.filter(name => name !== (hName + " 🌟"));
                 });
+                if (currentHonoreeCleanNamesArr.length === 0) {
+                    tempPreserved = tempPreserved.filter(name => !name.trim().endsWith('🌟'));
+                }
                 preservedEditableNames = tempPreserved;
             } else if (domElements['player-names-grid-container'].children.length > 0) {
                 preservedEditableNames = Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])'))
