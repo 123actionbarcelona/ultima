@@ -129,13 +129,16 @@ function initializeApp(initialChars, initialPacks) {
             'print-dashboard-btn',
             'detective-guide-section', 'guide-header-tab',
             'completion-banner',
+            'progress-container',
             'toast-notification', 'toast-message',
             'host-name-input',
             'event-date-input',
             'has-honoree-checkbox', 'honorees-container', 'add-honoree-btn',
             'decrement-player-count', 'increment-player-count',
             'initial-report-target',
-            'intro-line-1-heading'
+            'intro-line-1-heading',
+            'case-id', 'case-title', 'detective-name',
+            'resolution-date', 'processed-count'
         ];
         const domElements = {};
         let allElementsFound = true;
@@ -726,6 +729,32 @@ function initializeApp(initialChars, initialPacks) {
             return (Math.random() * (maxAngle * 2)) - maxAngle;
         }
 
+        // Mostrar progreso de asignación
+        function updateProgressIndicator() {
+            const container = document.getElementById('progress-container');
+            if (!container) return;
+
+            const total = currentCharacters.length;
+            const assigned = assignedPlayerMap.size;
+            const percentage = total > 0 ? (assigned / total) * 100 : 0;
+
+            if (total === 0 || assigned === total) {
+                container.classList.remove('visible');
+                container.innerHTML = '';
+                return;
+            }
+
+            const progressHTML = `
+                <div class="assignment-progress">
+                    <div class="progress-bar" style="width: ${percentage}%"></div>
+                    <span class="progress-text">${assigned} de ${total} asignados</span>
+                </div>
+            `;
+
+            container.innerHTML = progressHTML;
+            container.classList.add('visible');
+        }
+
         function updateAssignmentDashboard() {
             if(!domElements['assignment-table-body']){return;}domElements['assignment-table-body'].innerHTML='';if(currentCharacters.length===0)return;
             currentCharacters.forEach(char=>{
@@ -755,7 +784,25 @@ function initializeApp(initialChars, initialPacks) {
             });
         }
 
+        function updateCompletionBanner() {
+            const idEl = domElements['case-id'];
+            const titleEl = domElements['case-title'];
+            const detEl = domElements['detective-name'];
+            const dateEl = domElements['resolution-date'];
+            const countEl = domElements['processed-count'];
+            if(!(idEl && titleEl && detEl && dateEl && countEl)) return;
+
+            const caseId = new Date().getFullYear() + '-' + currentCharacters.length;
+            idEl.textContent = `EXPEDIENTE #${caseId}`;
+            titleEl.textContent = domElements['intro-line-1-heading']?.textContent || 'Caso';
+            detEl.textContent = hostName || 'Detective';
+            dateEl.textContent = eventDateValue || new Date().toLocaleDateString('es-ES');
+            countEl.textContent = currentCharacters.length.toString();
+        }
+
         function checkCompletionState() {
+            updateProgressIndicator();
+
             const banner = domElements['completion-banner'];
             const dashboard = domElements['assignment-dashboard-section'];
             if (!banner) return;
@@ -765,6 +812,7 @@ function initializeApp(initialChars, initialPacks) {
 
             if (totalCharacters > 0 && assignedCharacters === totalCharacters) {
                 const alreadyVisible = banner.classList.contains('visible');
+                updateCompletionBanner();
                 banner.classList.add('visible');
                 if (dashboard) dashboard.classList.remove('hidden-section');
                 if (!alreadyVisible) {
