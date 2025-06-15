@@ -39,7 +39,6 @@ const packs_data = {
     20: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio", "La Hermana", "El Cuñado", "El Gemelo 1", "El Gemelo 2", "La Secretaria", "La Vecina 1", "La Vecina 2", "La Vecina 3", "La Vecina 4", "La Vecina 5"]
 };
 
-// Objeto de detalles para iconos individuales
 const specialIconDetails = {
     isBirthdayFriendly: {
         title: '🌟 <strong>Rol principal</strong>',
@@ -55,7 +54,6 @@ const specialIconDetails = {
     }
 };
 
-// Objeto de detalles para iconos combinados (ACTUALIZADO)
 const comboIconDetails = {
     birthday_senior: {
         title: '🌟👵🏻 <strong>Personaje versátil</strong>',
@@ -126,7 +124,7 @@ function initializeApp(initialChars, initialPacks) {
             'female-characters-grid', 'male-characters-grid',
             'back-to-setup-btn',
             'darkModeToggleBtn', 'darkModeToggleBtnSetup',
-            'print-dashboard-btn',
+            'print-dashboard-btn-new', // <-- CAMBIO: Apuntamos al nuevo botón
             'detective-guide-section', 'guide-header-tab',
             'completion-banner',
             'toast-notification', 'toast-message',
@@ -141,7 +139,7 @@ function initializeApp(initialChars, initialPacks) {
         let allElementsFound = true;
         domElementIds.forEach(id => {
             const element = document.getElementById(id);
-            if (!element && id !== 'guide-header-tab' && id !== 'load-config-btn') {
+            if (!element && id !== 'guide-header-tab' && id !== 'load-config-btn' && id !== 'print-dashboard-btn') {
                 console.error(`ERROR DOM: ID '${id}' NO encontrado.`);
                 allElementsFound = false;
             }
@@ -340,8 +338,8 @@ function initializeApp(initialChars, initialPacks) {
 
         if(domElements['start-assignment'])domElements['start-assignment'].addEventListener('click',handleStartAssignment);
         if(domElements['back-to-setup-btn']) domElements['back-to-setup-btn'].addEventListener('click', handleBackToSetup);
-        if (domElements['print-dashboard-btn']) {
-            domElements['print-dashboard-btn'].addEventListener('click', async () => {
+        if (domElements['print-dashboard-btn-new']) { // <-- CAMBIO: Apuntamos al nuevo botón
+            domElements['print-dashboard-btn-new'].addEventListener('click', async () => {
                 // ... La lógica de esta función es extensa y se moverá al Bloque 4
             });
         }
@@ -721,17 +719,21 @@ function initializeApp(initialChars, initialPacks) {
         }
 
 
+        // =========================================================
+        // === CAMBIO: NUEVAS FUNCIONES PARA EL BANNER DE ÉXITO ===
+        // =========================================================
         function checkCompletionState() {
             const banner = domElements['completion-banner'];
             if (!banner) return;
-
+    
             const totalCharacters = currentCharacters.length;
             const assignedCharacters = assignedPlayerMap.size;
-
+    
             if (totalCharacters > 0 && assignedCharacters === totalCharacters) {
                 const alreadyVisible = banner.classList.contains('visible');
-                banner.classList.add('visible');
                 if (!alreadyVisible) {
+                    // Solo ejecutar si no estaba ya visible
+                    populateAndShowCompletionBanner();
                     setTimeout(() => {
                         banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }, 250);
@@ -740,6 +742,63 @@ function initializeApp(initialChars, initialPacks) {
                 banner.classList.remove('visible');
             }
         }
+
+        function populateAndShowCompletionBanner() {
+            const banner = domElements['completion-banner'];
+            if (!banner) return;
+    
+            // Poblar detalles del informe
+            document.getElementById('completion-host-name').textContent = hostName || 'No especificado';
+            document.getElementById('completion-event-date').textContent = getFormattedEventDate(eventDateValue) || 'Fecha no especificada';
+            document.getElementById('completion-suspect-count').textContent = `${currentCharacters.length} individuos`;
+    
+            const honoreesRow = document.getElementById('completion-honorees-row');
+            if (honoreeNames.length > 0) {
+                document.getElementById('completion-honoree-names').textContent = honoreeNames.join(', ');
+                honoreesRow.style.display = 'flex';
+            } else {
+                honoreesRow.style.display = 'none';
+            }
+    
+            // Generar tarjetas de evidencia
+            const evidenceCardsContainer = document.getElementById('completion-evidence-cards');
+            evidenceCardsContainer.innerHTML = ''; // Limpiar tarjetas anteriores
+    
+            currentCharacters.forEach(character => {
+                const player = assignedPlayerMap.get(character.name) || 'Sin asignar';
+                const cleanPlayerName = player.replace(/🎩|🌟/g, '').trim();
+    
+                const card = document.createElement('div');
+                card.className = 'evidence-card assigned'; // 'assigned' activa la cinta en CSS
+    
+                const personalityText = getGenderedInterpretationText(character.interpretationLevel, character.gender);
+                const emojiMap = {'Extrovertido': '🔥', 'Extrovertida': '🔥', 'Introvertido': '🙈', 'Introvertida': '🙈', 'Camaleónico': '🎭', 'Camaleónica': '🎭'};
+                const personalityEmoji = emojiMap[personalityText] || '❔';
+    
+                card.innerHTML = `
+                    <div class="evidence-card-content">
+                        <h4>${character.name}</h4>
+                        <p>Asignado a: ${cleanPlayerName}</p>
+                        <p style="font-size: 0.8em; margin-top: 5px;">${personalityEmoji} ${personalityText}</p>
+                    </div>
+                `;
+                evidenceCardsContainer.appendChild(card);
+            });
+    
+            // Activar la animación del banner
+            banner.classList.add('visible');
+            
+            // Reiniciar la animación del texto de máquina de escribir si existe
+            const typewriterEl = document.getElementById('completion-message');
+            if(typewriterEl) {
+                 typewriterEl.style.animation = 'none';
+                 void typewriterEl.offsetWidth; // Force reflow
+                 typewriterEl.style.animation = 'typing 2s steps(40, end) 1.8s both';
+            }
+        }
+        // =========================================================
+        // === FIN DE CAMBIO =======================================
+        // =========================================================
 
         // --- INICIO: Lógica de Popovers ---
         let activePopoverElements = null;
@@ -1084,8 +1143,8 @@ function initializeApp(initialChars, initialPacks) {
 
 
         // Se sobreescribe el listener del botón de imprimir para añadir la lógica completa
-        if (domElements['print-dashboard-btn']) {
-            domElements['print-dashboard-btn'].addEventListener('click', async () => {
+        if (domElements['print-dashboard-btn-new']) {
+            domElements['print-dashboard-btn-new'].addEventListener('click', async () => {
                 showToastNotification('Generando PDF artístico...', 'info', 6000);
 
                 if (typeof window.jspdf === 'undefined' || typeof window.jspdf.jsPDF === 'undefined') {
@@ -1294,6 +1353,31 @@ function initializeApp(initialChars, initialPacks) {
             }
         }
 
+        // --- CAMBIO: Lógica para el nuevo banner de finalización ---
+        const magnifier = document.getElementById('magnifier');
+        if (magnifier) {
+            document.addEventListener('mousemove', (e) => {
+                magnifier.style.left = e.clientX - 50 + 'px';
+                magnifier.style.top = e.clientY - 50 + 'px';
+            });
+
+            // Usamos delegación de eventos en un contenedor superior que exista siempre
+            const mainContent = document.getElementById('main-content-area');
+            if (mainContent) {
+                 mainContent.addEventListener('mouseover', (e) => {
+                    if (e.target.closest('.evidence-cards, .case-details')) {
+                        magnifier.classList.add('active');
+                    }
+                });
+                mainContent.addEventListener('mouseout', (e) => {
+                    if (e.target.closest('.evidence-cards, .case-details')) {
+                        magnifier.classList.remove('active');
+                    }
+                });
+            }
+        }
+
+
     }catch(e){console.error("ASIGNADOR ERROR GRAL:",e,e.stack);const b=document.body;if(b){let d=document.getElementById('critical-error');if(!d){d=document.createElement('div');d.id='critical-error';d.style.cssText='display:block;position:fixed;bottom:5px;left:50%;transform:translateX(-50%);z-index:10000;padding:15px;width:90%;max-width:700px;text-align:center;background-color:maroon;color:white;font-size:12px;border-radius:8px;';b.appendChild(d);}d.innerHTML=`Error: ${e.message}. Revisa consola (F12).`;}}
 } // Fin de la función initializeApp
 
@@ -1364,9 +1448,6 @@ function setupProgressiveFlow() {
   const namesContainer = document.getElementById('player-names-grid-container');
 
   if (dateInput) {
-    // On some mobile browsers the `change` event fires as soon as the picker
-    // opens because a default value gets assigned. To avoid jumping to the next
-    // step prematurely we wait until the input loses focus.
     dateInput.addEventListener('blur', () => {
       if (dateInput.value) showBloque(3);
     });
@@ -1384,29 +1465,18 @@ function setupProgressiveFlow() {
     });
   }
 
-  // ========================================================================
-// ✅ NUEVO BLOQUE MEJORADO (Implementa tu idea)
-// ========================================================================
-
   const handleHonoreeChoice = (hasHonoree, buttonClicked) => {
-    // Primero, gestionamos la selección visual de los botones
     [honYes, honNo].forEach(btn => btn.classList.remove('active'));
     if(buttonClicked) buttonClicked.classList.add('active');
 
-    // Actualizamos el estado del checkbox invisible
     if (honChk) {
       honChk.checked = hasHonoree;
       honChk.dispatchEvent(new Event('change'));
     }
 
-    // Mostramos el bloque 5 (Número de Jugadores)
     showBloque(5);
-
-    // Mostramos inmediatamente el bloque 6 (Nombres de los Jugadores)
     showBloque(6);
 
-    // Si hay homenajeado/a nos desplazamos al bloque de la pregunta y
-    // enfocamos el primer campo de nombre para mantener el contexto visual
     if (hasHonoree) {
       const honBlock = document.querySelector('.bloque-4');
       const firstHonInput = document.querySelector('#honorees-container .honoree-name-input');
@@ -1423,7 +1493,6 @@ function setupProgressiveFlow() {
     honYes.addEventListener('click', () => handleHonoreeChoice(true, honYes));
     honNo.addEventListener('click', () => handleHonoreeChoice(false, honNo));
   } else if (honChk) {
-    // Si solo existiera el checkbox, mantenemos un fallback
     honChk.addEventListener('change', () => {
         showBloque(5);
         showBloque(6);
@@ -1439,8 +1508,6 @@ function setupProgressiveFlow() {
         }
     });
   }
-
-// ========================================================================
 
   if (playerCountInput) {
     playerCountInput.addEventListener('input', () => {
@@ -1509,17 +1576,14 @@ function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, h
         return baseWord + suffix;
     }
 
-    // --- Lógica para la nueva línea de información de generación ---
     const generationDate = new Date();
-    // Ajustar a la hora local de Barcelona (CEST) si no se está ejecutando en un entorno con esa zona horaria configurada
-    // Aunque toLocaleDateString ya lo hace con la zona horaria del cliente, se puede ser más explícito para el ejemplo
     const options = { 
         year: 'numeric', 
         month: 'long', 
         day: 'numeric', 
         hour: '2-digit', 
         minute: '2-digit',
-        timeZone: 'Europe/Madrid' // Forzar la zona horaria a CEST (España/Madrid)
+        timeZone: 'Europe/Madrid'
     };
     const formattedGenerationDateTime = generationDate.toLocaleDateString('es-ES', options);
 
@@ -1529,20 +1593,17 @@ function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, h
         deviceType = "un iPhone/iPad";
     } else if (/Android/.test(userAgent)) {
         deviceType = "un dispositivo Android";
-    } else if (/Mobile/.test(userAgent)) { // Catch other generic mobile devices
+    } else if (/Mobile/.test(userAgent)) {
         deviceType = "un dispositivo móvil";
     }
     const generationInfoLine = `Este panel fue generado el ${formattedGenerationDateTime} desde ${deviceType}.`;
-    // --- Fin de la lógica para la nueva línea de información de generación ---
 
-
-    // Generar las tarjetas de personajes en dos columnas
     let characterCardsHtml = '';
     for (let i = 0; i < sortedCharacters.length; i += 2) {
         const char1 = sortedCharacters[i];
         const char2 = sortedCharacters[i + 1];
 
-        characterCardsHtml += '<tr>'; // Abre una nueva fila para las dos columnas
+        characterCardsHtml += '<tr>';
 
         // Tarjeta del personaje 1
         characterCardsHtml += `<td class="character-cell" width="50%" style="padding: 10px; vertical-align: top;">
@@ -1552,13 +1613,13 @@ function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, h
                 border-radius: 10px;
                 padding: 20px;
                 box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-                position: relative; /* Mantener por si se quiere añadir algo posicionado en el futuro, pero no afecta */
-                overflow: hidden; /* Asegura que cualquier contenido que se salga se recorte */
+                position: relative;
+                overflow: hidden;
             ">
                 <div>
                     <h3 style="
                         color: #e8d8b0;
-                        font-size: 20px; /* Ligeramente más pequeña para 2 columnas */
+                        font-size: 20px;
                         margin: 0 0 10px 0;
                         font-family: Georgia, serif;
                         border-bottom: 1px solid #c0a062;
@@ -1580,7 +1641,7 @@ function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, h
                                 font-weight: bold;
                                 display: inline-block;
                                 margin-left: 5px;
-                                font-size: 13px; /* Más pequeña para la píldora */
+                                font-size: 13px;
                             ">${(() => {
                                 const interpretationText = getGenderedInterpretationText(char1.interpretationLevel, char1.gender);
                                 const emojiMap = {'Extrovertido': '🔥', 'Extrovertida': '🔥', 'Introvertido': '🙈', 'Introvertida': '🙈', 'Camaleónico': '🎭', 'Camaleónica': '🎭'};
@@ -1641,14 +1702,12 @@ function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, h
                 </div>
             </td>`;
         } else {
-            // Si hay un número impar de personajes, el último td de la fila queda vacío
             characterCardsHtml += `<td class="character-cell" width="50%" style="padding: 10px; vertical-align: top;"></td>`;
         }
 
-        characterCardsHtml += '</tr>'; // Cierra la fila
+        characterCardsHtml += '</tr>';
     }
 
-    // HTML completo del email
     const emailHTML = `
 <!DOCTYPE html>
 <html>
@@ -1658,113 +1717,33 @@ function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, h
     <title>Panel Detectivesco - El Testamento de Mr. Collins</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
     <style>
-        /* Reset básico para clientes de correo */
-        body, div, p, h1, h2, h3, h4, h5, h6 {
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: 'Lora', Georgia, serif; /* Fuente principal para el cuerpo */
-            background-color: #0a0a0a;
-            color: #f5e8d5;
-            -webkit-text-size-adjust: 100%;
-            -ms-text-size-adjust: 100%;
-            width: 100%;
-            display: block;
-        }
-        table {
-            border-collapse: collapse;
-            mso-table-lspace: 0pt;
-            mso-table-rspace: 0pt;
-        }
-        img {
-            -ms-interpolation-mode: bicubic;
-        }
-        a {
-            text-decoration: none;
-            color: #c0a062;
-        }
-        /* Colores y estilos generales */
-        :root {
-            --color-dark-bg: #0a0a0a;
-            --color-medium-bg: #1a1a1a;
-            --color-card-bg: #2a2a2a;
-            --color-gold: #c0a062;
-            --color-dark-gold: #8c703c;
-            --color-text-light: #f5e8d5;
-            --color-text-highlight: #e8d8b0;
-            --color-dark-text: #1a1a1a;
-        }
-        /* Estilos específicos para componentes */
-        .header-bg {
-            background: linear-gradient(135deg, var(--color-dark-gold) 0%, var(--color-gold) 50%, var(--color-dark-gold) 100%);
-        }
-        .title-text {
-            font-family: 'Playfair Display', Georgia, serif; /* Fuente distintiva para títulos */
-            font-weight: 700;
-        }
-        .section-box {
-            background-color: var(--color-card-bg);
-            border: 1px solid var(--color-gold);
-            border-radius: 10px;
-        }
-        .character-card {
-            background: linear-gradient(135deg, var(--color-card-bg) 0%, var(--color-medium-bg) 100%);
-            border: 2px solid var(--color-gold);
-            border-radius: 10px;
-        }
-        .personality-pill {
-            background: var(--color-gold);
-            color: var(--color-dark-text);
-            font-weight: bold;
-            border-radius: 4px;
-        }
-        /* Estilos para columnas */
-        .character-cell {
-            padding: 10px; /* Espacio entre tarjetas */
-            vertical-align: top; /* Alinear arriba para que las tarjetas se vean bien */
-        }
-
-        /* MEDIA QUERIES para dispositivos móviles (soporte variable en clientes de email) */
+        body, div, p, h1, h2, h3, h4, h5, h6 { margin: 0; padding: 0; }
+        body { font-family: 'Lora', Georgia, serif; background-color: #0a0a0a; color: #f5e8d5; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; width: 100%; display: block; }
+        table { border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+        img { -ms-interpolation-mode: bicubic; }
+        a { text-decoration: none; color: #c0a062; }
+        :root { --color-dark-bg: #0a0a0a; --color-medium-bg: #1a1a1a; --color-card-bg: #2a2a2a; --color-gold: #c0a062; --color-dark-gold: #8c703c; --color-text-light: #f5e8d5; --color-text-highlight: #e8d8b0; --color-dark-text: #1a1a1a; }
+        .header-bg { background: linear-gradient(135deg, var(--color-dark-gold) 0%, var(--color-gold) 50%, var(--color-dark-gold) 100%); }
+        .title-text { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; }
+        .section-box { background-color: var(--color-card-bg); border: 1px solid var(--color-gold); border-radius: 10px; }
+        .character-card { background: linear-gradient(135deg, var(--color-card-bg) 0%, var(--color-medium-bg) 100%); border: 2px solid var(--color-gold); border-radius: 10px; }
+        .personality-pill { background: var(--color-gold); color: var(--color-dark-text); font-weight: bold; border-radius: 4px; }
+        .character-cell { padding: 10px; vertical-align: top; }
         @media only screen and (max-width: 600px) {
-            table[class="main-table"] {
-                width: 100% !important;
-            }
-            td[class="header-bg"], td[class="section-box"], td[class="character-cell"] {
-                padding-left: 15px !important;
-                padding-right: 15px !important;
-            }
-            table[class="character-cards-table"] {
-                width: 100% !important;
-            }
-            td[class="character-cell"] {
-                width: 100% !important; /* Cada tarjeta ocupa el 100% en móvil */
-                display: block !important; /* Asegura que la celda se comporte como un bloque */
-                margin-bottom: 10px; /* Espacio entre tarjetas en móvil */
-            }
-            .character-card {
-                margin-bottom: 0px !important; /* Elimina el margin-bottom de la tarjeta cuando es block */
-            }
-            h1.title-text {
-                font-size: 28px !important;
-            }
-            h2.title-text {
-                font-size: 20px !important;
-            }
-            h3 {
-                font-size: 18px !important;
-            }
-            .personality-pill {
-                font-size: 12px !important;
-            }
-            p span {
-                font-size: 15px !important;
-            }
+            table[class="main-table"] { width: 100% !important; }
+            td[class="header-bg"], td[class="section-box"], td[class="character-cell"] { padding-left: 15px !important; padding-right: 15px !important; }
+            table[class="character-cards-table"] { width: 100% !important; }
+            td[class="character-cell"] { width: 100% !important; display: block !important; margin-bottom: 10px; }
+            .character-card { margin-bottom: 0px !important; }
+            h1.title-text { font-size: 28px !important; }
+            h2.title-text { font-size: 20px !important; }
+            h3 { font-size: 18px !important; }
+            .personality-pill { font-size: 12px !important; }
+            p span { font-size: 15px !important; }
         }
     </style>
 </head>
 <body style="margin: 0; padding: 0; font-family: 'Lora', Georgia, serif; background-color: #0a0a0a; color: #f5e8d5; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; width: 100%; display: block;">
-
     <center>
         <table width="100%" border="0" cellpadding="0" cellspacing="0" style="background-color: #0a0a0a;">
             <tr>
@@ -1773,7 +1752,6 @@ function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, h
                         <tr>
                             <td class="header-bg" style="background: linear-gradient(135deg, #8c703c 0%, #c0a062 50%, #8c703c 100%); padding: 40px 20px; text-align: center; position: relative; overflow: hidden;">
                                 <h1 class="title-text" style="font-family: 'Playfair Display', Georgia, serif; font-weight: 700; color: #1a1a1a; font-size: 36px; margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); position: relative; z-index: 1;">🕵️ PANEL DETECTIVESCO 🕵️</h1>
-
                                 <div style="background: #1a1a1a; color: #c0a062; padding: 10px 30px; display: inline-block; margin-top: 15px; border-radius: 20px; font-size: 18px; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3); position: relative; z-index: 1;">El Testamento de Mr. Collins</div>
                             </td>
                         </tr>
@@ -1783,26 +1761,11 @@ function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, h
                                     <tr>
                                         <td style="text-align: center;">
                                             <h2 class="title-text" style="font-family: 'Playfair Display', Georgia, serif; font-weight: 700; color: #e8d8b0; font-size: 24px; margin: 0 0 20px 0;">⚰️ Detalles del Caso ⚰️</h2>
-
                                             <div style="display: inline-block; text-align: left; font-size: 16px; line-height: 1.8;">
-                                                <p style="margin: 8px 0;">
-                                                    <strong style="color: #c0a062;">📅 Fecha del evento:</strong>
-                                                    <span style="color: #f5e8d5; font-size: 18px;">${formattedDate}</span>
-                                                </p>
-                                                ${hostName ? `
-                                                <p style="margin: 8px 0;">
-                                                    <strong style="color: #c0a062;">🎩 Anfitrión:</strong>
-                                                    <span style="color: #f5e8d5; font-size: 18px;">${hostName}</span>
-                                                </p>` : ''}
-                                                ${honoreeNames.length > 0 ? `
-                                                <p style="margin: 8px 0;">
-                                                    <strong style="color: #c0a062;">🌟 Homenajeado(s):</strong>
-                                                    <span style="color: #f5e8d5; font-size: 18px;">${honoreeNames.join(', ')}</span>
-                                                </p>` : ''}
-                                                <p style="margin: 8px 0;">
-                                                    <strong style="color: #c0a062;">👥 Total de sospechosos:</strong>
-                                                    <span style="color: #f5e8d5; font-size: 18px;">${totalCards}</span>
-                                                </p>
+                                                <p style="margin: 8px 0;"><strong style="color: #c0a062;">📅 Fecha del evento:</strong> <span style="color: #f5e8d5; font-size: 18px;">${formattedDate}</span></p>
+                                                ${hostName ? `<p style="margin: 8px 0;"><strong style="color: #c0a062;">🎩 Anfitrión:</strong> <span style="color: #f5e8d5; font-size: 18px;">${hostName}</span></p>` : ''}
+                                                ${honoreeNames.length > 0 ? `<p style="margin: 8px 0;"><strong style="color: #c0a062;">🌟 Homenajeado(s):</strong> <span style="color: #f5e8d5; font-size: 18px;">${honoreeNames.join(', ')}</span></p>` : ''}
+                                                <p style="margin: 8px 0;"><strong style="color: #c0a062;">👥 Total de sospechosos:</strong> <span style="color: #f5e8d5; font-size: 18px;">${totalCards}</span></p>
                                             </div>
                                         </td>
                                     </tr>
@@ -1827,7 +1790,6 @@ function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, h
                         <tr>
                             <td class="header-bg" style="background: linear-gradient(135deg, #8c703c 0%, #c0a062 50%, #8c703c 100%); padding: 20px 20px 30px 20px; text-align: center; margin-top: 0px; border-top: 1px solid #8c703c;">
                                 <p style="color: #1a1a1a; font-size: 14px; margin: 0 0 10px 0; font-weight: bold;">🔍 CONFIDENCIAL - NO COMPARTIR 🔍</p>
-
                                 <p style="color: #1a1a1a; font-size: 12px; margin: 0; opacity: 0.8;">© 2024 123 Action Barcelona - Experiencias teatrales únicas<br>
                                 Sistema de Asignación de Sospechosos v1.0<br>
                                 <span style="font-size: 10px; color: #333333; display: block; margin-top: 5px;">${generationInfoLine}</span>
