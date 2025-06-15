@@ -123,19 +123,21 @@ function initializeApp(initialChars, initialPacks) {
         const domElementIds = [
             'player-count', 'player-names-grid-container', 'start-assignment',
             'player-count-error', 'setup-section', 'main-content-area',
-            'assignment-table-body', 'assignment-dashboard-section', 'female-characters-grid', 'male-characters-grid',
+            'female-characters-grid', 'male-characters-grid',
             'back-to-setup-btn',
             'darkModeToggleBtn', 'darkModeToggleBtnSetup',
-            'print-dashboard-btn',
             'detective-guide-section', 'guide-header-tab',
             'completion-banner',
+            'progress-container',
             'toast-notification', 'toast-message',
             'host-name-input',
             'event-date-input',
             'has-honoree-checkbox', 'honorees-container', 'add-honoree-btn',
             'decrement-player-count', 'increment-player-count',
             'initial-report-target',
-            'intro-line-1-heading'
+            'intro-line-1-heading',
+            'case-id', 'case-title', 'detective-name',
+            'resolution-date', 'processed-count'
         ];
         const domElements = {};
         let allElementsFound = true;
@@ -281,7 +283,6 @@ function initializeApp(initialChars, initialPacks) {
 
             if(domElements['female-characters-grid']) domElements['female-characters-grid'].innerHTML = '';
             if(domElements['male-characters-grid']) domElements['male-characters-grid'].innerHTML = '';
-            if (domElements['assignment-table-body']) domElements['assignment-table-body'].innerHTML = '';
 
             currentCharacters = [];
             availablePlayerNames = [];
@@ -340,11 +341,6 @@ function initializeApp(initialChars, initialPacks) {
 
         if(domElements['start-assignment'])domElements['start-assignment'].addEventListener('click',handleStartAssignment);
         if(domElements['back-to-setup-btn']) domElements['back-to-setup-btn'].addEventListener('click', handleBackToSetup);
-        if (domElements['print-dashboard-btn']) {
-            domElements['print-dashboard-btn'].addEventListener('click', async () => {
-                // ... La lógica de esta función es extensa y se moverá al Bloque 4
-            });
-        }
 
 // 👉👉 FIN BLOQUE 2: INICIALIZACIÓN Y GESTIÓN DEL ESTADO GLOBAL 👈👈
 
@@ -662,7 +658,6 @@ function initializeApp(initialChars, initialPacks) {
                         this.classList.remove('assigned');
                     }
                     updateAllPlayerSelects();
-                    updateAssignmentDashboard();
                     checkCompletionState(); // <--- LLAMADA A LA NUEVA LÓGICA
                 });
             }
@@ -726,38 +721,54 @@ function initializeApp(initialChars, initialPacks) {
             return (Math.random() * (maxAngle * 2)) - maxAngle;
         }
 
-        function updateAssignmentDashboard() {
-            if(!domElements['assignment-table-body']){return;}domElements['assignment-table-body'].innerHTML='';if(currentCharacters.length===0)return;
-            currentCharacters.forEach(char=>{
-                const rawPlayerName = assignedPlayerMap.get(char.name);
-                const displayPlayerName = rawPlayerName ? rawPlayerName.replace("🎩"," (Anfitrión)").replace("🌟"," (Homenajeado)") : '<em>S/A</em>';
+        // Mostrar progreso de asignación
+        function updateProgressIndicator() {
+            const container = document.getElementById('progress-container');
+            if (!container) return;
 
-                const r=domElements['assignment-table-body'].insertRow();const cI=r.insertCell();
-                if(char.imageUrl){
-                    const i=document.createElement('img');
-                    i.src=char.imageUrl;
-                    i.alt=char.name;
-                    i.style.transform = `rotate(${getRandomSmallAngle()}deg)`;
-                    i.onerror=function(){
-                        this.onerror=null;
-                        this.src='https://placehold.co/50x65/ccc/fff?text=X';
-                        this.alt=`${char.name} (imagen no disponible)`;
-                        this.style.transform = 'none';
-                    };
-                    cI.appendChild(i);
-                }else{
-                    cI.innerHTML='<i class="fas fa-image" style="font-size:24px;color:#ccc;"></i>';
-                }
-                const cN=r.insertCell();
-                cN.innerHTML=`${char.name}`;
-                const cP=r.insertCell();cP.innerHTML=displayPlayerName;
-                const cL=r.insertCell();cL.innerHTML=getExtroversionPill(char.interpretationLevel, char.gender);
-            });
+            const total = currentCharacters.length;
+            const assigned = assignedPlayerMap.size;
+            const percentage = total > 0 ? (assigned / total) * 100 : 0;
+
+            if (total === 0 || assigned === total) {
+                container.classList.remove('visible');
+                container.innerHTML = '';
+                return;
+            }
+
+            const progressHTML = `
+                <div class="assignment-progress">
+                    <div class="progress-bar" style="width: ${percentage}%"></div>
+                    <span class="progress-text">${assigned} de ${total} asignados</span>
+                </div>
+            `;
+
+            container.innerHTML = progressHTML;
+            container.classList.add('visible');
+        }
+
+
+
+        function updateCompletionBanner() {
+            const idEl = domElements['case-id'];
+            const titleEl = domElements['case-title'];
+            const detEl = domElements['detective-name'];
+            const dateEl = domElements['resolution-date'];
+            const countEl = domElements['processed-count'];
+            if(!(idEl && titleEl && detEl && dateEl && countEl)) return;
+
+            const caseId = new Date().getFullYear() + '-' + currentCharacters.length;
+            idEl.textContent = `EXPEDIENTE #${caseId}`;
+            titleEl.textContent = domElements['intro-line-1-heading']?.textContent || 'Caso';
+            detEl.textContent = hostName || 'Detective';
+            dateEl.textContent = eventDateValue || new Date().toLocaleDateString('es-ES');
+            countEl.textContent = currentCharacters.length.toString();
         }
 
         function checkCompletionState() {
+            updateProgressIndicator();
+
             const banner = domElements['completion-banner'];
-            const dashboard = domElements['assignment-dashboard-section'];
             if (!banner) return;
 
             const totalCharacters = currentCharacters.length;
@@ -765,8 +776,8 @@ function initializeApp(initialChars, initialPacks) {
 
             if (totalCharacters > 0 && assignedCharacters === totalCharacters) {
                 const alreadyVisible = banner.classList.contains('visible');
+                updateCompletionBanner();
                 banner.classList.add('visible');
-                if (dashboard) dashboard.classList.remove('hidden-section');
                 if (!alreadyVisible) {
                     setTimeout(() => {
                         banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -774,7 +785,6 @@ function initializeApp(initialChars, initialPacks) {
                 }
             } else {
                 banner.classList.remove('visible');
-                if (dashboard) dashboard.classList.add('hidden-section');
             }
         }
 
@@ -1115,201 +1125,10 @@ function initializeApp(initialChars, initialPacks) {
             }
 
             updateAllPlayerSelects();
-            updateAssignmentDashboard();
             checkCompletionState();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-
-        // Se sobreescribe el listener del botón de imprimir para añadir la lógica completa
-        if (domElements['print-dashboard-btn']) {
-            domElements['print-dashboard-btn'].addEventListener('click', async () => {
-                showToastNotification('Generando PDF artístico...', 'info', 6000);
-
-                if (typeof window.jspdf === 'undefined' || typeof window.jspdf.jsPDF === 'undefined') {
-                    showToastNotification("Error: La librería jsPDF no está cargada.", 'error');
-                    return;
-                }
-
-                // Campo de email eliminado: usar dirección predeterminada
-                const hostEmail = '123actionbcn@gmail.com';
-
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
-
-                // === CÓDIGO DE GENERACIÓN DEL PDF (se mantiene igual) ===
-                const page = { width: doc.internal.pageSize.getWidth(), height: doc.internal.pageSize.getHeight() };
-                const margin = 10;
-                const columnMargin = 5;
-                const cardMarginY = 4;
-                const numColumns = 3;
-
-                const card = {
-                    width: (page.width - (margin * 2) - (columnMargin * (numColumns - 1))) / numColumns,
-                    height: 25
-                };
-                const colors = { dark: '#2c1f1b', gold: '#8c703c', light_gold: '#c0a062', bg: '#faf3e0' };
-
-                const hostPlayerName = hostName ? hostName + " 🎩" : null;
-                const honoreePlayerNames = honoreeNames.map(name => name + " 🌟");
-
-                const sortedCharacters = [...currentCharacters].sort((a, b) => {
-                    const playerA = assignedPlayerMap.get(a.name);
-                    const playerB = assignedPlayerMap.get(b.name);
-                    const isAHonoree = honoreePlayerNames.includes(playerA);
-                    const isBHonoree = honoreePlayerNames.includes(playerB);
-                    const isAHost = playerA === hostPlayerName;
-                    const isBHost = playerB === hostPlayerName;
-                    if (isAHonoree && !isBHonoree) return -1;
-                    if (!isAHonoree && isBHonoree) return 1;
-                    if (isAHost && !isBHost && !isAHonoree && !isBHonoree) return -1;
-                    if (!isAHost && isBHost && !isAHonoree && !isBHonoree) return 1;
-                    if (isAHonoree && isBHost) return -1;
-                    if (isAHost && isBHonoree) return 1;
-                    return 0;
-                });
-
-                const totalCards = sortedCharacters.length;
-
-                doc.setDrawColor(colors.gold);
-                doc.setLineWidth(1);
-                doc.rect(margin / 2, margin / 2, page.width - margin, page.height - margin);
-                doc.setDrawColor(colors.dark);
-                doc.setLineWidth(0.2);
-                doc.rect((margin / 2) + 1.5, (margin / 2) + 1.5, page.width - margin - 3, page.height - margin - 3);
-
-                try { doc.setFont('PlayfairDisplay-Bold', 'bold'); } catch (e) { doc.setFont('Helvetica', 'bold'); }
-                doc.setFontSize(20);
-                doc.setTextColor(colors.dark);
-                doc.text("Panel Detectivesco", page.width / 2, margin + 8, { align: 'center' });
-
-                doc.setFont('Helvetica', 'italic');
-                doc.setFontSize(8);
-                doc.setTextColor(colors.gold);
-                doc.text(`El Testamento de Mr. Collins`, page.width - margin, page.height - (margin / 2) - 3, { align: 'right' });
-
-                const drawInfoLine = (y, label, value) => {
-                    const valueX = eventInfoX + 55;
-                    try { doc.setFont('Lora', 'bold'); } catch (e) { doc.setFont('Helvetica', 'bold'); }
-                    doc.setFontSize(12);
-                    doc.text(label, eventInfoX, y);
-                    doc.text(value, valueX, y, { charSpace: 0.1 });
-                    return y + 8;
-                };
-
-                let yPos = margin + 22;
-                const eventInfoX = margin + 5;
-
-                doc.setTextColor(colors.dark);
-
-                if (eventDateValue) {
-                    const formattedDate = getFormattedEventDate(eventDateValue);
-                    yPos = drawInfoLine(yPos, "Fecha:", formattedDate);
-                }
-
-                yPos = drawInfoLine(yPos, "Nº de Sospechosos:", String(totalCards));
-                if (hostName) yPos = drawInfoLine(yPos, "Anfitrión:", hostName);
-                if (hostEmail) yPos = drawInfoLine(yPos, "Email Anfitrión:", hostEmail);
-                if (honoreeNames && honoreeNames.length > 0) yPos = drawInfoLine(yPos, "Homenajeado/a(s):", honoreeNames.join(', '));
-
-                yPos += 3;
-                doc.setDrawColor(colors.light_gold);
-                doc.setLineWidth(0.5);
-                doc.line(margin, yPos, page.width - margin, yPos);
-                yPos += 8;
-
-                for (let i = 0; i < totalCards; i++) {
-                    const char = sortedCharacters[i];
-                    const col = i % numColumns;
-                    const row = Math.floor(i / numColumns);
-                    const cardX = margin + (col * (card.width + columnMargin));
-                    const cardY = yPos + (row * (card.height + cardMarginY));
-                    doc.setFillColor(colors.bg);
-                    doc.setDrawColor(colors.light_gold);
-                    doc.setLineWidth(0.4);
-                    doc.roundedRect(cardX, cardY, card.width, card.height, 2, 2, 'FD');
-                    const textX = cardX + card.width / 2;
-                    try { doc.setFont('Special Elite', 'normal'); } catch(e) { doc.setFont('Courier', 'normal'); }
-                    doc.setFontSize(11);
-                    doc.setTextColor(colors.dark);
-                    doc.text(char.name.toUpperCase(), textX, cardY + 8, { align: 'center' });
-                    doc.setDrawColor(colors.light_gold);
-                    doc.setLineWidth(0.2);
-                    doc.line(cardX + 4, cardY + 10.5, cardX + card.width - 4, cardY + 10.5);
-                    const playerName = assignedPlayerMap.get(char.name) || 'S/A';
-                    const cleanPlayerName = playerName.replace(/🎩|🌟/g, '').trim();
-                    try { doc.setFont('Lora', 'bold'); } catch(e) { doc.setFont('Helvetica', 'bold'); }
-                    doc.setFontSize(12);
-                    doc.setTextColor(colors.gold);
-                    doc.text(cleanPlayerName, textX, cardY + 18, { align: 'center' });
-                }
-                // === FIN CÓDIGO GENERACIÓN PDF ===
-
-                const pdfBlob = doc.output('blob');
-                const formattedDateForFilename = getFormattedEventDate(eventDateValue) || "evento";
-                const pdfName = `Panel de sospechosos - ${formattedDateForFilename}.pdf`;
-                const pdfFile = new File([pdfBlob], pdfName, { type: "application/pdf" });
-
-                // === ENVIAR A N8N VIA WEBHOOK ===
-                try {
-                        showToastNotification('Enviando panel por email...', 'info');
-                        const beautifulHTML = generateBeautifulEmailHTML(sortedCharacters, formattedDateForFilename, hostName, honoreeNames, totalCards, assignedPlayerMap);
-
-                        // Preparamos los datos para el webhook
-                        const webhookData = {
-                            to: hostEmail,
-                            subject: `Panel Detectivesco - ${formattedDateForFilename}`,
-                            data: {
-                                event: {
-                                    date: formattedDateForFilename,
-                                    host: hostName || 'Organizador',
-                                    hostEmail: hostEmail,
-                                    honorees: honoreeNames,
-                                    totalPlayers: totalCards
-                                },
-                                assignments: sortedCharacters.map(char => ({
-                                    character: char.name,
-                                    player: assignedPlayerMap.get(char.name) || 'Sin asignar',
-                                    personality: getGenderedInterpretationText(char.interpretationLevel, char.gender).toUpperCase()
-                                })),
-                                emailHTML: beautifulHTML
-                            },
-                            timestamp: new Date().toISOString()
-                        };
-
-                        // Enviar al webhook de n8n
-                        const response = await fetch('https://n8n.srv815746.hstgr.cloud/webhook/panel-detectivesco', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(webhookData)
-                        });
-
-                        if (response.ok) {
-                            showToastNotification('✅ Panel enviado a tu email exitosamente', 'success', 4000);
-                        } else {
-                            throw new Error(`Error del servidor: ${response.status}`);
-                        }
-                } catch (error) {
-                    console.error('Error enviando webhook:', error);
-                    showToastNotification('Error al enviar por email, pero puedes descargar el PDF', 'error', 5000);
-                }
-
-                showToastNotification('PDF generado correctamente', 'success', 3000);
-
-                if (!isDesktop() && navigator.share && navigator.canShare && navigator.canShare({ files: [pdfFile] })) {
-                    try {
-                        await navigator.share({ files: [pdfFile], title: 'Panel Detectivesco - Intriga', text: 'Aquí está el panel de asignaciones del juego de intriga.' });
-                    } catch (error) {
-                        if (error.name !== 'AbortError') {
-                            showToastNotification('Error al compartir. Iniciando descarga...', 'error');
-                            doc.save(pdfName);
-                        }
-                    }
-                } else {
-                    doc.save(pdfName);
-                }
-            });
-        }
         initializeFreshSetupState();
 
         const initialReportTargetElement = domElements['initial-report-target'];
