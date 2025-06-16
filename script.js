@@ -1,67 +1,67 @@
 // 👉👉 INICIO BLOQUE 1: CONFIGURACIÓN Y DATOS MAESTROS 👈👈
 
 const allCharacters_data = [
-    { name: "La Viuda", gender: "F", interpretationLevel: "Extrovertido", isBirthdayFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/the-widow/", description: "Elegante pero dramática, figura central tras la tragedia.", imageUrl: "Fotos_Personajes/VIUDA_WIDOW.webp" },
-    { name: "La Sobrina", gender: "F", interpretationLevel: "Neutro", fichaLink: "https://123actionbarcelona.com/englishyes/SOBRINA/", description: "Joven aparentemente dulce y encantadora.", imageUrl: "Fotos_Personajes/LILLY_ROSE.webp" },
-    { name: "La Cocinera", gender: "F", interpretationLevel: "Neutro", fichaLink: "https://123actionbarcelona.com/englishyes/coninera/", description: "De carácter fuerte, intenso y alegre", imageUrl: "Fotos_Personajes/COCINERA_COOK.webp" },
-    { name: "El Ama de Llaves", gender: "F", interpretationLevel: "Neutro", isBirthdayFriendly: true, isSeniorFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/amadellaves/", description: "Recta y eficiente, jefa del servicio", imageUrl: "Fotos_Personajes/AMA_DE_LLAVES.webp" },
-    { name: "La Doncella", gender: "F", interpretationLevel: "Introvertido", isKidFriendly: true, isSeniorFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/ladoncella/", description: "Discreta y atenta, a menudo invisible pero siempre presente.", imageUrl: "Fotos_Personajes/DONCELLA_THE_MAID.webp" },
-    { name: "La Hermana", gender: "F", interpretationLevel: "Extrovertido", preferCenterImage: true, fichaLink: "https://123actionbarcelona.com/englishyes/hermana/", description: "Explosiva, con fuertes opiniones y actitud altiva.", imageUrl: "Fotos_Personajes/LA_HERMANA_THE_SISTER.webp" },
-    { name: "La Secretaria", gender: "F", interpretationLevel: "Neutro", fichaLink: "https://123actionbarcelona.com/englishyes/secretaria/", description: "Organizada y comprometida con el sufragio femenino", imageUrl: "Fotos_Personajes/LA_SECRETARIA.webp" },
-    { name: "La Vecina 1", gender: "F", interpretationLevel: "Introvertido", isSeniorFriendly: true, preferCenterImage: true, fichaLink: "https://123actionbarcelona.com/englishyes/vecinas/", description: "Siempre al tanto de los chismes del vecindario.", imageUrl: "Fotos_Personajes/VECINAS.webp" },
-    { name: "La Vecina 2", gender: "F", interpretationLevel: "Introvertido", isSeniorFriendly: true, preferCenterImage: true, fichaLink: "https://123actionbarcelona.com/englishyes/vecinas/", description: "Siempre al tanto de los chismes del vecindario.", imageUrl: "Fotos_Personajes/VECINAS.webp" },
-    { name: "La Vecina 3", gender: "F", interpretationLevel: "Introvertido", isSeniorFriendly: true, preferCenterImage: true, fichaLink: "https://123actionbarcelona.com/englishyes/vecinas/", description: "Siempre al tanto de los chismes del vecindario.", imageUrl: "Fotos_Personajes/VECINAS.webp" },
-    { name: "La Vecina 4", gender: "F", interpretationLevel: "Introvertido", isSeniorFriendly: true, preferCenterImage: true, fichaLink: "https://123actionbarcelona.com/englishyes/vecinas/", description: "Siempre al tanto de los chismes del vecindario.", imageUrl: "Fotos_Personajes/VECINAS.webp" },
-    { name: "La Vecina 5", gender: "F", interpretationLevel: "Introvertido", isSeniorFriendly: true, preferCenterImage: true, fichaLink: "https://123actionbarcelona.com/englishyes/vecinas/", description: "Siempre al tanto de los chismes del vecindario.", imageUrl: "Fotos_Personajes/VECINAS.webp" },
-    { name: "El Gestor", gender: "M", interpretationLevel: "Extrovertido", isBirthdayFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/gestoresp/", description: "Maneja la fortuna familiar y conoce sus entresijos.", imageUrl: "Fotos_Personajes/GESTOR_ACCOUNTANT.webp" },
-    { name: "El Hijastro", gender: "M", interpretationLevel: "Extrovertido", fichaLink: "https://123actionbarcelona.com/englishyes/jeremy/", description: "Un joven militar de honor muy masculino.", imageUrl: "Fotos_Personajes/HIJASTRO_STEPSON.webp" },
-    { name: "El Hermano", gender: "M", interpretationLevel: "Extrovertido", preferCenterImage: true, fichaLink: "https://123actionbarcelona.com/englishyes/henry/", description: "Carismático director de cine que solo piensa en el arte", imageUrl: "Fotos_Personajes/HERMANO_BROTHER.webp" },
-    { name: "El Doctor", gender: "M", interpretationLevel: "Neutro", isBirthdayFriendly: true, isSeniorFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/doctoresp/", description: "Muy profesional aunque va de enterado", imageUrl: "Fotos_Personajes/DOCTOR.webp" },
-    { name: "El Socio", gender: "M", interpretationLevel: "Introvertido", isKidFriendly: true, isSeniorFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/petersocio/", description: "Hombre de negocios con alta autoestima", imageUrl: "Fotos_Personajes/SOCIO.webp" },
-    { name: "El Cuñado", gender: "M", interpretationLevel: "Neutro", fichaLink: "https://123actionbarcelona.com/englishyes/cunadoroy/", description: "Excéntrico, divertido y derrochador", imageUrl: "Fotos_Personajes/BROTHER_IN_LAW.webp" },
-    { name: "El Gemelo 1", gender: "M", interpretationLevel: "Introvertido", isKidFriendly: true, isSeniorFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/losgemelos/", description: "Pequeño genio de carácter algo particular", imageUrl: "Fotos_Personajes/GEMELOS_TWINS.webp" },
-    { name: "El Gemelo 2", gender: "M", interpretationLevel: "Introvertido", isKidFriendly: true, isSeniorFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/losgemelos/", description: "Pequeño genio de carácter algo particular", imageUrl: "Fotos_Personajes/GEMELOS_TWINS.webp" }
+    { name: "The Widow", gender: "F", interpretationLevel: "Extroverted", isBirthdayFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/the-widow/", description: "Elegant yet dramatic, a central figure after the tragedy.", imageUrl: "Fotos_Personajes/VIUDA_WIDOW.webp" },
+    { name: "The Niece", gender: "F", interpretationLevel: "Neutral", fichaLink: "https://123actionbarcelona.com/englishyes/SOBRINA/", description: "A seemingly sweet and charming young woman.", imageUrl: "Fotos_Personajes/LILLY_ROSE.webp" },
+    { name: "The Cook", gender: "F", interpretationLevel: "Neutral", fichaLink: "https://123actionbarcelona.com/englishyes/coninera/", description: "Strong-willed, intense and cheerful", imageUrl: "Fotos_Personajes/COCINERA_COOK.webp" },
+    { name: "The Housekeeper", gender: "F", interpretationLevel: "Neutral", isBirthdayFriendly: true, isSeniorFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/amadellaves/", description: "Strict and efficient, head of the staff", imageUrl: "Fotos_Personajes/AMA_DE_LLAVES.webp" },
+    { name: "The Maid", gender: "F", interpretationLevel: "Introverted", isKidFriendly: true, isSeniorFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/ladoncella/", description: "Discreet and attentive, often invisible but always present.", imageUrl: "Fotos_Personajes/DONCELLA_THE_MAID.webp" },
+    { name: "The Sister", gender: "F", interpretationLevel: "Extroverted", preferCenterImage: true, fichaLink: "https://123actionbarcelona.com/englishyes/hermana/", description: "Explosive, with strong opinions and a haughty demeanor.", imageUrl: "Fotos_Personajes/LA_HERMANA_THE_SISTER.webp" },
+    { name: "The Secretary", gender: "F", interpretationLevel: "Neutral", fichaLink: "https://123actionbarcelona.com/englishyes/secretaria/", description: "Organized and committed to women's suffrage", imageUrl: "Fotos_Personajes/LA_SECRETARIA.webp" },
+    { name: "The Neighbor 1", gender: "F", interpretationLevel: "Introverted", isSeniorFriendly: true, preferCenterImage: true, fichaLink: "https://123actionbarcelona.com/englishyes/vecinas/", description: "Always up to date with neighborhood gossip.", imageUrl: "Fotos_Personajes/VECINAS.webp" },
+    { name: "The Neighbor 2", gender: "F", interpretationLevel: "Introverted", isSeniorFriendly: true, preferCenterImage: true, fichaLink: "https://123actionbarcelona.com/englishyes/vecinas/", description: "Always up to date with neighborhood gossip.", imageUrl: "Fotos_Personajes/VECINAS.webp" },
+    { name: "The Neighbor 3", gender: "F", interpretationLevel: "Introverted", isSeniorFriendly: true, preferCenterImage: true, fichaLink: "https://123actionbarcelona.com/englishyes/vecinas/", description: "Always up to date with neighborhood gossip.", imageUrl: "Fotos_Personajes/VECINAS.webp" },
+    { name: "The Neighbor 4", gender: "F", interpretationLevel: "Introverted", isSeniorFriendly: true, preferCenterImage: true, fichaLink: "https://123actionbarcelona.com/englishyes/vecinas/", description: "Always up to date with neighborhood gossip.", imageUrl: "Fotos_Personajes/VECINAS.webp" },
+    { name: "The Neighbor 5", gender: "F", interpretationLevel: "Introverted", isSeniorFriendly: true, preferCenterImage: true, fichaLink: "https://123actionbarcelona.com/englishyes/vecinas/", description: "Always up to date with neighborhood gossip.", imageUrl: "Fotos_Personajes/VECINAS.webp" },
+    { name: "The Accountant", gender: "M", interpretationLevel: "Extroverted", isBirthdayFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/gestoresp/", description: "Manages the family fortune and knows all its secrets.", imageUrl: "Fotos_Personajes/GESTOR_ACCOUNTANT.webp" },
+    { name: "The Stepson", gender: "M", interpretationLevel: "Extroverted", fichaLink: "https://123actionbarcelona.com/englishyes/jeremy/", description: "An honorable young military man.", imageUrl: "Fotos_Personajes/HIJASTRO_STEPSON.webp" },
+    { name: "The Brother", gender: "M", interpretationLevel: "Extroverted", preferCenterImage: true, fichaLink: "https://123actionbarcelona.com/englishyes/henry/", description: "Charismatic film director whose mind is solely on art", imageUrl: "Fotos_Personajes/HERMANO_BROTHER.webp" },
+    { name: "The Doctor", gender: "M", interpretationLevel: "Neutral", isBirthdayFriendly: true, isSeniorFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/doctoresp/", description: "Very professional though somewhat know-it-all", imageUrl: "Fotos_Personajes/DOCTOR.webp" },
+    { name: "The Business Partner", gender: "M", interpretationLevel: "Introverted", isKidFriendly: true, isSeniorFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/petersocio/", description: "Businessman with high self-esteem", imageUrl: "Fotos_Personajes/SOCIO.webp" },
+    { name: "The Brother-in-Law", gender: "M", interpretationLevel: "Neutral", fichaLink: "https://123actionbarcelona.com/englishyes/cunadoroy/", description: "Eccentric, fun and a big spender", imageUrl: "Fotos_Personajes/BROTHER_IN_LAW.webp" },
+    { name: "Twin 1", gender: "M", interpretationLevel: "Introverted", isKidFriendly: true, isSeniorFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/losgemelos/", description: "Little genius with a peculiar personality", imageUrl: "Fotos_Personajes/GEMELOS_TWINS.webp" },
+    { name: "Twin 2", gender: "M", interpretationLevel: "Introverted", isKidFriendly: true, isSeniorFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/losgemelos/", description: "Little genius with a peculiar personality", imageUrl: "Fotos_Personajes/GEMELOS_TWINS.webp" }
 ];
 
 const packs_data = {
-    8:  ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor"],
-    9:  ["La Viuda", "El Gestor", "La Sobrina", "El Hermano", "La Cocinera", "El Hijastro", "El Ama de Llaves", "El Doctor", "La Doncella"],
-    10: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio"],
-    11: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio", "La Hermana"],
-    12: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio", "La Hermana", "El Cuñado"],
-    13: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio", "La Hermana", "El Cuñado", "El Gemelo 1"],
-    14: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio", "La Hermana", "El Cuñado", "El Gemelo 1", "El Gemelo 2"],
-    15: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio", "La Hermana", "El Cuñado", "El Gemelo 1", "El Gemelo 2", "La Secretaria"],
-    16: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio", "La Hermana", "El Cuñado", "El Gemelo 1", "El Gemelo 2", "La Vecina 1", "La Vecina 2"],
-    17: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio", "La Hermana", "El Cuñado", "El Gemelo 1", "El Gemelo 2", "La Secretaria", "La Vecina 1", "La Vecina 2"],
-    18: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio", "La Hermana", "El Cuñado", "El Gemelo 1", "El Gemelo 2", "La Secretaria", "La Vecina 1", "La Vecina 2", "La Vecina 3"],
-    19: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio", "La Hermana", "El Cuñado", "El Gemelo 1", "El Gemelo 2", "La Secretaria", "La Vecina 1", "La Vecina 2", "La Vecina 3", "La Vecina 4"],
-    20: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio", "La Hermana", "El Cuñado", "El Gemelo 1", "El Gemelo 2", "La Secretaria", "La Vecina 1", "La Vecina 2", "La Vecina 3", "La Vecina 4", "La Vecina 5"]
+    8:  ["The Widow", "The Accountant", "The Niece", "The Stepson", "The Cook", "The Brother", "The Housekeeper", "The Doctor"],
+    9:  ["The Widow", "The Accountant", "The Niece", "The Brother", "The Cook", "The Stepson", "The Housekeeper", "The Doctor", "The Maid"],
+    10: ["The Widow", "The Accountant", "The Niece", "The Stepson", "The Cook", "The Brother", "The Housekeeper", "The Doctor", "The Maid", "The Business Partner"],
+    11: ["The Widow", "The Accountant", "The Niece", "The Stepson", "The Cook", "The Brother", "The Housekeeper", "The Doctor", "The Maid", "The Business Partner", "The Sister"],
+    12: ["The Widow", "The Accountant", "The Niece", "The Stepson", "The Cook", "The Brother", "The Housekeeper", "The Doctor", "The Maid", "The Business Partner", "The Sister", "The Brother-in-Law"],
+    13: ["The Widow", "The Accountant", "The Niece", "The Stepson", "The Cook", "The Brother", "The Housekeeper", "The Doctor", "The Maid", "The Business Partner", "The Sister", "The Brother-in-Law", "Twin 1"],
+    14: ["The Widow", "The Accountant", "The Niece", "The Stepson", "The Cook", "The Brother", "The Housekeeper", "The Doctor", "The Maid", "The Business Partner", "The Sister", "The Brother-in-Law", "Twin 1", "Twin 2"],
+    15: ["The Widow", "The Accountant", "The Niece", "The Stepson", "The Cook", "The Brother", "The Housekeeper", "The Doctor", "The Maid", "The Business Partner", "The Sister", "The Brother-in-Law", "Twin 1", "Twin 2", "The Secretary"],
+    16: ["The Widow", "The Accountant", "The Niece", "The Stepson", "The Cook", "The Brother", "The Housekeeper", "The Doctor", "The Maid", "The Business Partner", "The Sister", "The Brother-in-Law", "Twin 1", "Twin 2", "The Neighbor 1", "The Neighbor 2"],
+    17: ["The Widow", "The Accountant", "The Niece", "The Stepson", "The Cook", "The Brother", "The Housekeeper", "The Doctor", "The Maid", "The Business Partner", "The Sister", "The Brother-in-Law", "Twin 1", "Twin 2", "The Secretary", "The Neighbor 1", "The Neighbor 2"],
+    18: ["The Widow", "The Accountant", "The Niece", "The Stepson", "The Cook", "The Brother", "The Housekeeper", "The Doctor", "The Maid", "The Business Partner", "The Sister", "The Brother-in-Law", "Twin 1", "Twin 2", "The Secretary", "The Neighbor 1", "The Neighbor 2", "The Neighbor 3"],
+    19: ["The Widow", "The Accountant", "The Niece", "The Stepson", "The Cook", "The Brother", "The Housekeeper", "The Doctor", "The Maid", "The Business Partner", "The Sister", "The Brother-in-Law", "Twin 1", "Twin 2", "The Secretary", "The Neighbor 1", "The Neighbor 2", "The Neighbor 3", "The Neighbor 4"],
+    20: ["The Widow", "The Accountant", "The Niece", "The Stepson", "The Cook", "The Brother", "The Housekeeper", "The Doctor", "The Maid", "The Business Partner", "The Sister", "The Brother-in-Law", "Twin 1", "Twin 2", "The Secretary", "The Neighbor 1", "The Neighbor 2", "The Neighbor 3", "The Neighbor 4", "The Neighbor 5"]
 };
 
 const specialIconDetails = {
     isBirthdayFriendly: {
-        title: '🌟 <strong>Rol principal</strong>',
-        text: 'Permite que el homenajeado se luzca.'
+        title: '🌟 <strong>Main role</strong>',
+        text: 'Lets the honoree shine.'
     },
     isKidFriendly: {
-        title: '🧸 <strong>Apto para menores</strong>',
-        text: 'Fácil de entender y sin contenido +18.'
+        title: '🧸 <strong>Kid friendly</strong>',
+        text: 'Easy to understand and no 18+ content.'
     },
     isSeniorFriendly: {
-        title: '👵🏻 <strong>Personaje versátil</strong>',
-        text: 'Compatible con personas mayores: trama clara y fácil de interpretar.'
+        title: '👵🏻 <strong>Versatile character</strong>',
+        text: 'Compatible with older players: clear plot and easy to play.'
     }
 };
 
 const comboIconDetails = {
     birthday_senior: {
-        title: '🌟👵🏻 <strong>Personaje versátil</strong>',
-        text: '<strong>Compatible con personas mayores:</strong> trama clara y fácil de interpretar, ideal para un papel destacado sin complicaciones.'
+        title: '🌟👵🏻 <strong>Versatile character</strong>',
+        text: '<strong>Suitable for older players:</strong> clear plot and easy to perform, ideal for a prominent yet simple role.'
     },
     kid_senior: {
-        title: '🧸👵🏻 <strong>Personaje versátil</strong>',
-        text: 'Compatible tanto con <strong>jugadores jóvenes</strong> como con <strong>personas mayores</strong>.<br><br>Trama accesible, sin contenido +18 y fácil de interpretar para cualquier tipo de jugador.'
+        title: '🧸👵🏻 <strong>Versatile character</strong>',
+        text: 'Suitable for both <strong>young players</strong> and <strong>older players</strong>.<br><br>Accessible plot, no 18+ content and easy for any type of player.'
     }
 };
 
@@ -73,16 +73,12 @@ const comboIconDetails = {
 
 function getGenderedInterpretationText(level, gender) {
     const firstLetter = level ? level[0].toUpperCase() : "U";
-    let baseWord;
-
     switch (firstLetter) {
-        case "E": baseWord = "Extrovertid"; break;
-        case "I": baseWord = "Introvertid"; break;
-        case "N": baseWord = "Camaleónic"; break;
-        default:  return "Indefinido";
+        case "E": return "Extroverted";
+        case "I": return "Introverted";
+        case "N": return "Chameleonic";
+        default:  return "Undefined";
     }
-    const suffix = (gender && gender.toUpperCase() === "F") ? "a" : "o";
-    return baseWord + suffix;
 }
 
 function triggerGoldenGlow(element) {
@@ -159,7 +155,7 @@ function initializeApp(initialChars, initialPacks) {
                 const toggleTextSpan = btn.querySelector('.toggle-text');
                 const moonIcon = btn.querySelector('.fa-moon');
                 const sunIcon = btn.querySelector('.fa-sun');
-                if (toggleTextSpan) toggleTextSpan.textContent = isDarkMode ? 'Modo Día' : 'Modo Noche';
+                if (toggleTextSpan) toggleTextSpan.textContent = isDarkMode ? 'Day Mode' : 'Night Mode';
                 if (moonIcon) moonIcon.style.display = isDarkMode ? 'none' : 'inline-block';
                 if (sunIcon) sunIcon.style.display = isDarkMode ? 'inline-block' : 'none';
             });
@@ -358,7 +354,7 @@ function initializeApp(initialChars, initialPacks) {
 
             const newInput = document.createElement('input');
             newInput.type = 'text';
-            newInput.placeholder = `Nombre Homenajeado/a ${container.children.length + 1}`;
+            newInput.placeholder = `Honoree Name ${container.children.length + 1}`;
             newInput.className = 'player-name-box honoree-name-input';
             newInput.value = name;
             newInput.addEventListener('blur', () => {
@@ -463,7 +459,7 @@ function initializeApp(initialChars, initialPacks) {
                     const input = document.createElement('input');
                     input.type = 'text'; input.classList.add('player-name-box');
                     input.value = currentHostNameVal + " 🎩"; input.readOnly = true;
-                    input.title = "Anfitrión/Host (configurado arriba)";
+                    input.title = "Host (configured above)";
                     domElements['player-names-grid-container'].appendChild(input);
                     playerBoxIndex++;
                 }
@@ -474,7 +470,7 @@ function initializeApp(initialChars, initialPacks) {
                     const input = document.createElement('input');
                     input.type = 'text'; input.classList.add('player-name-box');
                     input.value = honoreeCleanName + " 🌟"; input.readOnly = true;
-                    input.title = "Homenajeado/a (configurado arriba)";
+                    input.title = "Honoree (configured above)";
                     domElements['player-names-grid-container'].appendChild(input);
                     playerBoxIndex++;
                 }
@@ -523,7 +519,7 @@ function initializeApp(initialChars, initialPacks) {
             domElements['female-characters-grid'].innerHTML = ''; domElements['male-characters-grid'].innerHTML = '';
             const charNames = packs[playerCount];
             if (!charNames) {
-                showToastNotification(`Error interno cargando pack para ${playerCount}.`, 'error');
+                showToastNotification(`Internal error loading pack for ${playerCount}.`, 'error');
                 domElements['main-content-area'].classList.remove('visible-section'); domElements['main-content-area'].classList.add('hidden-section'); return;
             }
             currentCharacters = charNames.map(name => {
@@ -649,7 +645,7 @@ function initializeApp(initialChars, initialPacks) {
                             }
                         }
                         if(existingCharForThisPlayer){
-                            showToastNotification(`"${currentSelectedPlayerName.replace("🎩","").replace("🌟","").trim()}" ya está asignado a "${existingCharForThisPlayer}".`, 'error');
+                            showToastNotification(`"${currentSelectedPlayerName.replace("🎩","").replace("🌟","").trim()}" is already assigned to "${existingCharForThisPlayer}".`, 'error');
                             this.value=previousPlayerForThisChar||"";
                             this.classList.toggle('assigned',!!previousPlayerForThisChar);
                         } else {
@@ -673,8 +669,8 @@ function initializeApp(initialChars, initialPacks) {
                     const isiPhone = /iPhone/i.test(navigator.userAgent);
                     if (isiPhone && navigator.share) {
                         try {
-                            await navigator.share({ title: `Sospechoso: ${d.name}`, text: txt });
-                            showToastNotification('¡Detalles compartidos!', 'success');
+                            await navigator.share({ title: `Suspect: ${d.name}`, text: txt });
+                            showToastNotification('Details shared!', 'success');
                         } catch (error) { console.error('Error al compartir:', error); }
                     } else {
                         openShareMenu(cB, txt, d.name);
@@ -700,9 +696,9 @@ function initializeApp(initialChars, initialPacks) {
 
                     let displayText = playerName;
                     if (playerName.includes("🎩")) {
-                        displayText = playerName + " (Anfitrión)";
+                        displayText = playerName + " (Host)";
                     } else if (playerName.includes("🌟")) {
-                        displayText = playerName + " (Homenajeado)";
+                        displayText = playerName + " (Honoree)";
                     }
                     optionsHtml += `<option value="${playerName}" ${isPlayerAssignedElsewhereFlag ? 'disabled' : ''}>${displayText}</option>`;
                 });
@@ -795,14 +791,14 @@ function initializeApp(initialChars, initialPacks) {
             evidenceCardsContainer.innerHTML = ''; // Limpiar tarjetas anteriores
     
             currentCharacters.forEach(character => {
-                const player = assignedPlayerMap.get(character.name) || 'Sin asignar';
+                const player = assignedPlayerMap.get(character.name) || 'Unassigned';
                 const cleanPlayerName = player.replace(/🎩|🌟/g, '').trim();
     
                 const card = document.createElement('div');
                 card.className = 'evidence-card assigned'; // 'assigned' activa la cinta en CSS
     
                 const personalityText = getGenderedInterpretationText(character.interpretationLevel, character.gender);
-                const emojiMap = {'Extrovertido': '🔥', 'Extrovertida': '🔥', 'Introvertido': '🙈', 'Introvertida': '🙈', 'Camaleónico': '🎭', 'Camaleónica': '🎭'};
+                const emojiMap = {'Extroverted': '🔥', 'Introverted': '🙈', 'Chameleonic': '🎭'};
                 const personalityEmoji = emojiMap[personalityText] || '❔';
     
                 card.innerHTML = `
@@ -1009,8 +1005,8 @@ function initializeApp(initialChars, initialPacks) {
 
             menu.querySelector('.share-copy-option').addEventListener('click', () => {
                 navigator.clipboard.writeText(txt)
-                    .then(() => showToastNotification('Texto copiado al portapapeles', 'success'))
-                    .catch(() => showToastNotification('Error al copiar texto', 'error'));
+                    .then(() => showToastNotification('Text copied to clipboard', 'success'))
+                    .catch(() => showToastNotification('Error copying text', 'error'));
                 closeActiveShareMenu();
             });
 
@@ -1067,7 +1063,7 @@ function initializeApp(initialChars, initialPacks) {
                 domElements['assignment-progress'].style.display = 'none';
             }
 
-            showToastNotification('Has vuelto a la configuración. Los datos se conservan.', 'info');
+            showToastNotification('Returned to setup. Data preserved.', 'info');
         }
 
         function handleStartAssignment() {
@@ -1078,7 +1074,7 @@ function initializeApp(initialChars, initialPacks) {
             eventDateValue = domElements['event-date-input'] ? domElements['event-date-input'].value : "";
 
             if (!eventDateValue) {
-                showToastNotification('Por favor, selecciona la fecha del evento para continuar.', 'error');
+                showToastNotification('Please select the event date to continue.', 'error');
                 if (domElements['event-date-input']) domElements['event-date-input'].focus();
                 return;
             }
@@ -1089,7 +1085,7 @@ function initializeApp(initialChars, initialPacks) {
 
             const playerCount = parseInt(domElements['player-count'].value);
             if (!packs[playerCount]) {
-                showToastNotification(`No hay pack para ${playerCount} jugadores. Packs: ${Object.keys(packs).join(', ')}.`, 'error');
+                showToastNotification(`No pack for ${playerCount} players. Packs: ${Object.keys(packs).join(', ')}.`, 'error');
                 domElements['main-content-area'].classList.remove('visible-section'); domElements['main-content-area'].classList.add('hidden-section'); return;
             }
 
@@ -1115,11 +1111,11 @@ function initializeApp(initialChars, initialPacks) {
             const actualEditableNamesEntered = nameInputs.length > 0 ? Array.from(nameInputs).filter(input => input.value.trim()).length : 0;
 
             if (availablePlayerNames.length !== playerCount) {
-                 showToastNotification(`El número de jugadores (${playerCount}) no coincide con los nombres proporcionados (${availablePlayerNames.length}, incluyendo anfitrión/homenajeados). Revisa los campos. Asegúrate de que todos los jugadores tengan nombre.`, 'error', 6000);
+                 showToastNotification(`The number of players (${playerCount}) doesn't match the provided names (${availablePlayerNames.length}, including host/honorees). Check the fields. Make sure all players have a name.`, 'error', 6000);
                  return;
             }
             if (expectedEditableNames > 0 && actualEditableNamesEntered < expectedEditableNames) {
-                showToastNotification(`Faltan nombres de jugadores. Se esperan ${expectedEditableNames} nombres adicionales.`, 'error', 5000);
+                showToastNotification(`Missing player names. ${expectedEditableNames} additional names expected.`, 'error', 5000);
                 return;
             }
 
@@ -1140,7 +1136,7 @@ function initializeApp(initialChars, initialPacks) {
                         break;
                     }
                 }
-                showToastNotification(`Error: El nombre "${duplicateNameFoundForMessage}" está duplicado. Por favor, usa nombres únicos o añade un distintivo (ej: Ana S.).`, 'error', 6000);
+                showToastNotification(`Error: The name "${duplicateNameFoundForMessage}" is duplicated. Please use unique names or add an identifier (e.g., Ana S.).`, 'error', 6000);
                 return;
             }
 
@@ -1182,10 +1178,10 @@ function initializeApp(initialChars, initialPacks) {
         // Se sobreescribe el listener del botón de imprimir para añadir la lógica completa
         if (domElements['print-dashboard-btn-new']) {
             domElements['print-dashboard-btn-new'].addEventListener('click', async () => {
-                showToastNotification('Generando PDF artístico...', 'info', 6000);
+                showToastNotification('Generating artistic PDF...', 'info', 6000);
 
                 if (typeof window.jspdf === 'undefined' || typeof window.jspdf.jsPDF === 'undefined') {
-                    showToastNotification("Error: La librería jsPDF no está cargada.", 'error');
+                    showToastNotification("Error: jsPDF library not loaded.", 'error');
                     return;
                 }
 
@@ -1266,9 +1262,9 @@ function initializeApp(initialChars, initialPacks) {
                 }
 
                 yPos = drawInfoLine(yPos, "Nº de Sospechosos:", String(totalCards));
-                if (hostName) yPos = drawInfoLine(yPos, "Anfitrión:", hostName);
-                if (hostEmail) yPos = drawInfoLine(yPos, "Email Anfitrión:", hostEmail);
-                if (honoreeNames && honoreeNames.length > 0) yPos = drawInfoLine(yPos, "Homenajeado/a(s):", honoreeNames.join(', '));
+                if (hostName) yPos = drawInfoLine(yPos, "Host:", hostName);
+                if (hostEmail) yPos = drawInfoLine(yPos, "Host Email:", hostEmail);
+                if (honoreeNames && honoreeNames.length > 0) yPos = drawInfoLine(yPos, "Honoree(s):", honoreeNames.join(', '));
 
                 yPos += 3;
                 doc.setDrawColor(colors.light_gold);
@@ -1310,13 +1306,13 @@ function initializeApp(initialChars, initialPacks) {
 
                 // === ENVIAR A N8N VIA WEBHOOK ===
                 try {
-                        showToastNotification('Enviando panel por email...', 'info');
+                        showToastNotification('Sending dashboard via email...', 'info');
                         const beautifulHTML = generateBeautifulEmailHTML(sortedCharacters, formattedDateForFilename, hostName, honoreeNames, totalCards, assignedPlayerMap);
 
                         // Preparamos los datos para el webhook
                         const webhookData = {
                             to: hostEmail,
-                            subject: `Panel Detectivesco - ${formattedDateForFilename}`,
+                            subject: `Detective Panel - ${formattedDateForFilename}`,
                             data: {
                                 event: {
                                     date: formattedDateForFilename,
@@ -1327,7 +1323,7 @@ function initializeApp(initialChars, initialPacks) {
                                 },
                                 assignments: sortedCharacters.map(char => ({
                                     character: char.name,
-                                    player: assignedPlayerMap.get(char.name) || 'Sin asignar',
+                                    player: assignedPlayerMap.get(char.name) || 'Unassigned',
                                     personality: getGenderedInterpretationText(char.interpretationLevel, char.gender).toUpperCase()
                                 })),
                                 emailHTML: beautifulHTML
@@ -1343,23 +1339,23 @@ function initializeApp(initialChars, initialPacks) {
                         });
 
                         if (response.ok) {
-                            showToastNotification('✅ Panel enviado a tu email exitosamente', 'success', 4000);
+                            showToastNotification('✅ Panel sent to your email successfully', 'success', 4000);
                         } else {
                             throw new Error(`Error del servidor: ${response.status}`);
                         }
                 } catch (error) {
                     console.error('Error enviando webhook:', error);
-                    showToastNotification('Error al enviar por email, pero puedes descargar el PDF', 'error', 5000);
+                    showToastNotification('Error sending email, but you can download the PDF', 'error', 5000);
                 }
 
-                showToastNotification('PDF generado correctamente', 'success', 3000);
+                showToastNotification('PDF generated successfully', 'success', 3000);
 
                 if (!isDesktop() && navigator.share && navigator.canShare && navigator.canShare({ files: [pdfFile] })) {
                     try {
                         await navigator.share({ files: [pdfFile], title: 'Panel Detectivesco - Intriga', text: 'Aquí está el panel de asignaciones del juego de intriga.' });
                     } catch (error) {
                         if (error.name !== 'AbortError') {
-                            showToastNotification('Error al compartir. Iniciando descarga...', 'error');
+                            showToastNotification('Error sharing. Starting download...', 'error');
                             doc.save(pdfName);
                         }
                     }
@@ -1601,16 +1597,12 @@ function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, h
     // Helper para obtener el texto de interpretación de la personalidad
     function getGenderedInterpretationText(level, gender) {
         const firstLetter = level ? level[0].toUpperCase() : "U";
-        let baseWord;
-
         switch (firstLetter) {
-            case "E": baseWord = "Extrovertid"; break;
-            case "I": baseWord = "Introvertid"; break;
-            case "N": baseWord = "Camaleónic"; break;
-            default:  return "Indefinido";
+            case "E": return "Extroverted";
+            case "I": return "Introverted";
+            case "N": return "Chameleonic";
+            default:  return "Undefined";
         }
-        const suffix = (gender && gender.toUpperCase() === "F") ? "a" : "o";
-        return baseWord + suffix;
     }
 
     const generationDate = new Date();
@@ -1624,16 +1616,16 @@ function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, h
     };
     const formattedGenerationDateTime = generationDate.toLocaleDateString('es-ES', options);
 
-    let deviceType = "un ordenador";
+    let deviceType = "a computer";
     const userAgent = navigator.userAgent;
     if (/iPhone|iPad|iPod/.test(userAgent)) {
-        deviceType = "un iPhone/iPad";
+        deviceType = "an iPhone/iPad";
     } else if (/Android/.test(userAgent)) {
-        deviceType = "un dispositivo Android";
+        deviceType = "an Android device";
     } else if (/Mobile/.test(userAgent)) {
-        deviceType = "un dispositivo móvil";
+        deviceType = "a mobile device";
     }
-    const generationInfoLine = `Este panel fue generado el ${formattedGenerationDateTime} desde ${deviceType}.`;
+    const generationInfoLine = `This panel was generated on ${formattedGenerationDateTime} from ${deviceType}.`;
 
     let characterCardsHtml = '';
     for (let i = 0; i < sortedCharacters.length; i += 2) {
@@ -1666,7 +1658,7 @@ function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, h
                     <div style="color: #f5e8d5; font-size: 15px; line-height: 1.5;">
                         <p style="margin: 5px 0;">
                             <strong style="color: #c0a062;">👤 Jugador:</strong> 
-                            <span style="font-size: 16px;">${(assignedPlayerMap.get(char1.name) || 'Sin asignar').replace(/🎩|🌟/g, '').trim()}${assignedPlayerMap.get(char1.name)?.includes('🎩') ? ' (Anfitrión)' : assignedPlayerMap.get(char1.name)?.includes('🌟') ? ' (Homenajeado)' : ''}</span>
+                            <span style="font-size: 16px;">${(assignedPlayerMap.get(char1.name) || 'Unassigned').replace(/🎩|🌟/g, '').trim()}${assignedPlayerMap.get(char1.name)?.includes('🎩') ? ' (Host)' : assignedPlayerMap.get(char1.name)?.includes('🌟') ? ' (Honoree)' : ''}</span>
                         </p>
                         <p style="margin: 5px 0;">
                             <strong style="color: #c0a062;">🎭 Personalidad:</strong> 
@@ -1681,7 +1673,7 @@ function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, h
                                 font-size: 13px;
                             ">${(() => {
                                 const interpretationText = getGenderedInterpretationText(char1.interpretationLevel, char1.gender);
-                                const emojiMap = {'Extrovertido': '🔥', 'Extrovertida': '🔥', 'Introvertido': '🙈', 'Introvertida': '🙈', 'Camaleónico': '🎭', 'Camaleónica': '🎭'};
+                                const emojiMap = {'Extroverted': '🔥', 'Introverted': '🙈', 'Chameleonic': '🎭'};
                                 return (emojiMap[interpretationText] || '🎭') + ' ' + interpretationText.toUpperCase();
                             })()}</span>
                         </p>
@@ -1715,7 +1707,7 @@ function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, h
                         <div style="color: #f5e8d5; font-size: 15px; line-height: 1.5;">
                             <p style="margin: 5px 0;">
                                 <strong style="color: #c0a062;">👤 Jugador:</strong> 
-                                <span style="font-size: 16px;">${(assignedPlayerMap.get(char2.name) || 'Sin asignar').replace(/🎩|🌟/g, '').trim()}${assignedPlayerMap.get(char2.name)?.includes('🎩') ? ' (Anfitrión)' : assignedPlayerMap.get(char2.name)?.includes('🌟') ? ' (Homenajeado)' : ''}</span>
+                                <span style="font-size: 16px;">${(assignedPlayerMap.get(char2.name) || 'Unassigned').replace(/🎩|🌟/g, '').trim()}${assignedPlayerMap.get(char2.name)?.includes('🎩') ? ' (Host)' : assignedPlayerMap.get(char2.name)?.includes('🌟') ? ' (Honoree)' : ''}</span>
                             </p>
                             <p style="margin: 5px 0;">
                                 <strong style="color: #c0a062;">🎭 Personalidad:</strong> 
@@ -1730,7 +1722,7 @@ function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, h
                                     font-size: 13px;
                                 ">${(() => {
                                     const interpretationText = getGenderedInterpretationText(char2.interpretationLevel, char2.gender);
-                                    const emojiMap = {'Extrovertido': '🔥', 'Extrovertida': '🔥', 'Introvertido': '🙈', 'Introvertida': '🙈', 'Camaleónico': '🎭', 'Camaleónica': '🎭'};
+                                    const emojiMap = {'Extroverted': '🔥', 'Introverted': '🙈', 'Chameleonic': '🎭'};
                                     return (emojiMap[interpretationText] || '🎭') + ' ' + interpretationText.toUpperCase();
                                 })()}</span>
                             </p>
@@ -1800,8 +1792,8 @@ function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, h
                                             <h2 class="title-text" style="font-family: 'Playfair Display', Georgia, serif; font-weight: 700; color: #e8d8b0; font-size: 24px; margin: 0 0 20px 0;">⚰️ Detalles del Caso ⚰️</h2>
                                             <div style="display: inline-block; text-align: left; font-size: 16px; line-height: 1.8;">
                                                 <p style="margin: 8px 0;"><strong style="color: #c0a062;">📅 Fecha del evento:</strong> <span style="color: #f5e8d5; font-size: 18px;">${formattedDate}</span></p>
-                                                ${hostName ? `<p style="margin: 8px 0;"><strong style="color: #c0a062;">🎩 Anfitrión:</strong> <span style="color: #f5e8d5; font-size: 18px;">${hostName}</span></p>` : ''}
-                                                ${honoreeNames.length > 0 ? `<p style="margin: 8px 0;"><strong style="color: #c0a062;">🌟 Homenajeado(s):</strong> <span style="color: #f5e8d5; font-size: 18px;">${honoreeNames.join(', ')}</span></p>` : ''}
+                                                ${hostName ? `<p style="margin: 8px 0;"><strong style="color: #c0a062;">🎩 Host:</strong> <span style="color: #f5e8d5; font-size: 18px;">${hostName}</span></p>` : ''}
+                                                ${honoreeNames.length > 0 ? `<p style="margin: 8px 0;"><strong style="color: #c0a062;">🌟 Honoree(s):</strong> <span style="color: #f5e8d5; font-size: 18px;">${honoreeNames.join(', ')}</span></p>` : ''}
                                                 <p style="margin: 8px 0;"><strong style="color: #c0a062;">👥 Total de sospechosos:</strong> <span style="color: #f5e8d5; font-size: 18px;">${totalCards}</span></p>
                                             </div>
                                         </td>

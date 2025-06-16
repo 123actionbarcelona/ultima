@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" class="dark-mode">
+<html lang="en" class="dark-mode">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Asignador de Sospechosos - Intriga Años 20</title>
+    <title>Suspect Assigner - 1920s Intrigue</title>
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&amp;family=Lora:wght@400;700&amp;family=Open+Sans:wght@300;400;600&amp;family=Special+Elite&amp;display=swap" rel="stylesheet"/>
@@ -14,15 +14,15 @@
 </head>
 <body>
   <div id="intro-detective">
-    <h1 id="typewriter-title">🕵️‍♂️ Archivo Confidencial: <strong>Testamento Collins</strong></h1>
+    <h1 id="typewriter-title">🕵️‍♂️ Confidential File: <strong>Collins Will</strong></h1>
     <div class="intro-texto">
-      <i>"<strong>Archivo confidencial</strong> del caso Collins. <strong>No abrir</strong> sin autorización."</i><br><br>
-      <b>Departamento de Investigaciones Teatrales</b>
+      <i>"<strong>Confidential file</strong> of the Collins case. <strong>Do not open</strong> without authorization."</i><br><br>
+      <b>Department of Theatrical Investigations</b>
     </div>
-    <label for="clave">🗝️ Clave de acceso:</label>
-    <input type="password" id="clave" placeholder="Introducir clave..." />
-    <button onclick="validarClave()">📂 Abrir Archivo</button>
-    <p id="mensaje-error" style="display:none;">❌ <strong>Clave incorrecta.</strong> Inténtelo de nuevo.</p>
+    <label for="clave">🗝️ Access Key:</label>
+    <input type="password" id="clave" placeholder="Enter key..." />
+    <button onclick="validarClave()">📂 Open File</button>
+    <p id="mensaje-error" style="display:none;">❌ <strong>Incorrect key.</strong> Please try again.</p>
   </div>
 
   <div class="container">
@@ -32,69 +32,69 @@
         <div id="setup-action-buttons">
             <button id="darkModeToggleBtnSetup">
                 <i class="fas fa-moon"></i><i class="fas fa-sun" style="display:none;"></i>
-                <span class="toggle-text">Modo Noche</span>
+                <span class="toggle-text">Night Mode</span>
             </button>
         </div>
         <div class="initial-report-block" id="initial-report-target">
             <p class="initial-report-title">
-                <strong>🕵️ INFORME INICIAL:</strong>
+                <strong>🕵️ INITIAL REPORT:</strong>
             </p>
             <h2 class="initial-report-main-event" id="intro-line-1-heading">
-                Ha ocurrido un <strong>crimen</strong> <span class="coffin-icon">⚰️</span> en la <strong>Mansión Collins</strong>.
+                A <strong>crime</strong> has occurred <span class="coffin-icon">⚰️</span> at <strong>Collins Manor</strong>.
             </h2>
             <h3 class="initial-report-instructions" id="intro-line-2-subheading">
-                Es hora de <strong>reunir a los implicados</strong>. Indica el <strong>número de sospechosos</strong> e introduce los <strong>nombres</strong> para abrir el caso.
+                It's time to <strong>gather those involved</strong>. Specify the <strong>number of suspects</strong> and enter their <strong>names</strong> to open the case.
             </h3>
         </div>
 
         <div class="bloque bloque-2">
             <div class="setup-control-group" style="margin-top: 20px; margin-bottom: 20px;">
-                <label for="event-date-input">🗓️ ¿<strong>Cuándo juegas</strong>?</label>
+                <label for="event-date-input">🗓️ <strong>When are you playing?</strong></label>
                 <input type="date" id="event-date-input" class="player-name-box" required/>
             </div>
         </div>
 
         <div class="bloque bloque-3">
             <div class="setup-control-group" style="margin-bottom: 15px;">
-                <label for="host-name-input">INTRODUCE TU NOMBRE:</label>
-                <input class="player-name-box" id="host-name-input" placeholder="Nombre del Organizador" type="text" required/>
+                <label for="host-name-input">ENTER YOUR NAME:</label>
+                <input class="player-name-box" id="host-name-input" placeholder="Organizer Name" type="text" required/>
             </div>
         </div>
 
         <div class="bloque bloque-4">
             <div class="setup-control-group" style="margin-bottom: 5px;">
-                <label for="has-honoree-checkbox" id="honoree-question-label">¿HAY HOMENAJEAD@?</label>
+                <label for="has-honoree-checkbox" id="honoree-question-label">IS THERE AN HONOREE?</label>
                 <div class="honoree-choice-container">
-                    <button type="button" id="honoree-yes" class="honoree-choice-btn">Sí</button>
+                    <button type="button" id="honoree-yes" class="honoree-choice-btn">Yes</button>
                     <button type="button" id="honoree-no" class="honoree-choice-btn">No</button>
                 </div>
                 <input id="has-honoree-checkbox" type="checkbox" style="display:none;"/>
             </div>
             <div id="honorees-container" style="margin-bottom:15px;"></div>
-            <button id="add-honoree-btn" style="display:none; margin-bottom: 8px; font-size: 0.9em; padding: 8px 15px;" type="button"><i class="fas fa-plus-circle"></i> Añadir Homenajeado/a</button>
+            <button id="add-honoree-btn" style="display:none; margin-bottom: 8px; font-size: 0.9em; padding: 8px 15px;" type="button"><i class="fas fa-plus-circle"></i> Add Honoree</button>
         </div>
 
         <div class="bloque bloque-5">
             <div class="setup-control-group">
-                <label for="player-count">Número de Jugadores: </label>
+                <label for="player-count">Number of Players: </label>
                 <div class="player-count-wrapper">
-                    <button type="button" id="decrement-player-count" class="player-count-btn" aria-label="Disminuir número de jugadores">-</button>
+                    <button type="button" id="decrement-player-count" class="player-count-btn" aria-label="Decrease number of players">-</button>
                     <input id="player-count" max="20" min="8" type="number" value="8"/>
-                    <button type="button" id="increment-player-count" class="player-count-btn" aria-label="Aumentar número de jugadores">+</button>
+                    <button type="button" id="increment-player-count" class="player-count-btn" aria-label="Increase number of players">+</button>
                 </div>
             </div>
         </div>
 
         <div class="bloque bloque-6">
             <div class="setup-control-group">
-                <label id="player-names-label">INTRODUCE EL NOMBRE DE TODOS LOS <strong>JUGADORES</strong>:</label>
+                <label id="player-names-label">ENTER THE NAME OF ALL <strong>PLAYERS</strong>:</label>
                 <div id="player-names-grid-container"></div>
             </div>
         </div>
 
         <div class="bloque bloque-7">
             <div style="text-align: center; margin-top: 20px;">
-                <button id="start-assignment"><i class="fas fa-folder-open start-assignment-icon"></i> Abrir Expediente del Caso</button>
+                <button id="start-assignment"><i class="fas fa-folder-open start-assignment-icon"></i> Open Case File</button>
             </div>
         </div>
         <p class="error-message" id="player-count-error" style="display:none;"></p>
@@ -102,10 +102,10 @@
 
     <div class="hidden-section" id="main-content-area">
         <div id="action-buttons-section">
-            <button id="back-to-setup-btn" aria-label="Volver a Configuración"><i class="fas fa-arrow-left"></i> <span class="back-button-text">Volver a Configuración</span></button>
+            <button id="back-to-setup-btn" aria-label="Back to Setup"><i class="fas fa-arrow-left"></i> <span class="back-button-text">Back to Setup</span></button>
             <button id="darkModeToggleBtn">
                 <i class="fas fa-moon"></i><i class="fas fa-sun" style="display:none;"></i>
-                <span class="toggle-text">Modo Noche</span>
+                <span class="toggle-text">Night Mode</span>
             </button>
         </div>
         <div id="assignment-progress" style="display:none;">
@@ -117,45 +117,45 @@
           📂 <span><strong>Apertura del Expediente:</strong></span>
         </div>
         <div id="detective-guide-section">
-            <h4><i class="fas fa-user-secret"></i> <strong>Confidencial:</strong> Guía del Detective Jefe</h4>
+            <h4><i class="fas fa-user-secret"></i> <strong>Confidential:</strong> Chief Detective Guide</h4>
             <ol>
                 <li class="guide-step-personality">
                     <i class="fas fa-comments guide-icon"></i>
-                    <span>Asigna cada <strong>sospechoso</strong> según la <strong>personalidad de los asistentes</strong>. Para ayudarte a decidir, considera estos <strong>perfiles generales</strong> que identifican a cada sospechoso:</span>
+                    <span>Assign each <strong>suspect</strong> according to the <strong>players' personalities</strong>. To help you decide, consider these <strong>general profiles</strong> that identify each suspect:</span>
                     <div class="guide-pills-wrapper">
-                        <span class="extroversion-pill extroversion-Extrovertido" style="cursor:help;" title="Muy expresivo, hablador, enérgico. Ideal para jugadores que disfrutan destacar y llevar la iniciativa.">
-                            🔥  <strong>EXTROVERTIDO</strong>
+                        <span class="extroversion-pill extroversion-Extrovertido" style="cursor:help;" title="Very expressive, talkative and energetic. Ideal for players who enjoy taking the lead.">
+                            🔥  <strong>EXTROVERTED</strong>
                         </span>
-                        <span class="extroversion-pill extroversion-Introvertido" style="cursor:help;" title="Un personaje más reservado, introspectivo y calmado. Perfecto para jugadores que prefieren observar y actuar con sutileza.">
-                            🙈  <strong>INTROVERTIDO</strong>
+                        <span class="extroversion-pill extroversion-Introvertido" style="cursor:help;" title="A more reserved, introspective and calm character. Perfect for players who prefer to observe and act subtly.">
+                            🙈  <strong>INTROVERTED</strong>
                         </span>
-                        <span class="extroversion-pill extroversion-Neutro" style="cursor:help;" title="Personaje camaleónico y adaptable, capaz de desenvolverse en diversas situaciones. Adecuado para jugadores versátiles.">
-                            🎭  <strong>CAMALEÓNICO</strong>
+                        <span class="extroversion-pill extroversion-Neutro" style="cursor:help;" title="Chameleonic and adaptable character, able to handle diverse situations. Suitable for versatile players.">
+                            🎭  <strong>CHAMELEONIC</strong>
                         </span>
                     </div>
                 </li>
                 <li>
                     <i class="fab fa-whatsapp guide-icon"></i>
-                    <span>Utiliza el botón
+                    <span>Use the button
                         <button class="boton-whatsapp" type="button">
                             <img alt="WhatsApp" src="./Fotos_Personajes/whatapp-logo.WEBP"/>
-                            Compartir por WhatsApp
+                            Share via WhatsApp
                         </button>
-                    en cada ficha para enviar los <strong>detalles del sospechoso</strong> directamente al jugador asignado de forma <strong>confidencial</strong>.</span>
+                    on each card to send the <strong>suspect details</strong> directly to the assigned player <strong>confidentially</strong>.</span>
                 </li>
-                <li><i class="fas fa-print guide-icon"></i>Una vez completado el reparto, presiona el botón "<strong>Compartir / Guardar Panel (PDF)</strong>" para generar un PDF y envíanoslo al <strong>WhatsApp 687630364</strong> o al correo <strong>123actionbcn@gmail.com</strong></li>
+                <li><i class="fas fa-print guide-icon"></i>Once the assignment is finished, press the "<strong>Share / Save Dashboard (PDF)</strong>" button to generate a PDF and send it to <strong>WhatsApp 687630364</strong> or the email <strong>123actionbcn@gmail.com</strong></li>
             </ol>
             <div class="special-considerations">
-                <h5><i class="fas fa-lightbulb"></i> <strong>Significado de los iconos:</strong></h5>
+                <h5><i class="fas fa-lightbulb"></i> <strong>Meaning of the icons:</strong></h5>
                 <ul>
                     <li>
-                        <span style="font-size: 1.3em;" title="Ideal para el/la homenajeado/a">🌟</span> <strong>Para el/la Homenajeado/a:</strong> sospechosos que tienen un <strong>rol más principal</strong>.
+                        <span style="font-size: 1.3em;" title="Ideal for the honoree">🌟</span> <strong>For the Honoree:</strong> suspects with a more <strong>prominent role</strong>.
                     </li>
                     <li>
-                        <span style="font-size: 1.3em;" title="Apto para menores (+12 aprox, con supervisión)">🧸</span> <strong>Apto para Menores de edad:</strong> fáciles de entender y <strong>sin temática +18</strong>.
+                        <span style="font-size: 1.3em;" title="Suitable for minors (+12 approx, with supervision)">🧸</span> <strong>Kid Friendly:</strong> easy to understand and <strong>without 18+ themes</strong>.
                     </li>
                     <li>
-                        <span style="font-size: 1.3em;" title="Ideal para jugadores mayores o novatos">👵🏻</span> <strong>Jugadores Mayores:</strong> fáciles de <strong>entender y representar</strong>.
+                        <span style="font-size: 1.3em;" title="Ideal for older or novice players">👵🏻</span> <strong>Older Players:</strong> easy to <strong>understand and play</strong>.
                     </li>
                 </ul>
             </div>
@@ -164,12 +164,12 @@
         <div id="assignment-section" style="padding: 20px 0;">
             <div class="character-columns-wrapper">
                 <div class="character-column" id="female-characters-column">
-                    <h3><span class="deco-line top"></span><i aria-hidden="true" class="fas fa-female"></i>Sospechosos Femeninos<span class="deco-line bottom"></span></h3>
+                    <h3><span class="deco-line top"></span><i aria-hidden="true" class="fas fa-female"></i>Female Suspects<span class="deco-line bottom"></span></h3>
                     <div class="character-gallery-grid" id="female-characters-grid">
                         </div>
                 </div>
                 <div class="character-column" id="male-characters-column">
-                    <h3><span class="deco-line top"></span><i aria-hidden="true" class="fas fa-male"></i><strong>Sospechosos Masculinos</strong><span class="deco-line bottom"></span></h3>
+                    <h3><span class="deco-line top"></span><i aria-hidden="true" class="fas fa-male"></i><strong>Male Suspects</strong><span class="deco-line bottom"></span></h3>
                     <div class="character-gallery-grid" id="male-characters-grid">
                         </div>
                 </div>
@@ -178,53 +178,53 @@
 
         <div id="completion-banner">
             <div class="case-closed-stamp">
-                <img src="./Fotos_Personajes/completed.png" alt="Sello completado" class="stamp-image"/>
+                <img src="./Fotos_Personajes/completed.png" alt="Completed stamp" class="stamp-image"/>
             </div>
     
-            <div class="folder-label">EXPEDIENTE #1920-TC</div>
+            <div class="folder-label">CASE FILE #1920-TC</div>
     
             <div class="completion-content">
                 <div class="report-header">
-                    <h4>INFORME DE SOSPECHOSOS</h4>
-                    <p class="report-subtitle">Caso: "El Testamento de Mr. Collins"</p>
+                    <h4>SUSPECT REPORT</h4>
+                    <p class="report-subtitle">Case: "The Will of Mr. Collins"</p>
                 </div>
     
                 <div class="case-details">
                     <div class="detail-row">
-                        <span class="detail-label">Detective a cargo:</span>
+                        <span class="detail-label">Lead Detective:</span>
                         <span class="detail-value" id="completion-host-name"></span>
                     </div>
                     <div class="detail-row">
-                        <span class="detail-label">Fecha de INVESTIGACION:</span>
+                        <span class="detail-label">Investigation Date:</span>
                         <span class="detail-value" id="completion-event-date"></span>
                     </div>
                     <div class="detail-row" id="completion-honorees-row" style="display:none;">
-                        <span class="detail-label">Homenajeado(s):</span>
+                        <span class="detail-label">Honoree(s):</span>
                         <span class="detail-value" id="completion-honoree-names"></span>
                     </div>
                     <div class="detail-row">
-                        <span class="detail-label">Sospechosos procesados:</span>
+                        <span class="detail-label">Suspects processed:</span>
                         <span class="detail-value" id="completion-suspect-count"></span>
                     </div>
                     <div class="detail-row">
-                        <span class="detail-label">Estado del caso:</span>
-                        <span class="detail-value" style="color: var(--color-success-darker);">COMPLETADO ✓</span>
+                        <span class="detail-label">Case status:</span>
+                        <span class="detail-value" style="color: var(--color-success-darker);">COMPLETED ✓</span>
                     </div>
                 </div>
     
                 <p class="typewriter-effect" id="completion-message" style="text-align: center; font-family: var(--font-special); color: var(--color-text-dark); margin: 20px 0;">
-                    "Has completado la asignación de sospechosos"
+                    "You have completed the suspect assignment"
                 </p>
     
                 <div class="completion-actions">
                     <button class="action-primary" id="print-dashboard-btn-new">
-                        <i class="fas fa-stamp"></i> GUARDAR ASIGNACION
+                        <i class="fas fa-stamp"></i> SAVE ASSIGNMENT
                     </button>
                 </div>
             </div>
     
             <h3 style="text-align: center; margin-top: 50px; font-family: var(--font-special); color: var(--color-gold-dark);">
-                📋 REGISTRO DE SOSPECHOSOS ASIGNADOS
+                📋 ASSIGNED SUSPECT LOG
             </h3>
     
             <div class="evidence-cards" id="completion-evidence-cards">
