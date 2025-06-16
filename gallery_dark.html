@@ -1,59 +1,311 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
+<html><head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link crossorigin href="https://fonts.gstatic.com/" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?display=swap&family=Creepster&family=Metal+Mania&family=Nosifier" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Creepster%3Awght%40400&amp;family=Metal+Mania%3Awght%40400&amp;family=Nosifier%3Awght%40400" onload="this.rel='stylesheet'" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-<title>Galería de Personajes - Estilo Oscuro</title>
-<link rel="stylesheet" href="spooky.css"/>
-</head>
-<body>
-<header>
-  <h1 class="title">Galería de Personajes</h1>
+<title>Cluedo Character Assignment - Haunted Manor Edition</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+    :root {
+      --primary-color: #4a0404;--background-color: #0a0a0a;--card-background-color: #1a1a1a;--secondary-background-color: #2a2a2a;--text-primary: #a0a0a0;--text-secondary: #6b4f4f;--accent-blood: #8B0000;--progress-bar-fill: var(--accent-blood);
+      --accent-cobweb: #708090;--border-eerie: #4a0404;--font-eerie-title: 'Creepster', cursive;
+      --font-eerie-header: 'Metal Mania', cursive;
+      --font-eerie-body: 'Nosifier', cursive;--font-standard-body: 'Helvetica Neue', sans-serif;}
+    .icon-blood {
+      color: var(--accent-blood);
+    }
+    .card-border-eerie {
+      border: 1px solid var(--border-eerie);
+      box-shadow: 0 0 15px rgba(139, 0, 0, 0.5), inset 0 0 5px rgba(74, 4, 4, 0.3);
+    }
+    .character-image-border-eerie {
+      border: 2px solid var(--border-eerie);
+      filter: grayscale(50%) sepia(30%) contrast(1.1) brightness(0.9);
+      box-shadow: 0 0 10px rgba(139, 0, 0, 0.7);
+    }
+    .text-glow-eerie {
+      text-shadow: 0 0 5px var(--accent-blood), 0 0 10px var(--accent-blood), 0 0 15px rgba(139,0,0,0.5);
+    }
+    .bg-haunted-manor {}
+    .shadow-haunted {
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7), 0 2px 5px rgba(74, 4, 4, 0.5);
+    }
+    .font-title {
+        font-family: var(--font-eerie-title);
+    }
+    .font-header {
+        font-family: var(--font-eerie-header);
+    }
+    .font-body-eerie {font-family: var(--font-eerie-body);
+    }
+    .font-body {
+        font-family: var(--font-standard-body);}
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-[var(--background-color)] bg-haunted-manor font-body" style='font-family: "Helvetica Neue", "Noto Sans", sans-serif;'>
+<div class="relative flex size-full min-h-screen flex-col dark justify-between group/design-root overflow-x-hidden" style="--select-button-svg: url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2724px%27 height=%2724px%27 fill=%27rgb(160,160,160)%27 viewBox=%270 0 256 256%27%3e%3cpath d=%27M181.66,170.34a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-48-48a8,8,0,0,1,11.32-11.32L128,212.69l42.34-42.35A8,8,0,0,1,181.66,170.34Zm-96-84.68L128,43.31l42.34,42.35a8,8,0,0,0,11.32-11.32l-48-48a8,8,0,0,0-11.32,0l-48,48A8,8,0,0,0,85.66,85.66Z%27%3e%3c/path%3e%3c/svg%3e');">
+<div class="flex-grow">
+<header class="sticky top-0 z-10 bg-[var(--background-color)] shadow-haunted">
+<div class="flex items-center p-4 pb-2 justify-between">
+<button class="text-[var(--text-primary)] flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-[var(--secondary-background-color)] transition-colors hover:text-[var(--accent-blood)]">
+<span class="material-icons">arrow_back_ios_new</span>
+</button>
+<h1 class="text-[var(--text-primary)] text-2xl font-title leading-tight tracking-wider flex-1 text-center pr-10 text-glow-eerie">Assign Characters</h1>
+</div>
+<p class="text-[var(--text-secondary)] text-sm font-normal leading-normal pb-3 pt-1 px-4 text-center font-body">
+          Assign spectral entities to your unsuspecting guests. Delve into their deepest fears... or personalities.
+        </p>
+<div class="flex px-4 py-3 justify-center">
+<div class="flex h-10 items-center justify-center rounded-lg bg-[var(--secondary-background-color)] p-1 w-full max-w-xs border border-[var(--border-eerie)]">
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-md px-3 text-xs sm:text-sm font-medium leading-normal has-[:checked]:bg-[var(--accent-blood)] has-[:checked]:text-black has-[:checked]:shadow-md text-[var(--text-primary)] transition-all duration-300 ease-in-out hover:bg-[var(--primary-color)] hover:text-white font-header">
+<span class="truncate">Bold Spirits</span>
+<input checked="" class="invisible w-0" name="personality-profile" type="radio" value="Extroverted"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-md px-3 text-xs sm:text-sm font-medium leading-normal has-[:checked]:bg-[var(--accent-blood)] has-[:checked]:text-black has-[:checked]:shadow-md text-[var(--text-primary)] transition-all duration-300 ease-in-out hover:bg-[var(--primary-color)] hover:text-white font-header">
+<span class="truncate">Shy Phantoms</span>
+<input class="invisible w-0" name="personality-profile" type="radio" value="Introverted"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-md px-3 text-xs sm:text-sm font-medium leading-normal has-[:checked]:bg-[var(--accent-blood)] has-[:checked]:text-black has-[:checked]:shadow-md text-[var(--text-primary)] transition-all duration-300 ease-in-out hover:bg-[var(--primary-color)] hover:text-white font-header">
+<span class="truncate">Shapeshifters</span>
+<input class="invisible w-0" name="personality-profile" type="radio" value="Chameleon"/>
+</label>
+</div>
+</div>
+<div class="flex flex-col gap-2 p-4">
+<div class="flex gap-6 justify-between items-center">
+<p class="text-[var(--text-primary)] text-sm font-medium leading-normal font-header">Souls Claimed:</p>
+<p class="text-[var(--accent-blood)] text-sm font-bold leading-normal text-glow-eerie font-header">3 / 6</p>
+</div>
+<div class="h-2 rounded-full bg-[var(--secondary-background-color)] overflow-hidden border border-[var(--border-eerie)]">
+<div class="h-full rounded-full bg-[var(--progress-bar-fill)] shadow-[0_0_8px_var(--accent-blood)]" style="width: 50%;"></div>
+</div>
+</div>
 </header>
-<main>
-  <section>
-    <h2 class="section-title">Sospechosos Femeninos</h2>
-    <div class="gallery">
-      <div class="card">
-        <img src="Fotos_Personajes/VIUDA_WIDOW.webp" alt="La Viuda"/>
-        <h3>La Viuda</h3>
-        <p>Elegante pero dramática, figura central tras la tragedia.</p>
-      </div>
-      <div class="card">
-        <img src="Fotos_Personajes/COCINERA_COOK.webp" alt="La Cocinera"/>
-        <h3>La Cocinera</h3>
-        <p>De carácter fuerte, intenso y alegre.</p>
-      </div>
-      <div class="card">
-        <img src="Fotos_Personajes/LA_HERMANA_THE_SISTER.webp" alt="La Hermana"/>
-        <h3>La Hermana</h3>
-        <p>Explosiva, con fuertes opiniones.</p>
-      </div>
-    </div>
-  </section>
-  <section>
-    <h2 class="section-title">Sospechosos Masculinos</h2>
-    <div class="gallery">
-      <div class="card">
-        <img src="Fotos_Personajes/GESTOR_ACCOUNTANT.webp" alt="El Gestor"/>
-        <h3>El Gestor</h3>
-        <p>Maneja la fortuna familiar y conoce sus entresijos.</p>
-      </div>
-      <div class="card">
-        <img src="Fotos_Personajes/HERMANO_BROTHER.webp" alt="El Hermano"/>
-        <h3>El Hermano</h3>
-        <p>Carismático director de cine que solo piensa en el arte.</p>
-      </div>
-      <div class="card">
-        <img src="Fotos_Personajes/DOCTOR.webp" alt="El Doctor"/>
-        <h3>El Doctor</h3>
-        <p>Muy profesional aunque va de enterado.</p>
-      </div>
-    </div>
-  </section>
+<main class="pb-24">
+<section>
+<h2 class="text-[var(--accent-blood)] text-xl font-header leading-tight tracking-wider px-4 pb-2 pt-4 border-b-2 border-[var(--accent-blood)] mb-4 inline-block text-glow-eerie">Female Specters</h2>
+<div class="grid grid-cols-1 gap-6 px-4">
+<div class="bg-[var(--card-background-color)] rounded-xl shadow-haunted overflow-hidden card-border-eerie transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-[var(--accent-blood)]/50">
+<div class="p-4">
+<div class="flex items-start justify-between gap-4">
+<div class="flex-grow">
+<p class="text-[var(--text-secondary)] text-xs font-medium tracking-wider uppercase font-header">Miss Scarlet</p>
+<h3 class="text-[var(--text-primary)] text-lg font-bold leading-tight mt-1 font-title text-glow-eerie">The Crimson Temptress</h3>
+<p class="text-[var(--text-secondary)] text-sm font-normal leading-normal mt-2 font-body">A captivating apparition, her beauty undiminished by death, forever seeking a new victim.</p>
+<div class="flex items-center gap-3 mt-3 text-[var(--text-secondary)]">
+<span class="material-icons text-base icon-blood" title="Chosen by the Master">auto_awesome</span>
+<span class="material-icons text-base hover:text-[var(--accent-blood)] transition-colors" title="Child Safe? (Doubtful)">mood_bad</span>
+<span class="material-icons text-base icon-blood" title="Simplicity of Haunting">casino</span>
+</div>
+</div>
+<div class="w-24 h-32 bg-center bg-no-repeat bg-cover rounded-lg flex-shrink-0 character-image-border-eerie" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDYtL7Siwr4JaWPvcfIOJUniLUAIlgSRBqMNTxHdj_KHsBl1SpjIcf4i9HgHyixR2e0sD9bLyZtD2-q8lUIF0V8ZcIGOJ89GGPwULdXubktpKb5jHnthN-61vzcMoqbTc1k0DPnLcXZr7GKWrI3lyp00WxZaRl0nvcSbGu6LloZVFbMB0jIPMe2nEVnOEYMKW0BOmN91Gkd23Dvg2uAG9J7Il1cfA33zUvhjxEr_InrC6B-VAkRr1a4TUTNizFTfezQBlmEOYY9uq4");'></div>
+</div>
+</div>
+<div class="border-t border-[var(--secondary-background-color)] p-4 bg-black/40">
+<div class="flex flex-col sm:flex-row items-center gap-3">
+<select class="form-select flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-blood)] border border-[var(--border-eerie)] bg-[var(--background-color)] focus:border-[var(--accent-blood)] h-12 bg-[image:--select-button-svg] placeholder:text-[var(--text-secondary)] px-3 py-2 text-sm font-normal leading-normal appearance-none font-body">
+<option class="text-[var(--text-secondary)]" value="">Assign to Mortal...</option>
+<option value="player1">Eleanor Vance (Possessed)</option>
+<option disabled="" value="player2">Bartholomew "Barty" Higgins (Possessed)</option>
+<option value="player3">Cecilia Featherbottom</option>
+</select>
+<button class="flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg h-10 px-4 bg-[var(--accent-blood)] text-black text-sm font-bold leading-normal tracking-[0.015em] hover:bg-[var(--primary-color)] hover:text-white transition-all duration-200 shadow-md hover:shadow-lg font-header">
+<span class="material-icons text-base">send</span>
+<span class="truncate">Unleash</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-[var(--card-background-color)] rounded-xl shadow-haunted overflow-hidden card-border-eerie transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-[var(--accent-blood)]/50">
+<div class="p-4">
+<div class="flex items-start justify-between gap-4">
+<div class="flex-grow">
+<p class="text-[var(--text-secondary)] text-xs font-medium tracking-wider uppercase font-header">Mrs. Peacock</p>
+<h3 class="text-[var(--text-primary)] text-lg font-bold leading-tight mt-1 font-title text-glow-eerie">The Spectral Socialite</h3>
+<p class="text-[var(--text-secondary)] text-sm font-normal leading-normal mt-2 font-body">A ghostly aristocrat, forever waltzing through the decaying halls, her finery now rags.</p>
+<div class="flex items-center gap-3 mt-3 text-[var(--text-secondary)]">
+<span class="material-icons text-base hover:text-[var(--accent-blood)] transition-colors" title="Chosen by the Master">star_outline</span>
+<span class="material-icons text-base icon-blood" title="Child Safe? (Relatively)">family_restroom</span>
+<span class="material-icons text-base hover:text-[var(--accent-blood)] transition-colors" title="Simplicity of Haunting">theater_comedy</span>
+</div>
+</div>
+<div class="w-24 h-32 bg-center bg-no-repeat bg-cover rounded-lg flex-shrink-0 character-image-border-eerie" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCPfQMtIWVzOpIgFDSGJqQhFsD138ooEuCV1TncBifmdn1cA9yek53TaPwm-f7HiKG5ZtAcuejqdKTyborqmCTYxMcNZH0Nt4FiLaC2CWKI8F48O-aAnZwJz_xJWsVBTrbdnjh_AvNFzG5P7kRzYhm_7ZQtHPgleDlDgwnalgkGnS1wph9nFtNt-FZdxz8NR5ADcAnh_ZfWmVe-GXsM8f2xxkY7YLxUfLA3XgUVP0zg80enHg3q2g_tFqgc9fcRR29kBN19018liMQ");'></div>
+</div>
+</div>
+<div class="border-t border-[var(--secondary-background-color)] p-4 bg-black/40">
+<div class="flex flex-col sm:flex-row items-center gap-3">
+<select class="form-select flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-blood)] border border-[var(--border-eerie)] bg-[var(--background-color)] focus:border-[var(--accent-blood)] h-12 bg-[image:--select-button-svg] placeholder:text-[var(--text-secondary)] px-3 py-2 text-sm font-normal leading-normal appearance-none font-body">
+<option class="text-[var(--text-secondary)]" value="">Assign to Mortal...</option>
+<option disabled="" value="player1">Eleanor Vance (Possessed)</option>
+<option value="player2">Bartholomew "Barty" Higgins</option>
+<option value="player3">Cecilia Featherbottom</option>
+</select>
+<button class="flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg h-10 px-4 bg-[var(--accent-blood)] text-black text-sm font-bold leading-normal tracking-[0.015em] hover:bg-[var(--primary-color)] hover:text-white transition-all duration-200 shadow-md hover:shadow-lg font-header">
+<span class="material-icons text-base">send</span>
+<span class="truncate">Unleash</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-[var(--card-background-color)] rounded-xl shadow-haunted overflow-hidden card-border-eerie transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-[var(--accent-blood)]/50">
+<div class="p-4">
+<div class="flex items-start justify-between gap-4">
+<div class="flex-grow">
+<p class="text-[var(--text-secondary)] text-xs font-medium tracking-wider uppercase font-header">Mrs. White</p>
+<h3 class="text-[var(--text-primary)] text-lg font-bold leading-tight mt-1 font-title text-glow-eerie">The Weeping Maid</h3>
+<p class="text-[var(--text-secondary)] text-sm font-normal leading-normal mt-2 font-body">A mournful spirit, her cries echo through the manor, forever bound to her earthly duties.</p>
+<div class="flex items-center gap-3 mt-3 text-[var(--text-secondary)]">
+<span class="material-icons text-base hover:text-[var(--accent-blood)] transition-colors" title="Chosen by the Master">star_outline</span>
+<span class="material-icons text-base hover:text-[var(--accent-blood)] transition-colors" title="Child Safe? (Perhaps not)">sentiment_very_dissatisfied</span>
+<span class="material-icons text-base icon-blood" title="Simplicity of Haunting">psychology_alt</span>
+</div>
+</div>
+<div class="w-24 h-32 bg-center bg-no-repeat bg-cover rounded-lg flex-shrink-0 character-image-border-eerie" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA3hDm_tHWLviViP2cQ2JeAo13ftNzu9GA9j_ztZhH8inG3XyBRcuFnyGh-zzAEQVHE-tbQJyMeYMItzj7Dh3tZfkr-n1Es8jgySxQmJ89W4W0fVQBQNwwMeVASP9Mx2Vk-0g-UT5tw6huq6cC82SHj9OkZgmltdkZQK6Cl7sgu4Du-N3BnwCMBEiqV3zBQKLslRrTCSZPM9j24VUoY5ev6JyDkkezxxF2Qc3TN7qeZPPuT6F9-qm9S46rJPIkvfI7PYgtaoEIkIyA");'></div>
+</div>
+</div>
+<div class="border-t border-[var(--secondary-background-color)] p-4 bg-black/40">
+<div class="flex flex-col sm:flex-row items-center gap-3">
+<select class="form-select flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-blood)] border border-[var(--border-eerie)] bg-[var(--background-color)] focus:border-[var(--accent-blood)] h-12 bg-[image:--select-button-svg] placeholder:text-[var(--text-secondary)] px-3 py-2 text-sm font-normal leading-normal appearance-none font-body">
+<option class="text-[var(--text-secondary)]" value="">Assign to Mortal...</option>
+<option disabled="" value="player1">Eleanor Vance (Possessed)</option>
+<option disabled="" value="player2">Bartholomew "Barty" Higgins (Possessed)</option>
+<option value="player3">Cecilia Featherbottom (Possessed)</option>
+</select>
+<button class="flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg h-10 px-4 bg-[var(--accent-blood)] text-black text-sm font-bold leading-normal tracking-[0.015em] hover:bg-[var(--primary-color)] hover:text-white transition-all duration-200 shadow-md hover:shadow-lg font-header">
+<span class="material-icons text-base">send</span>
+<span class="truncate">Unleash</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="mt-8">
+<h2 class="text-[var(--accent-blood)] text-xl font-header leading-tight tracking-wider px-4 pb-2 pt-4 border-b-2 border-[var(--accent-blood)] mb-4 inline-block text-glow-eerie">Malevolent Spirits</h2>
+<div class="grid grid-cols-1 gap-6 px-4">
+<div class="bg-[var(--card-background-color)] rounded-xl shadow-haunted overflow-hidden card-border-eerie transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-[var(--accent-blood)]/50">
+<div class="p-4">
+<div class="flex items-start justify-between gap-4">
+<div class="flex-grow">
+<p class="text-[var(--text-secondary)] text-xs font-medium tracking-wider uppercase font-header">Colonel Mustard</p>
+<h3 class="text-[var(--text-primary)] text-lg font-bold leading-tight mt-1 font-title text-glow-eerie">The Ghastly General</h3>
+<p class="text-[var(--text-secondary)] text-sm font-normal leading-normal mt-2 font-body">A spectral commander, his ghostly orders still echo, forever fighting a forgotten war.</p>
+<div class="flex items-center gap-3 mt-3 text-[var(--text-secondary)]">
+<span class="material-icons text-base icon-blood" title="Chosen by the Master">auto_awesome</span>
+<span class="material-icons text-base icon-blood" title="Child Safe? (Not Recommended)">gavel</span>
+<span class="material-icons text-base hover:text-[var(--accent-blood)] transition-colors" title="Simplicity of Haunting">sports_martial_arts</span>
+</div>
+</div>
+<div class="w-24 h-32 bg-center bg-no-repeat bg-cover rounded-lg flex-shrink-0 character-image-border-eerie" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD0VfKQxqTBrJBSJi9NyGFmITpjOOQMDAL8lc_3K3wLP_7nAuaWeFOK-LysTnN9CCIm1gDiFZiaJ4JV1HOgDn-T6dmKZkWdxrZQwMOTOvUpAxRRgK41zKWHk8fgfWIzxIeoYPs8tjbiH10qtRtlTsLnhpKP2YnUyYJzZzEzJdtyw1aGR7_5AKWayuIWKH68HUq1U6qsGchsxqp9r1b7aTceQZc3C2SMO0UtxJ22daatIxi0NlnLlSBTjaTe945v3j6KIbphQCWoCFE");'></div>
+</div>
+</div>
+<div class="border-t border-[var(--secondary-background-color)] p-4 bg-black/40">
+<div class="flex flex-col sm:flex-row items-center gap-3">
+<select class="form-select flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-blood)] border border-[var(--border-eerie)] bg-[var(--background-color)] focus:border-[var(--accent-blood)] h-12 bg-[image:--select-button-svg] placeholder:text-[var(--text-secondary)] px-3 py-2 text-sm font-normal leading-normal appearance-none font-body">
+<option class="text-[var(--text-secondary)]" value="">Assign to Mortal...</option>
+<option value="player4">Arthur Pendelton</option>
+<option value="player5">Jasper Finch</option>
+</select>
+<button class="flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg h-10 px-4 bg-[var(--accent-blood)] text-black text-sm font-bold leading-normal tracking-[0.015em] hover:bg-[var(--primary-color)] hover:text-white transition-all duration-200 shadow-md hover:shadow-lg font-header">
+<span class="material-icons text-base">send</span>
+<span class="truncate">Unleash</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-[var(--card-background-color)] rounded-xl shadow-haunted overflow-hidden card-border-eerie transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-[var(--accent-blood)]/50">
+<div class="p-4">
+<div class="flex items-start justify-between gap-4">
+<div class="flex-grow">
+<p class="text-[var(--text-secondary)] text-xs font-medium tracking-wider uppercase font-header">Professor Plum</p>
+<h3 class="text-[var(--text-primary)] text-lg font-bold leading-tight mt-1 font-title text-glow-eerie">The Mad Professor</h3>
+<p class="text-[var(--text-secondary)] text-sm font-normal leading-normal mt-2 font-body">His intellect twisted in death, this phantom academic now conducts horrifying experiments.</p>
+<div class="flex items-center gap-3 mt-3 text-[var(--text-secondary)]">
+<span class="material-icons text-base hover:text-[var(--accent-blood)] transition-colors" title="Chosen by the Master">star_outline</span>
+<span class="material-icons text-base hover:text-[var(--accent-blood)] transition-colors" title="Child Safe? (Intellectually Terrifying)">psychology</span>
+<span class="material-icons text-base icon-blood" title="Simplicity of Haunting">science</span>
+</div>
+</div>
+<div class="w-24 h-32 bg-center bg-no-repeat bg-cover rounded-lg flex-shrink-0 character-image-border-eerie" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAkizVTSq0rIlbo61SGriQMMeHN6x7vJFM1vdMMs7fAZAG1qiQjUUd1yxiAvgYuu-c5ECqtobL8Mi6gIDZTJykwitsKDhBXe7pOnLk-ei2biRhDC3Ucf-GtCPvkapBx5xnYJNbCho_kn6O-6Q5Uj7rSc58yxsZXUk_EIXkrkR8A-qZZ2tS9r_ZNihzBqTRWk_Ypfqr7qvItHH-fOEx-Hih9CrOF2p0L6LqH_AHVOMI51fN7_r8x2UHiNg156NJN_b_lDpFbh5BTc18");'></div>
+</div>
+</div>
+<div class="border-t border-[var(--secondary-background-color)] p-4 bg-black/40">
+<div class="flex flex-col sm:flex-row items-center gap-3">
+<select class="form-select flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-blood)] border border-[var(--border-eerie)] bg-[var(--background-color)] focus:border-[var(--accent-blood)] h-12 bg-[image:--select-button-svg] placeholder:text-[var(--text-secondary)] px-3 py-2 text-sm font-normal leading-normal appearance-none font-body">
+<option class="text-[var(--text-secondary)]" value="">Assign to Mortal...</option>
+<option value="player4">Arthur Pendelton</option>
+<option value="player5">Jasper Finch</option>
+</select>
+<button class="flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg h-10 px-4 bg-[var(--accent-blood)] text-black text-sm font-bold leading-normal tracking-[0.015em] hover:bg-[var(--primary-color)] hover:text-white transition-all duration-200 shadow-md hover:shadow-lg font-header">
+<span class="material-icons text-base">send</span>
+<span class="truncate">Unleash</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-[var(--card-background-color)] rounded-xl shadow-haunted overflow-hidden card-border-eerie transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-[var(--accent-blood)]/50">
+<div class="p-4">
+<div class="flex items-start justify-between gap-4">
+<div class="flex-grow">
+<p class="text-[var(--text-secondary)] text-xs font-medium tracking-wider uppercase font-header">Mr. Green</p>
+<h3 class="text-[var(--text-primary)] text-lg font-bold leading-tight mt-1 font-title text-glow-eerie">The Greedy Ghoul</h3>
+<p class="text-[var(--text-secondary)] text-sm font-normal leading-normal mt-2 font-body">Forever counting his spectral coins, this apparition's greed transcends the grave.</p>
+<div class="flex items-center gap-3 mt-3 text-[var(--text-secondary)]">
+<span class="material-icons text-base hover:text-[var(--accent-blood)] transition-colors" title="Chosen by the Master">star_outline</span>
+<span class="material-icons text-base icon-blood" title="Child Safe? (Bad Influence)">attach_money</span>
+<span class="material-icons text-base hover:text-[var(--accent-blood)] transition-colors" title="Simplicity of Haunting">paid</span>
+</div>
+</div>
+<div class="w-24 h-32 bg-center bg-no-repeat bg-cover rounded-lg flex-shrink-0 character-image-border-eerie" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC0vPj7PnSr5qZW6nOwrWOtGrm-F80_UnSoevCV05Q_92yzFV2rakPSccWYC1IEuq5H-EOYRdQRxGaisqoDZmU0gcwapjm6bGQIAxEKAH_Mn9KZw7VtolgKk3ergtAINMyqh9xG6R7EsgcyU0kKdoeaV_QhKF2l3gZXkX1Rq_vkv8DaGZODDDPMa1ITvqFj4mKMaj4ebxRptRHpMP4K0w4uy451c3OlCoV_R4Whu9oYo-ojz3DU6EIY1m_eK3oSKbmt7Zz-jNCrZF8");'></div>
+</div>
+</div>
+<div class="border-t border-[var(--secondary-background-color)] p-4 bg-black/40">
+<div class="flex flex-col sm:flex-row items-center gap-3">
+<select class="form-select flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-blood)] border border-[var(--border-eerie)] bg-[var(--background-color)] focus:border-[var(--accent-blood)] h-12 bg-[image:--select-button-svg] placeholder:text-[var(--text-secondary)] px-3 py-2 text-sm font-normal leading-normal appearance-none font-body">
+<option class="text-[var(--text-secondary)]" value="">Assign to Mortal...</option>
+<option value="player4">Arthur Pendelton</option>
+<option value="player5">Jasper Finch</option>
+</select>
+<button class="flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg h-10 px-4 bg-[var(--accent-blood)] text-black text-sm font-bold leading-normal tracking-[0.015em] hover:bg-[var(--primary-color)] hover:text-white transition-all duration-200 shadow-md hover:shadow-lg font-header">
+<span class="material-icons text-base">send</span>
+<span class="truncate">Unleash</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
 </main>
-</body>
-</html>
+</div>
+<footer class="fixed bottom-0 left-0 right-0 bg-[var(--card-background-color)] border-t border-[var(--border-eerie)] shadow-haunted z-50">
+<nav class="flex justify-around items-center px-2 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))]">
+<a class="flex flex-col items-center justify-end gap-1 text-[var(--text-secondary)] hover:text-[var(--accent-blood)] transition-colors w-1/3 py-1 font-header" href="#">
+<span class="material-icons">home</span>
+<p class="text-xs font-medium leading-normal tracking-[0.015em]">Crypt</p>
+</a>
+<a class="flex flex-col items-center justify-end gap-1 text-[var(--accent-blood)] rounded-t-md w-1/3 py-1 relative font-header" href="#">
+<div class="absolute -top-1 left-1/2 -translate-x-1/2 w-10 h-1 bg-[var(--accent-blood)] rounded-full shadow-[0_0_8px_var(--accent-blood)]"></div>
+<span class="material-icons">church</span>
+<p class="text-xs font-medium leading-normal tracking-[0.015em] text-glow-eerie">Spirits</p>
+</a>
+<a class="flex flex-col items-center justify-end gap-1 text-[var(--text-secondary)] hover:text-[var(--accent-blood)] transition-colors w-1/3 py-1 font-header" href="#">
+<span class="material-icons">history_edu</span>
+<p class="text-xs font-medium leading-normal tracking-[0.015em]">Grimoire</p>
+</a>
+</nav>
+</footer>
+</div>
+
+</body></html>
