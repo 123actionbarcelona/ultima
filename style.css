@@ -1864,10 +1864,10 @@ button .fas, button .fab { margin-right: 8px; }
 @media (max-width: 480px) {
     body { padding: 10px; }
     .container { padding: 15px; }
-    #darkModeToggleBtn, #darkModeToggleBtnSetup { width: 36px; height: 36px; padding: 0; font-size:1em; border-radius: 50%;}
+    #darkModeToggleBtn, #darkModeToggleBtnSetup { width: 40px; height: 40px; padding: 0; font-size:1em; border-radius: 50%;}
     #darkModeToggleBtn .toggle-text, #darkModeToggleBtnSetup .toggle-text { display: none; }
     #darkModeToggleBtn .fas, #darkModeToggleBtnSetup .fas { margin-right: 0; }
-    #back-to-setup-btn { width: 36px; height: 36px; padding: 0; font-size:1em; border-radius: 50%; }
+    #back-to-setup-btn { width: 40px; height: 40px; padding: 0; font-size:1em; border-radius: 50%; }
     #back-to-setup-btn .fas { margin-right: 0; }
     #action-buttons-section {
         flex-direction: row;
@@ -1883,7 +1883,34 @@ button .fas, button .fab { margin-right: 8px; }
     .character-portrait-image, .character-portrait-image-placeholder { height: 200px; }
     .initial-report-main-event { font-size: 1.5em; }
     .initial-report-instructions { font-size: 1.05em; }
-    .popover { width: 210px; }
+    .popover {
+        width: auto;
+        max-width: 190px;
+    }
+    .popover-header {
+        padding: 12px 15px 8px;
+    }
+    .popover-body {
+        padding: 8px 15px 12px;
+    }
+    .popover-title {
+        font-size: 0.8em;
+    }
+    .popover-text {
+        font-size: 0.8em;
+    }
+
+    .case-closed-stamp {
+        width: 120px;
+        height: 120px;
+        top: -20px;
+        right: 10px;
+    }
+    .folder-label {
+        font-size: 0.8em;
+        padding: 6px 15px;
+        left: 20px;
+    }
 
     #completion-message {
         /* Reduce el tamaño del texto para que quepa en pantallas pequeñas */
@@ -1892,6 +1919,59 @@ button .fas, button .fab { margin-right: 8px; }
         animation: none;
         white-space: normal;
         overflow: visible;
+    }
+}
+
+@media (max-width: 380px) {
+    .detail-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+    .detail-label {
+        margin-bottom: 2px;
+        font-size: 0.8em;
+    }
+    .detail-value {
+        font-size: 0.95em;
+    }
+}
+
+@media (max-width: 360px) {
+    .popover {
+        max-width: 160px;
+    }
+    .case-closed-stamp {
+        width: 100px;
+        height: 100px;
+        top: -15px;
+        right: 5px;
+    }
+    .folder-label {
+        left: 10px;
+        font-size: 0.75em;
+        padding: 5px 10px;
+    }
+    .popover-header {
+        padding: 10px 12px 6px;
+    }
+    .popover-body {
+        padding: 6px 12px 10px;
+    }
+}
+
+@media (max-width: 320px) {
+    .player-count-wrapper {
+        gap: 5px;
+    }
+    .player-count-btn {
+        padding: 6px 10px;
+        font-size: 1.1em;
+    }
+    #setup-section input[type="number"]#player-count {
+        width: 55px;
+        padding: 10px 5px;
+        font-size: 1em;
     }
 }
 
