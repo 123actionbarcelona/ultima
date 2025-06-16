@@ -761,13 +761,22 @@ function initializeApp(initialChars, initialPacks) {
                 fillEl.style.width = `${percent}%`;
             }
 
-            progressEl.style.display = totalCharacters > 0 ? 'block' : 'none';
+            if (assignedCharacters === totalCharacters && totalCharacters > 0) {
+                progressEl.style.display = 'none';
+            } else {
+                progressEl.style.display = totalCharacters > 0 ? 'block' : 'none';
+            }
         }
 
-        function populateAndShowCompletionBanner() {
-            const banner = domElements['completion-banner'];
-            if (!banner) return;
-    
+       function populateAndShowCompletionBanner() {
+           const banner = domElements['completion-banner'];
+           if (!banner) return;
+
+            const progressEl = domElements['assignment-progress'];
+            if (progressEl) {
+                progressEl.style.display = 'none';
+            }
+
             // Poblar detalles del informe
             document.getElementById('completion-host-name').textContent = hostName || 'No especificado';
             document.getElementById('completion-event-date').textContent = getFormattedEventDate(eventDateValue) || 'Fecha no especificada';
