@@ -1086,6 +1086,7 @@ function validarClave() {
     if(error) error.style.display = 'block';
   }
 }
+window.validarClave = validarClave;
 
 // 👉👉 FIN BLOQUE 4: ACCIONES PRINCIPALES Y EXPORTACIÓN �👈
 function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, honoreeNames, totalCards, AppState_assignedPlayerMap) {
