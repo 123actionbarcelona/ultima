@@ -1,89 +1,14 @@
 // 👉👉 INICIO BLOQUE 1: CONFIGURACIÓN Y DATOS MAESTROS 👈👈
 
-const allCharacters_data = [
-    { name: "La Viuda", gender: "F", interpretationLevel: "Extrovertido", isBirthdayFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/the-widow/", description: "Elegante pero dramática, figura central tras la tragedia.", imageUrl: "Fotos_Personajes/VIUDA_WIDOW.webp" },
-    { name: "La Sobrina", gender: "F", interpretationLevel: "Neutro", fichaLink: "https://123actionbarcelona.com/englishyes/SOBRINA/", description: "Joven aparentemente dulce y encantadora.", imageUrl: "Fotos_Personajes/LILLY_ROSE.webp" },
-    { name: "La Cocinera", gender: "F", interpretationLevel: "Neutro", fichaLink: "https://123actionbarcelona.com/englishyes/coninera/", description: "De carácter fuerte, intenso y alegre", imageUrl: "Fotos_Personajes/COCINERA_COOK.webp" },
-    { name: "El Ama de Llaves", gender: "F", interpretationLevel: "Neutro", isBirthdayFriendly: true, isSeniorFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/amadellaves/", description: "Recta y eficiente, jefa del servicio", imageUrl: "Fotos_Personajes/AMA_DE_LLAVES.webp" },
-    { name: "La Doncella", gender: "F", interpretationLevel: "Introvertido", isKidFriendly: true, isSeniorFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/ladoncella/", description: "Discreta y atenta, a menudo invisible pero siempre presente.", imageUrl: "Fotos_Personajes/DONCELLA_THE_MAID.webp" },
-    { name: "La Hermana", gender: "F", interpretationLevel: "Extrovertido", preferCenterImage: true, fichaLink: "https://123actionbarcelona.com/englishyes/hermana/", description: "Explosiva, con fuertes opiniones y actitud altiva.", imageUrl: "Fotos_Personajes/LA_HERMANA_THE_SISTER.webp" },
-    { name: "La Secretaria", gender: "F", interpretationLevel: "Neutro", fichaLink: "https://123actionbarcelona.com/englishyes/secretaria/", description: "Organizada y comprometida con el sufragio femenino", imageUrl: "Fotos_Personajes/LA_SECRETARIA.webp" },
-    { name: "La Vecina 1", gender: "F", interpretationLevel: "Introvertido", isSeniorFriendly: true, preferCenterImage: true, fichaLink: "https://123actionbarcelona.com/englishyes/vecinas/", description: "Siempre al tanto de los chismes del vecindario.", imageUrl: "Fotos_Personajes/VECINAS.webp" },
-    { name: "La Vecina 2", gender: "F", interpretationLevel: "Introvertido", isSeniorFriendly: true, preferCenterImage: true, fichaLink: "https://123actionbarcelona.com/englishyes/vecinas/", description: "Siempre al tanto de los chismes del vecindario.", imageUrl: "Fotos_Personajes/VECINAS.webp" },
-    { name: "La Vecina 3", gender: "F", interpretationLevel: "Introvertido", isSeniorFriendly: true, preferCenterImage: true, fichaLink: "https://123actionbarcelona.com/englishyes/vecinas/", description: "Siempre al tanto de los chismes del vecindario.", imageUrl: "Fotos_Personajes/VECINAS.webp" },
-    { name: "La Vecina 4", gender: "F", interpretationLevel: "Introvertido", isSeniorFriendly: true, preferCenterImage: true, fichaLink: "https://123actionbarcelona.com/englishyes/vecinas/", description: "Siempre al tanto de los chismes del vecindario.", imageUrl: "Fotos_Personajes/VECINAS.webp" },
-    { name: "La Vecina 5", gender: "F", interpretationLevel: "Introvertido", isSeniorFriendly: true, preferCenterImage: true, fichaLink: "https://123actionbarcelona.com/englishyes/vecinas/", description: "Siempre al tanto de los chismes del vecindario.", imageUrl: "Fotos_Personajes/VECINAS.webp" },
-    { name: "El Gestor", gender: "M", interpretationLevel: "Extrovertido", isBirthdayFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/gestoresp/", description: "Maneja la fortuna familiar y conoce sus entresijos.", imageUrl: "Fotos_Personajes/GESTOR_ACCOUNTANT.webp" },
-    { name: "El Hijastro", gender: "M", interpretationLevel: "Extrovertido", fichaLink: "https://123actionbarcelona.com/englishyes/jeremy/", description: "Un joven militar de honor muy masculino.", imageUrl: "Fotos_Personajes/HIJASTRO_STEPSON.webp" },
-    { name: "El Hermano", gender: "M", interpretationLevel: "Extrovertido", preferCenterImage: true, fichaLink: "https://123actionbarcelona.com/englishyes/henry/", description: "Carismático director de cine que solo piensa en el arte", imageUrl: "Fotos_Personajes/HERMANO_BROTHER.webp" },
-    { name: "El Doctor", gender: "M", interpretationLevel: "Neutro", isBirthdayFriendly: true, isSeniorFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/doctoresp/", description: "Muy profesional aunque va de enterado", imageUrl: "Fotos_Personajes/DOCTOR.webp" },
-    { name: "El Socio", gender: "M", interpretationLevel: "Introvertido", isKidFriendly: true, isSeniorFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/petersocio/", description: "Hombre de negocios con alta autoestima", imageUrl: "Fotos_Personajes/SOCIO.webp" },
-    { name: "El Cuñado", gender: "M", interpretationLevel: "Neutro", fichaLink: "https://123actionbarcelona.com/englishyes/cunadoroy/", description: "Excéntrico, divertido y derrochador", imageUrl: "Fotos_Personajes/BROTHER_IN_LAW.webp" },
-    { name: "El Gemelo 1", gender: "M", interpretationLevel: "Introvertido", isKidFriendly: true, isSeniorFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/losgemelos/", description: "Pequeño genio de carácter algo particular", imageUrl: "Fotos_Personajes/GEMELOS_TWINS.webp" },
-    { name: "El Gemelo 2", gender: "M", interpretationLevel: "Introvertido", isKidFriendly: true, isSeniorFriendly: true, fichaLink: "https://123actionbarcelona.com/englishyes/losgemelos/", description: "Pequeño genio de carácter algo particular", imageUrl: "Fotos_Personajes/GEMELOS_TWINS.webp" }
-];
-
-const packs_data = {
-    8:  ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor"],
-    9:  ["La Viuda", "El Gestor", "La Sobrina", "El Hermano", "La Cocinera", "El Hijastro", "El Ama de Llaves", "El Doctor", "La Doncella"],
-    10: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio"],
-    11: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio", "La Hermana"],
-    12: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio", "La Hermana", "El Cuñado"],
-    13: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio", "La Hermana", "El Cuñado", "El Gemelo 1"],
-    14: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio", "La Hermana", "El Cuñado", "El Gemelo 1", "El Gemelo 2"],
-    15: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio", "La Hermana", "El Cuñado", "El Gemelo 1", "El Gemelo 2", "La Secretaria"],
-    16: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio", "La Hermana", "El Cuñado", "El Gemelo 1", "El Gemelo 2", "La Vecina 1", "La Vecina 2"],
-    17: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio", "La Hermana", "El Cuñado", "El Gemelo 1", "El Gemelo 2", "La Secretaria", "La Vecina 1", "La Vecina 2"],
-    18: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio", "La Hermana", "El Cuñado", "El Gemelo 1", "El Gemelo 2", "La Secretaria", "La Vecina 1", "La Vecina 2", "La Vecina 3"],
-    19: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio", "La Hermana", "El Cuñado", "El Gemelo 1", "El Gemelo 2", "La Secretaria", "La Vecina 1", "La Vecina 2", "La Vecina 3", "La Vecina 4"],
-    20: ["La Viuda", "El Gestor", "La Sobrina", "El Hijastro", "La Cocinera", "El Hermano", "El Ama de Llaves", "El Doctor", "La Doncella", "El Socio", "La Hermana", "El Cuñado", "El Gemelo 1", "El Gemelo 2", "La Secretaria", "La Vecina 1", "La Vecina 2", "La Vecina 3", "La Vecina 4", "La Vecina 5"]
-};
-
-const specialIconDetails = {
-    isBirthdayFriendly: {
-        title: '🌟 <strong>Rol principal</strong>',
-        text: 'Permite que el homenajeado se luzca.'
-    },
-    isKidFriendly: {
-        title: '🧸 <strong>Apto para menores</strong>',
-        text: 'Fácil de entender y sin contenido +18.'
-    },
-    isSeniorFriendly: {
-        title: '👵🏻 <strong>Personaje versátil</strong>',
-        text: 'Compatible con personas mayores: trama clara y fácil de interpretar.'
-    }
-};
-
-const comboIconDetails = {
-    birthday_senior: {
-        title: '🌟👵🏻 <strong>Personaje versátil</strong>',
-        text: '<strong>Compatible con personas mayores:</strong> trama clara y fácil de interpretar, ideal para un papel destacado sin complicaciones.'
-    },
-    kid_senior: {
-        title: '🧸👵🏻 <strong>Personaje versátil</strong>',
-        text: 'Compatible tanto con <strong>jugadores jóvenes</strong> como con <strong>personas mayores</strong>.<br><br>Trama accesible, sin contenido +18 y fácil de interpretar para cualquier tipo de jugador.'
-    }
-};
+import { allCharacters_data, packs_data, specialIconDetails, comboIconDetails } from './config.js';
+import AppState from './state/AppState.js';
+import { CharacterCard } from './components/CharacterCard.js';
 
 // 👉👉 FIN BLOQUE 1: CONFIGURACIÓN Y DATOS MAESTROS 👈👈
 
 
 // 👉👉 A PARTIR DE AQUÍ PEGAR EL BLOQUE 2: INICIALIZACIÓN Y GESTIÓN DEL ESTADO GLOBAL 👈👈
 // �👉 INICIO BLOQUE 2: INICIALIZACIÓN Y GESTIÓN DEL ESTADO GLOBAL 👈👈
-
-function getGenderedInterpretationText(level, gender) {
-    const firstLetter = level ? level[0].toUpperCase() : "U";
-    let baseWord;
-
-    switch (firstLetter) {
-        case "E": baseWord = "Extrovertid"; break;
-        case "I": baseWord = "Introvertid"; break;
-        case "N": baseWord = "Camaleónic"; break;
-        default:  return "Indefinido";
-    }
-    const suffix = (gender && gender.toUpperCase() === "F") ? "a" : "o";
-    return baseWord + suffix;
-}
 
 function triggerGoldenGlow(element) {
     if (!element) return;
@@ -98,20 +23,6 @@ function triggerGoldenGlow(element) {
     setTimeout(() => {
         element.classList.remove('highlight-glow');
     }, 2000);
-}
-
-function getFormattedEventDate(dateStr) {
-    if (!dateStr) return '';
-    const date = new Date(dateStr + 'T00:00:00');
-    return date.toLocaleDateString('es-ES', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-    });
-}
-
-function isDesktop() {
-    return !/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
 }
 
 function initializeApp(initialChars, initialPacks) {
@@ -174,13 +85,6 @@ function initializeApp(initialChars, initialPacks) {
         });
         updateDarkModeVisuals();
 
-        let currentCharacters = [];
-        let availablePlayerNames = [];
-        let assignedPlayerMap = new Map();
-        let hostName = "";
-        let honoreeNames = [];
-        let eventDateValue = "";
-
         // La función addHonoreeInput se definirá en el Bloque 3, pero se llama desde aquí.
         if (domElements['has-honoree-checkbox']) {
             domElements['has-honoree-checkbox'].addEventListener('change', function() {
@@ -212,7 +116,7 @@ function initializeApp(initialChars, initialPacks) {
 
          if (domElements['host-name-input']) {
             domElements['host-name-input'].addEventListener('blur', () => {
-                 hostName = domElements['host-name-input'].value.trim();
+                 AppState.hostName = domElements['host-name-input'].value.trim();
                  generatePlayerNameInputs(parseInt(domElements['player-count'].value),
                     Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
                  );
@@ -237,7 +141,7 @@ function initializeApp(initialChars, initialPacks) {
         }
         if (domElements['event-date-input']) {
             domElements['event-date-input'].addEventListener('change', () => {
-                eventDateValue = domElements['event-date-input'].value;
+                AppState.eventDateValue = domElements['event-date-input'].value;
             });
              domElements['event-date-input'].addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
@@ -266,51 +170,7 @@ function initializeApp(initialChars, initialPacks) {
 
         let toastTimeout; // La definición de showToastNotification estará en el bloque 3
 
-        function initializeFreshSetupState() {
-            if (!domElements['setup-section'] || !domElements['main-content-area'] ||
-                !domElements['player-count'] || !domElements['player-names-grid-container']) {
-                console.error("Cannot initialize fresh setup state, core elements missing.");
-                return;
-            }
-
-            domElements['setup-section'].style.display = 'block';
-            domElements['main-content-area'].classList.add('hidden-section');
-            domElements['main-content-area'].classList.remove('visible-section');
-            if(domElements['player-count-error']) domElements['player-count-error'].style.display = 'none';
-
-            if(domElements['female-characters-grid']) domElements['female-characters-grid'].innerHTML = '';
-            if(domElements['male-characters-grid']) domElements['male-characters-grid'].innerHTML = '';
-            if (domElements['assignment-table-body']) domElements['assignment-table-body'].innerHTML = '';
-
-            currentCharacters = [];
-            availablePlayerNames = [];
-            assignedPlayerMap.clear();
-
-            if(domElements['host-name-input']) domElements['host-name-input'].value = hostName; else hostName = "";
-
-            if(domElements['has-honoree-checkbox']) {
-                domElements['has-honoree-checkbox'].checked = honoreeNames.length > 0;
-                const event = new Event('change');
-                domElements['has-honoree-checkbox'].dispatchEvent(event);
-                 if (honoreeNames.length > 0 && domElements['honorees-container']) {
-                    domElements['honorees-container'].innerHTML = '';
-                    honoreeNames.forEach(name => addHonoreeInput(name));
-                 }
-            } else {
-                honoreeNames = [];
-                if(domElements['honorees-container']) domElements['honorees-container'].innerHTML = '';
-                if(domElements['add-honoree-btn']) domElements['add-honoree-btn'].style.display = 'none';
-            }
-
-            domElements['player-count'].value = domElements['player-count'].value || "8";
-
-            const existingNames = Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])'))
-                                       .map(input => input.value.trim())
-                                       .filter(name => name);
-
-            generatePlayerNameInputs(parseInt(domElements['player-count'].value), existingNames);
-        }
-
+        // Call the method from AppState, passing necessary local functions
         if(domElements['decrement-player-count'] && domElements['increment-player-count'] && domElements['player-count']) {
             domElements['decrement-player-count'].addEventListener('click', () => {
                 let currentValue = parseInt(domElements['player-count'].value);
@@ -525,172 +385,50 @@ function initializeApp(initialChars, initialPacks) {
                 showToastNotification(`Error interno cargando pack para ${playerCount}.`, 'error');
                 domElements['main-content-area'].classList.remove('visible-section'); domElements['main-content-area'].classList.add('hidden-section'); return;
             }
-            currentCharacters = charNames.map(name => {
+            AppState.currentCharacters = charNames.map(name => {
                 const oCharData = allCharacters_data.find(char => char.name === name);
                 if (!oCharData) { console.warn(`Advertencia: No se encontraron datos para el personaje ${name} en allCharacters_data.`); return null; }
                 return JSON.parse(JSON.stringify(oCharData));
             }).filter(Boolean);
 
-            currentCharacters.forEach((char, i) => {
+            AppState.currentCharacters.forEach((char, i) => {
                 const grid = char.gender === 'F' ? domElements['female-characters-grid'] : domElements['male-characters-grid'];
-                if (grid) { renderCharacterCard(char, grid, i * 0.07); }
+                if (grid) {
+                    const cardInstance = new CharacterCard(
+                        char,
+                        () => AppState.availablePlayerNames, // Getter function for availablePlayerNames
+                        showToastNotification,
+                        openShareMenu,
+                        () => AppState.checkCompletionState(domElements), // Pass domElements here
+                        updateAllPlayerSelects
+                    );
+                    const cardElement = cardInstance.render();
+                    cardElement.style.animationDelay = `${i * 0.07}s`;
+                    grid.appendChild(cardElement);
+                    // TODO: Call attachCardEventListeners equivalent from CharacterCard instance in next step
+                    // cardInstance._attachEventListeners(charId); // This will be done in the next subtask
+                    // For now, we will call the existing global attachCardEventListeners
+                    // to keep functionality during refactoring.
+                    // const charId = char.name.replace(/[^a-zA-Z0-9-_]/g, '').toLowerCase();
+                    // attachCardEventListeners(cardElement, char, charId); // This is now handled by CharacterCard's _attachEventListeners
+                }
             });
         }
 
-        function getExtroversionPill(level, gender) {
-            const map = {"E":"🔥","I":"🙈","N":"🎭","U":"❔"};
-            const cls = {"E":"extroversion-Extrovertido","I":"extroversion-Introvertido","N":"extroversion-Neutro","U":"extroversion-Indefinido"};
-            const key = (level && map[level[0].toUpperCase()]) ? level[0].toUpperCase() : "U";
-            let fullTextDisplay;
-            if (key === "U") {
-                fullTextDisplay = "N/D";
-            } else {
-                fullTextDisplay = getGenderedInterpretationText(level, gender);
-            }
-            return `<span class='extroversion-pill ${cls[key]}'>${map[key]} <strong>${fullTextDisplay.toUpperCase()}</strong></span>`;
-        }
-
-        function createPlayerAssignmentElement(char, id) {
-            return availablePlayerNames.length > 0 ? `<select class="player-assignment-select" id="player-${id}" data-charname="${char.name}"><option value="">-- Seleccionar --</option></select>` : `<input type="text" class="player-assignment-input" id="player-${id}" data-charname="${char.name}" placeholder="Nombre jugador/a">`;
-        }
-
-        function createExtroversionLevelElement(char, id) {
-            const infoIconActivator = `<i class="fas fa-info-circle special-icon-fa"></i>`;
-            let iconsHTML = "";
-            let popoverDetails = null;
-            let decorativeEmojis = "";
-            let popoverDataType = "";
-
-            if (char.isBirthdayFriendly && char.isSeniorFriendly) {
-                popoverDetails = comboIconDetails.birthday_senior;
-                decorativeEmojis = `🌟👵🏻`;
-                popoverDataType = "combo-birthday-senior";
-            } else if (char.isKidFriendly && char.isSeniorFriendly) {
-                popoverDetails = comboIconDetails.kid_senior;
-                decorativeEmojis = `🧸👵🏻`;
-                popoverDataType = "combo-kid-senior";
-            } else if (char.isBirthdayFriendly) {
-                popoverDetails = specialIconDetails.isBirthdayFriendly;
-                decorativeEmojis = `🌟`;
-                popoverDataType = "single-birthday";
-            } else if (char.isKidFriendly) {
-                popoverDetails = specialIconDetails.isKidFriendly;
-                decorativeEmojis = `🧸`;
-                popoverDataType = "single-kid";
-            } else if (char.isSeniorFriendly) {
-                popoverDetails = specialIconDetails.isSeniorFriendly;
-                decorativeEmojis = `👵🏻`;
-                popoverDataType = "single-senior";
-            }
-
-            if (popoverDetails) {
-                iconsHTML = `
-                    <div class="icono-info" data-icon-type="${popoverDataType}">
-                        <span class="decorative-emoji">${decorativeEmojis}</span>
-                        ${infoIconActivator}
-                        <div class="popover-wrapper">
-                            <div class="popover">
-                                <div class="popover-header">
-                                    <h4 class="popover-title">${popoverDetails.title}</h4>
-                                </div>
-                                <div class="popover-body">
-                                    <p class="popover-text">${popoverDetails.text}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`;
-            }
-
-            return `<div class="extroversion-level-wrapper">
-                        <div class="extroversion-level-container">${getExtroversionPill(char.interpretationLevel, char.gender)}</div>
-                        <div class="card-icons-indicators">${iconsHTML}</div>
-                    </div>`;
-        }
-
-        function renderCharacterCard(character, gridDiv, animationDelayValue) {
-            const frame = document.createElement('div');
-            frame.classList.add('character-frame');
-            frame.classList.add('deal-animation');
-            frame.style.animationDelay = `${animationDelayValue}s`;
-
-            frame.dataset.charnameForMandatory = character.name;
-            const charId = character.name.replace(/[^a-zA-Z0-9-_]/g, '').toLowerCase();
-            const imageClass = `character-portrait-image ${character.preferCenterImage ? 'img-position-center' : ''}`;
-            const imageHtml = character.imageUrl ? `<img src="${character.imageUrl}" alt="${character.name}" class="${imageClass}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">` : '';
-            const placeholderHtml = `<div class="character-portrait-image-placeholder" style="${character.imageUrl ? 'display:none;' : 'display:flex;' }"><i class="fas fa-user-secret fa-3x"></i><p>Retrato</p></div>`;
-            const shareButtonHtml = `
-<div class="character-card-actions">
-  <button class="copy-char-btn-frame">
-    <img src="Fotos_Personajes/whatapp-logo.WEBP" alt="WhatsApp" />
-    Compartir por WhatsApp
-  </button>
-</div>`;
-            const nameHtml = `<h4>${character.name}</h4>`;
-            frame.innerHTML = `${imageHtml}${placeholderHtml}<div class="character-portrait-content">${nameHtml}<div class="character-details-section"><p id="desc-${charId}" class="character-description">${character.description||'Descripción no disponible.'}</p></div><div class="character-details-section">${createExtroversionLevelElement(character, charId)}</div>${createPlayerAssignmentElement(character, charId)}${shareButtonHtml}</div>`;
-            gridDiv.appendChild(frame);
-            attachCardEventListeners(frame, character, charId);
-        }
-
-        function attachCardEventListeners(frame, character, charId) {
-            const playerIO = frame.querySelector(`#player-${charId}`);
-            if(playerIO){
-                playerIO.addEventListener(playerIO.tagName==='SELECT'?'change':'input',function(){
-                    const currentSelectedPlayerName=this.value.trim();
-                    const characterName=this.dataset.charname;
-                    const previousPlayerForThisChar=assignedPlayerMap.get(characterName);
-                    
-                    if(currentSelectedPlayerName){
-                        let existingCharForThisPlayer=null;
-                        for(const[char,player]of assignedPlayerMap.entries()){
-                            if(player===currentSelectedPlayerName&&char!==characterName){
-                                existingCharForThisPlayer=char;
-                                break;
-                            }
-                        }
-                        if(existingCharForThisPlayer){
-                            showToastNotification(`"${currentSelectedPlayerName.replace("🎩","").replace("🌟","").trim()}" ya está asignado a "${existingCharForThisPlayer}".`, 'error');
-                            this.value=previousPlayerForThisChar||"";
-                            this.classList.toggle('assigned',!!previousPlayerForThisChar);
-                        } else {
-                            assignedPlayerMap.set(characterName,currentSelectedPlayerName);
-                            this.classList.add('assigned');
-                        }
-                    } else {
-                        assignedPlayerMap.delete(characterName);
-                        this.classList.remove('assigned');
-                    }
-                    updateAllPlayerSelects();
-                    checkCompletionState(); // <--- LLAMADA A LA NUEVA LÓGICA
-                });
-            }
-            const cB=frame.querySelector('.copy-char-btn-frame');
-            if(cB){cB.addEventListener('click', async ()=>{
-                const d=currentCharacters.find(c=>c.name===character.name);
-                const pA=(playerIO?(playerIO.value.trim()||"[Nombre del Jugador]"):"[Nombre del Jugador]").replace("🎩","").replace("🌟","").trim();
-                if(d){
-                    const txt = `¡Hola ${pA}!\n\nAquí tienes los detalles de tu sospechoso para el Cluedo en vivo “El Testamento de Mr. Collins”:\n\n🕵️ SOSPECHOSO: ${d.name}\n📜 DESCRIPCIÓN: ${d.description}\n\n🔗 Accede a tu ficha completa aquí: ${d.fichaLink||'N/A'}\n\n¡Recuerda que toda la información de la ficha es confidencial! 🤫`;
-                    const isiPhone = /iPhone/i.test(navigator.userAgent);
-                    if (isiPhone && navigator.share) {
-                        try {
-                            await navigator.share({ title: `Sospechoso: ${d.name}`, text: txt });
-                            showToastNotification('¡Detalles compartidos!', 'success');
-                        } catch (error) { console.error('Error al compartir:', error); }
-                    } else {
-                        openShareMenu(cB, txt, d.name);
-                    }
-                }
-            });}
-        }
+        // This function will be moved to CharacterCard.js or its logic incorporated there
+        // For now, it's called by the card instances via callbacks or directly if still needed globally.
+        // If CharacterCard calls _attachEventListeners itself, this global one might become redundant for new cards.
+        // function attachCardEventListeners(frame, character, charId) { ... } // Moved to CharacterCard.js
 
         function updateAllPlayerSelects() {
-             if(availablePlayerNames.length===0)return;
+             if(AppState.availablePlayerNames.length===0)return;
             document.querySelectorAll('.character-portrait-content select.player-assignment-select').forEach(sel=>{
                 const charNameForThisSelect=sel.dataset.charname;
 
                 let optionsHtml='<option value="">-- Seleccionar --</option>';
-                availablePlayerNames.forEach(playerName=>{
+                AppState.availablePlayerNames.forEach(playerName=>{
                     let isPlayerAssignedElsewhereFlag=false;
-                    for(const[assignedChar,assignedPlayer]of assignedPlayerMap.entries()){
+                    for(const[assignedChar,assignedPlayer]of AppState.assignedPlayerMap.entries()){
                         if(assignedPlayer===playerName && assignedChar!==charNameForThisSelect){
                             isPlayerAssignedElsewhereFlag=true;
                             break;
@@ -707,7 +445,7 @@ function initializeApp(initialChars, initialPacks) {
                 });
                 sel.innerHTML=optionsHtml;
 
-                const playerActuallyAssignedToThisChar = assignedPlayerMap.get(charNameForThisSelect);
+                const playerActuallyAssignedToThisChar = AppState.assignedPlayerMap.get(charNameForThisSelect);
                 if(playerActuallyAssignedToThisChar){
                     sel.value=playerActuallyAssignedToThisChar;
                     sel.classList.add('assigned');
@@ -722,260 +460,18 @@ function initializeApp(initialChars, initialPacks) {
         // =========================================================
         // === CAMBIO: NUEVAS FUNCIONES PARA EL BANNER DE ÉXITO ===
         // =========================================================
-        function checkCompletionState() {
-            const banner = domElements['completion-banner'];
-            if (!banner) return;
-
-            const totalCharacters = currentCharacters.length;
-            const assignedCharacters = assignedPlayerMap.size;
-
-            updateAssignmentProgress(totalCharacters, assignedCharacters);
-    
-            if (totalCharacters > 0 && assignedCharacters === totalCharacters) {
-                const alreadyVisible = banner.classList.contains('visible');
-                if (!alreadyVisible) {
-                    // Solo ejecutar si no estaba ya visible
-                    populateAndShowCompletionBanner();
-                    setTimeout(() => {
-                        banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }, 250);
-                }
-            } else {
-                banner.classList.remove('visible');
-            }
-        }
-
-        function updateAssignmentProgress(totalCharacters, assignedCharacters) {
-            const progressEl = domElements['assignment-progress'];
-            if (!progressEl) return;
-
-            const textEl = progressEl.querySelector('.progress-text');
-            const fillEl = progressEl.querySelector('.progress-bar-fill');
-
-            if (textEl) {
-                textEl.textContent = `${assignedCharacters} / ${totalCharacters}`;
-            }
-            if (fillEl) {
-                const percent = totalCharacters > 0 ? (assignedCharacters / totalCharacters) * 100 : 0;
-                fillEl.style.width = `${percent}%`;
-            }
-
-            if (assignedCharacters === totalCharacters && totalCharacters > 0) {
-                progressEl.style.display = 'none';
-            } else {
-                progressEl.style.display = totalCharacters > 0 ? 'block' : 'none';
-            }
-        }
-
-       function populateAndShowCompletionBanner() {
-           const banner = domElements['completion-banner'];
-           if (!banner) return;
-
-            const progressEl = domElements['assignment-progress'];
-            if (progressEl) {
-                progressEl.style.display = 'none';
-            }
-
-            // Poblar detalles del informe
-            document.getElementById('completion-host-name').textContent = hostName || 'No especificado';
-            document.getElementById('completion-event-date').textContent = getFormattedEventDate(eventDateValue) || 'Fecha no especificada';
-            document.getElementById('completion-suspect-count').textContent = `${currentCharacters.length} individuos`;
-    
-            const honoreesRow = document.getElementById('completion-honorees-row');
-            if (honoreeNames.length > 0) {
-                document.getElementById('completion-honoree-names').textContent = honoreeNames.join(', ');
-                honoreesRow.style.display = 'flex';
-            } else {
-                honoreesRow.style.display = 'none';
-            }
-    
-            // Generar tarjetas de evidencia
-            const evidenceCardsContainer = document.getElementById('completion-evidence-cards');
-            evidenceCardsContainer.innerHTML = ''; // Limpiar tarjetas anteriores
-    
-            currentCharacters.forEach(character => {
-                const player = assignedPlayerMap.get(character.name) || 'Sin asignar';
-                const cleanPlayerName = player.replace(/🎩|🌟/g, '').trim();
-    
-                const card = document.createElement('div');
-                card.className = 'evidence-card assigned'; // 'assigned' activa la cinta en CSS
-    
-                const personalityText = getGenderedInterpretationText(character.interpretationLevel, character.gender);
-                const emojiMap = {'Extrovertido': '🔥', 'Extrovertida': '🔥', 'Introvertido': '🙈', 'Introvertida': '🙈', 'Camaleónico': '🎭', 'Camaleónica': '🎭'};
-                const personalityEmoji = emojiMap[personalityText] || '❔';
-    
-                card.innerHTML = `
-                    <div class="evidence-card-content">
-                        <h4>${character.name}</h4>
-                        <p>Asignado a: ${cleanPlayerName}</p>
-                        <p style="font-size: 0.8em; margin-top: 5px;">${personalityEmoji} ${personalityText}</p>
-                    </div>
-                `;
-                evidenceCardsContainer.appendChild(card);
-            });
-    
-            // Activar la animación del banner
-            banner.classList.add('visible');
-            
-            // Reiniciar la animación del texto de máquina de escribir si existe
-            const typewriterEl = document.getElementById('completion-message');
-            if(typewriterEl) {
-                 typewriterEl.style.animation = 'none';
-                 void typewriterEl.offsetWidth; // Force reflow
-                 typewriterEl.style.animation = 'typing 2s steps(40, end) 1.8s both';
-            }
-        }
-        // =========================================================
-        // === FIN DE CAMBIO =======================================
-        // =========================================================
-
         // --- INICIO: Lógica de Popovers ---
-        let activePopoverElements = null;
-        let activeShareMenu = null;
+        // let activePopoverElements = null; // Moved to CharacterCard instance
+        let activeShareMenu = null; // This seems to be for a global share menu, might need to stay or be refactored
 
-        function adjustPopoverPosition(iconTriggerElement, popoverWrapper, popover, frame) {
-            const iconContainer = iconTriggerElement.closest('.icono-info');
-            if (!iconContainer || !popoverWrapper || !popover || !frame) return;
+        // function adjustPopoverPosition(iconTriggerElement, popoverWrapper, popover, frame) { ... } // Moved to CharacterCard
+        // function openPopover(iconTriggerElement) { ... } // Moved to CharacterCard
+        // function closePopover(iconContainer) { ... } // Moved to CharacterCard
+        // function togglePopover(iconTriggerElement) { ... } // Moved to CharacterCard
 
-            const iconContainerRect = iconContainer.getBoundingClientRect();
-            const frameRect = frame.getBoundingClientRect();
-            const popoverHeight = popover.offsetHeight;
-            const popoverWidth = popover.offsetWidth;
-            const arrowAndGapHeight = 12;
-            const popoverMarginFromControls = 5;
+        // document.addEventListener('click', function(e) { ... }); // Popover part moved to CharacterCard, share menu part might need to stay if global
 
-            if (popoverWidth === 0 || popoverHeight === 0) return;
-
-            const currentPopoverWrapperRect = popoverWrapper.getBoundingClientRect();
-
-            let boundaryCorrectionShiftPx = 0;
-            if (currentPopoverWrapperRect.left < frameRect.left) {
-                boundaryCorrectionShiftPx = frameRect.left - currentPopoverWrapperRect.left;
-            } else if (currentPopoverWrapperRect.right > frameRect.right) {
-                boundaryCorrectionShiftPx = frameRect.right - currentPopoverWrapperRect.right;
-            }
-
-            const visualNudgePx = -1.5;
-
-            popoverWrapper.style.transform = `translateX(-50%) translateX(${boundaryCorrectionShiftPx + visualNudgePx}px)`;
-
-            popover.classList.remove('popover-above');
-            popoverWrapper.style.top = `calc(100% + ${arrowAndGapHeight}px)`;
-            popoverWrapper.style.bottom = 'auto';
-
-            const selectElement = frame.querySelector('.player-assignment-select');
-            let contentAreaBottomLimit = frameRect.bottom;
-            if (selectElement) {
-                const selectRect = selectElement.getBoundingClientRect();
-                contentAreaBottomLimit = selectRect.top - popoverMarginFromControls;
-            }
-            contentAreaBottomLimit = Math.max(contentAreaBottomLimit, iconContainerRect.bottom + arrowAndGapHeight + 20);
-
-            const popoverTopEdgeIfBelow = iconContainerRect.bottom + arrowAndGapHeight;
-            const popoverBottomIfBelow = popoverTopEdgeIfBelow + popoverHeight;
-            const popoverBottomEdgeIfAbove = iconContainerRect.top - arrowAndGapHeight;
-            const popoverTopIfAbove = popoverBottomEdgeIfAbove - popoverHeight;
-
-            const fitsNicelyBelow = popoverBottomIfBelow <= contentAreaBottomLimit;
-            const fitsWithinFrameAbove = popoverTopIfAbove >= frameRect.top;
-
-            if (!fitsNicelyBelow && fitsWithinFrameAbove) {
-                popoverWrapper.style.top = 'auto';
-                popoverWrapper.style.bottom = `calc(100% + ${arrowAndGapHeight}px)`;
-                popover.classList.add('popover-above');
-            }
-        }
-
-        function openPopover(iconTriggerElement) {
-            const iconContainer = iconTriggerElement.closest('.icono-info');
-            if (!iconContainer) return;
-
-            document.querySelectorAll('.icono-info.active').forEach(activeIconContainer => {
-                if (activeIconContainer !== iconContainer) closePopover(activeIconContainer);
-            });
-
-            iconContainer.classList.add('active');
-            iconContainer.closest('.character-frame')?.classList.add('popover-active-frame');
-
-            const popoverWrapper = iconContainer.querySelector('.popover-wrapper');
-            const popover = iconContainer.querySelector('.popover');
-            const frame = iconContainer.closest('.character-frame');
-
-            if (popoverWrapper && popover && frame) {
-                popover.classList.remove('popover-above');
-                popoverWrapper.style.top = `calc(100% + 12px)`;
-                popoverWrapper.style.bottom = 'auto';
-                popoverWrapper.style.transform = 'translateX(-50%)';
-
-                requestAnimationFrame(() => {
-                    adjustPopoverPosition(iconTriggerElement, popoverWrapper, popover, frame);
-                    activePopoverElements = { iconEl: iconContainer, wrapper: popoverWrapper, popoverEl: popover, frameEl: frame, triggerEl: iconTriggerElement };
-                });
-            }
-        }
-
-        function closePopover(iconContainer) {
-            if (!iconContainer || !iconContainer.classList.contains('active')) return;
-            iconContainer.classList.remove('active');
-            iconContainer.closest('.character-frame')?.classList.remove('popover-active-frame');
-
-            const popoverWrapper = iconContainer.querySelector('.popover-wrapper');
-            if (popoverWrapper) {
-                popoverWrapper.style.transform = 'translateX(-50%)';
-            }
-            if (activePopoverElements && activePopoverElements.iconEl === iconContainer) {
-                activePopoverElements = null;
-            }
-        }
-
-        function togglePopover(iconTriggerElement) {
-            const iconContainer = iconTriggerElement.closest('.icono-info');
-            if (!iconContainer) return;
-            if (iconContainer.classList.contains('active')) {
-                closePopover(iconContainer);
-            } else {
-                openPopover(iconTriggerElement);
-            }
-        }
-
-        document.addEventListener('click', function(e) {
-            const clickedIconTrigger = e.target.closest('.special-icon-fa');
-            const clickedIconContainer = e.target.closest('.icono-info');
-
-            if (e.target.closest('.popover')) return;
-
-            if (clickedIconTrigger) {
-                e.stopPropagation();
-                togglePopover(clickedIconTrigger);
-            } else {
-                if (!clickedIconContainer) {
-                        document.querySelectorAll('.icono-info.active').forEach(activeIconEl => {
-                            closePopover(activeIconEl);
-                        });
-                }
-            }
-        });
-
-        window.addEventListener('resize', () => {
-            if (activePopoverElements && activePopoverElements.iconEl.classList.contains('active')) {
-                activePopoverElements.wrapper.style.transform = 'translateX(-50%)';
-                activePopoverElements.popoverEl.classList.remove('popover-above');
-                activePopoverElements.wrapper.style.top = `calc(100% + 12px)`;
-                activePopoverElements.wrapper.style.bottom = 'auto';
-
-                requestAnimationFrame(() => {
-                    const originalIconTrigger = activePopoverElements.triggerEl;
-                    if (originalIconTrigger) {
-                            adjustPopoverPosition(
-                            originalIconTrigger,
-                            activePopoverElements.wrapper,
-                            activePopoverElements.popoverEl,
-                            activePopoverElements.frameEl
-                        );
-                    }
-                });
-            }
-        });
+        // window.addEventListener('resize', () => { ... }); // Global popover resize listener removed.
 
         function closeActiveShareMenu() {
             if (activeShareMenu) {
@@ -1047,7 +543,7 @@ function initializeApp(initialChars, initialPacks) {
 
                 // Restore previously entered host and date values
                 if (domElements['host-name-input']) {
-                    domElements['host-name-input'].value = hostName;
+                    domElements['host-name-input'].value = AppState.hostName;
                 }
 
                 const existingNames = Array.from(domElements['player-names-grid-container']?.querySelectorAll('input.player-name-box'))
@@ -1070,17 +566,17 @@ function initializeApp(initialChars, initialPacks) {
             if (!domElements['player-count'] || !domElements['player-count-error'] || !domElements['main-content-area'] ||
                 !domElements['player-names-grid-container'] || !domElements['setup-section']) { return; }
 
-            hostName = domElements['host-name-input'] ? domElements['host-name-input'].value.trim() : "";
-            eventDateValue = domElements['event-date-input'] ? domElements['event-date-input'].value : "";
+            AppState.hostName = domElements['host-name-input'] ? domElements['host-name-input'].value.trim() : "";
+            AppState.eventDateValue = domElements['event-date-input'] ? domElements['event-date-input'].value : "";
 
-            if (!eventDateValue) {
+            if (!AppState.eventDateValue) {
                 showToastNotification('Por favor, selecciona la fecha del evento para continuar.', 'error');
                 if (domElements['event-date-input']) domElements['event-date-input'].focus();
                 return;
             }
 
             const honoreeNameInputs = domElements['honorees-container'] ? Array.from(domElements['honorees-container'].querySelectorAll('.honoree-name-input')) : [];
-            honoreeNames = honoreeNameInputs.map(input => input.value.trim()).filter(name => name);
+            AppState.honoreeNames = honoreeNameInputs.map(input => input.value.trim()).filter(name => name);
 
 
             const playerCount = parseInt(domElements['player-count'].value);
@@ -1089,29 +585,29 @@ function initializeApp(initialChars, initialPacks) {
                 domElements['main-content-area'].classList.remove('visible-section'); domElements['main-content-area'].classList.add('hidden-section'); return;
             }
 
-            availablePlayerNames = [];
-            if (hostName) {
-                availablePlayerNames.push(hostName + " 🎩");
+            AppState.availablePlayerNames = [];
+            if (AppState.hostName) {
+                AppState.availablePlayerNames.push(AppState.hostName + " 🎩");
             }
-            honoreeNames.forEach(hNameClean => {
+            AppState.honoreeNames.forEach(hNameClean => {
                 if (hNameClean) {
-                   availablePlayerNames.push(hNameClean + " 🌟");
+                   AppState.availablePlayerNames.push(hNameClean + " 🌟");
                 }
             });
             const nameInputs = domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])');
             nameInputs.forEach(input => {
                 const cleanName = input.value.trim();
                 if (cleanName) {
-                    availablePlayerNames.push(cleanName);
+                    AppState.availablePlayerNames.push(cleanName);
                 }
             });
 
-            const totalPreFilledNames = (hostName ? 1 : 0) + honoreeNames.length;
+            const totalPreFilledNames = (AppState.hostName ? 1 : 0) + AppState.honoreeNames.length;
             const expectedEditableNames = playerCount - totalPreFilledNames;
             const actualEditableNamesEntered = nameInputs.length > 0 ? Array.from(nameInputs).filter(input => input.value.trim()).length : 0;
 
-            if (availablePlayerNames.length !== playerCount) {
-                 showToastNotification(`El número de jugadores (${playerCount}) no coincide con los nombres proporcionados (${availablePlayerNames.length}, incluyendo anfitrión/homenajeados). Revisa los campos. Asegúrate de que todos los jugadores tengan nombre.`, 'error', 6000);
+            if (AppState.availablePlayerNames.length !== playerCount) {
+                 showToastNotification(`El número de jugadores (${playerCount}) no coincide con los nombres proporcionados (${AppState.availablePlayerNames.length}, incluyendo anfitrión/homenajeados). Revisa los campos. Asegúrate de que todos los jugadores tengan nombre.`, 'error', 6000);
                  return;
             }
             if (expectedEditableNames > 0 && actualEditableNamesEntered < expectedEditableNames) {
@@ -1120,7 +616,7 @@ function initializeApp(initialChars, initialPacks) {
             }
 
 
-            const cleanPlayerNamesForCheck = availablePlayerNames.map(nameWithEmoji =>
+            const cleanPlayerNamesForCheck = AppState.availablePlayerNames.map(nameWithEmoji =>
                 nameWithEmoji.replace("🎩","").replace("🌟","").trim().toLowerCase()
             );
             const uniqueNames = new Set(cleanPlayerNamesForCheck);
@@ -1128,7 +624,7 @@ function initializeApp(initialChars, initialPacks) {
             if (uniqueNames.size !== cleanPlayerNamesForCheck.length) {
                 const nameCounts = {};
                 let duplicateNameFoundForMessage = "";
-                for (const originalName of availablePlayerNames) {
+                for (const originalName of AppState.availablePlayerNames) {
                     const cleanName = originalName.replace("🎩","").replace("🌟","").trim().toLowerCase();
                     nameCounts[cleanName] = (nameCounts[cleanName] || 0) + 1;
                     if (nameCounts[cleanName] > 1) {
@@ -1142,16 +638,16 @@ function initializeApp(initialChars, initialPacks) {
 
 
             const charNames = packs[playerCount];
-            const isSameCharacters = currentCharacters.length === charNames.length &&
-                                    currentCharacters.every((c, idx) => c.name === charNames[idx]);
+            const isSameCharacters = AppState.currentCharacters.length === charNames.length &&
+                                    AppState.currentCharacters.every((c, idx) => c.name === charNames[idx]);
 
             if (!isSameCharacters) {
-                const previousAssignments = new Map(assignedPlayerMap);
-                assignedPlayerMap.clear();
+                const previousAssignments = new Map(AppState.assignedPlayerMap);
+                AppState.assignedPlayerMap.clear();
                 setupCharacterSelection(playerCount);
                 charNames.forEach(name => {
                     if (previousAssignments.has(name)) {
-                        assignedPlayerMap.set(name, previousAssignments.get(name));
+                        AppState.assignedPlayerMap.set(name, previousAssignments.get(name));
                     }
                 });
             }
@@ -1170,7 +666,7 @@ function initializeApp(initialChars, initialPacks) {
             }
 
             updateAllPlayerSelects();
-            checkCompletionState();
+            AppState.checkCompletionState(domElements);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -1204,12 +700,12 @@ function initializeApp(initialChars, initialPacks) {
                 };
                 const colors = { dark: '#2c1f1b', gold: '#8c703c', light_gold: '#c0a062', bg: '#faf3e0' };
 
-                const hostPlayerName = hostName ? hostName + " 🎩" : null;
-                const honoreePlayerNames = honoreeNames.map(name => name + " 🌟");
+                const hostPlayerName = AppState.hostName ? AppState.hostName + " 🎩" : null;
+                const honoreePlayerNames = AppState.honoreeNames.map(name => name + " 🌟");
 
-                const sortedCharacters = [...currentCharacters].sort((a, b) => {
-                    const playerA = assignedPlayerMap.get(a.name);
-                    const playerB = assignedPlayerMap.get(b.name);
+                const sortedCharacters = [...AppState.currentCharacters].sort((a, b) => {
+                    const playerA = AppState.assignedPlayerMap.get(a.name);
+                    const playerB = AppState.assignedPlayerMap.get(b.name);
                     const isAHonoree = honoreePlayerNames.includes(playerA);
                     const isBHonoree = honoreePlayerNames.includes(playerB);
                     const isAHost = playerA === hostPlayerName;
@@ -1256,15 +752,15 @@ function initializeApp(initialChars, initialPacks) {
 
                 doc.setTextColor(colors.dark);
 
-                if (eventDateValue) {
-                    const formattedDate = getFormattedEventDate(eventDateValue);
+                if (AppState.eventDateValue) {
+                    const formattedDate = AppState.getFormattedEventDate(AppState.eventDateValue);
                     yPos = drawInfoLine(yPos, "Fecha:", formattedDate);
                 }
 
                 yPos = drawInfoLine(yPos, "Nº de Sospechosos:", String(totalCards));
-                if (hostName) yPos = drawInfoLine(yPos, "Anfitrión:", hostName);
+                if (AppState.hostName) yPos = drawInfoLine(yPos, "Anfitrión:", AppState.hostName);
                 if (hostEmail) yPos = drawInfoLine(yPos, "Email Anfitrión:", hostEmail);
-                if (honoreeNames && honoreeNames.length > 0) yPos = drawInfoLine(yPos, "Homenajeado/a(s):", honoreeNames.join(', '));
+                if (AppState.honoreeNames && AppState.honoreeNames.length > 0) yPos = drawInfoLine(yPos, "Homenajeado/a(s):", AppState.honoreeNames.join(', '));
 
                 yPos += 3;
                 doc.setDrawColor(colors.light_gold);
@@ -1290,7 +786,7 @@ function initializeApp(initialChars, initialPacks) {
                     doc.setDrawColor(colors.light_gold);
                     doc.setLineWidth(0.2);
                     doc.line(cardX + 4, cardY + 10.5, cardX + card.width - 4, cardY + 10.5);
-                    const playerName = assignedPlayerMap.get(char.name) || 'S/A';
+                    const playerName = AppState.assignedPlayerMap.get(char.name) || 'S/A';
                     const cleanPlayerName = playerName.replace(/🎩|🌟/g, '').trim();
                     try { doc.setFont('Lora', 'bold'); } catch(e) { doc.setFont('Helvetica', 'bold'); }
                     doc.setFontSize(12);
@@ -1300,14 +796,14 @@ function initializeApp(initialChars, initialPacks) {
                 // === FIN CÓDIGO GENERACIÓN PDF ===
 
                 const pdfBlob = doc.output('blob');
-                const formattedDateForFilename = getFormattedEventDate(eventDateValue) || "evento";
+                const formattedDateForFilename = AppState.getFormattedEventDate(AppState.eventDateValue) || "evento";
                 const pdfName = `Panel de sospechosos - ${formattedDateForFilename}.pdf`;
                 const pdfFile = new File([pdfBlob], pdfName, { type: "application/pdf" });
 
                 // === ENVIAR A N8N VIA WEBHOOK ===
                 try {
                         showToastNotification('Enviando panel por email...', 'info');
-                        const beautifulHTML = generateBeautifulEmailHTML(sortedCharacters, formattedDateForFilename, hostName, honoreeNames, totalCards, assignedPlayerMap);
+                        const beautifulHTML = generateBeautifulEmailHTML(sortedCharacters, formattedDateForFilename, AppState.hostName, AppState.honoreeNames, totalCards, AppState.assignedPlayerMap);
 
                         // Preparamos los datos para el webhook
                         const webhookData = {
@@ -1316,15 +812,15 @@ function initializeApp(initialChars, initialPacks) {
                             data: {
                                 event: {
                                     date: formattedDateForFilename,
-                                    host: hostName || 'Organizador',
+                                    host: AppState.hostName || 'Organizador',
                                     hostEmail: hostEmail,
-                                    honorees: honoreeNames,
+                                    honorees: AppState.honoreeNames,
                                     totalPlayers: totalCards
                                 },
                                 assignments: sortedCharacters.map(char => ({
                                     character: char.name,
-                                    player: assignedPlayerMap.get(char.name) || 'Sin asignar',
-                                    personality: getGenderedInterpretationText(char.interpretationLevel, char.gender).toUpperCase()
+                                    player: AppState.assignedPlayerMap.get(char.name) || 'Sin asignar',
+                                    personality: AppState.getGenderedInterpretationText(char.interpretationLevel, char.gender).toUpperCase()
                                 })),
                                 emailHTML: beautifulHTML
                             },
@@ -1350,7 +846,7 @@ function initializeApp(initialChars, initialPacks) {
 
                 showToastNotification('PDF generado correctamente', 'success', 3000);
 
-                if (!isDesktop() && navigator.share && navigator.canShare && navigator.canShare({ files: [pdfFile] })) {
+                if (!AppState.isDesktop() && navigator.share && navigator.canShare && navigator.canShare({ files: [pdfFile] })) {
                     try {
                         await navigator.share({ files: [pdfFile], title: 'Panel Detectivesco - Intriga', text: 'Aquí está el panel de asignaciones del juego de intriga.' });
                     } catch (error) {
@@ -1364,7 +860,7 @@ function initializeApp(initialChars, initialPacks) {
                 }
             });
         }
-        initializeFreshSetupState();
+        AppState.initializeFreshSetupState(domElements, addHonoreeInput, generatePlayerNameInputs);
 
         const initialReportTargetElement = domElements['initial-report-target'];
         const coffinIconContainer = domElements['intro-line-1-heading'];
@@ -1592,25 +1088,14 @@ function validarClave() {
 }
 
 // 👉👉 FIN BLOQUE 4: ACCIONES PRINCIPALES Y EXPORTACIÓN �👈
-function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, honoreeNames, totalCards, assignedPlayerMap) {
+function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, honoreeNames, totalCards, AppState_assignedPlayerMap) {
 
     // Helper para obtener el texto de interpretación de la personalidad
-    function getGenderedInterpretationText(level, gender) {
-        const firstLetter = level ? level[0].toUpperCase() : "U";
-        let baseWord;
-
-        switch (firstLetter) {
-            case "E": baseWord = "Extrovertid"; break;
-            case "I": baseWord = "Introvertid"; break;
-            case "N": baseWord = "Camaleónic"; break;
-            default:  return "Indefinido";
-        }
-        const suffix = (gender && gender.toUpperCase() === "F") ? "a" : "o";
-        return baseWord + suffix;
-    }
+    // This function is also in AppState, so we use AppState's version
+    // function getGenderedInterpretationText(level, gender) { ... }
 
     const generationDate = new Date();
-    const options = { 
+    const options = {
         year: 'numeric', 
         month: 'long', 
         day: 'numeric', 
@@ -1662,7 +1147,7 @@ function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, h
                     <div style="color: #f5e8d5; font-size: 15px; line-height: 1.5;">
                         <p style="margin: 5px 0;">
                             <strong style="color: #c0a062;">👤 Jugador:</strong> 
-                            <span style="font-size: 16px;">${(assignedPlayerMap.get(char1.name) || 'Sin asignar').replace(/🎩|🌟/g, '').trim()}${assignedPlayerMap.get(char1.name)?.includes('🎩') ? ' (Anfitrión)' : assignedPlayerMap.get(char1.name)?.includes('🌟') ? ' (Homenajeado)' : ''}</span>
+                            <span style="font-size: 16px;">${(AppState_assignedPlayerMap.get(char1.name) || 'Sin asignar').replace(/🎩|🌟/g, '').trim()}${AppState_assignedPlayerMap.get(char1.name)?.includes('🎩') ? ' (Anfitrión)' : AppState_assignedPlayerMap.get(char1.name)?.includes('🌟') ? ' (Homenajeado)' : ''}</span>
                         </p>
                         <p style="margin: 5px 0;">
                             <strong style="color: #c0a062;">🎭 Personalidad:</strong> 
@@ -1676,7 +1161,7 @@ function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, h
                                 margin-left: 5px;
                                 font-size: 13px;
                             ">${(() => {
-                                const interpretationText = getGenderedInterpretationText(char1.interpretationLevel, char1.gender);
+                                const interpretationText = AppState.getGenderedInterpretationText(char1.interpretationLevel, char1.gender);
                                 const emojiMap = {'Extrovertido': '🔥', 'Extrovertida': '🔥', 'Introvertido': '🙈', 'Introvertida': '🙈', 'Camaleónico': '🎭', 'Camaleónica': '🎭'};
                                 return (emojiMap[interpretationText] || '🎭') + ' ' + interpretationText.toUpperCase();
                             })()}</span>
@@ -1711,7 +1196,7 @@ function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, h
                         <div style="color: #f5e8d5; font-size: 15px; line-height: 1.5;">
                             <p style="margin: 5px 0;">
                                 <strong style="color: #c0a062;">👤 Jugador:</strong> 
-                                <span style="font-size: 16px;">${(assignedPlayerMap.get(char2.name) || 'Sin asignar').replace(/🎩|🌟/g, '').trim()}${assignedPlayerMap.get(char2.name)?.includes('🎩') ? ' (Anfitrión)' : assignedPlayerMap.get(char2.name)?.includes('🌟') ? ' (Homenajeado)' : ''}</span>
+                                <span style="font-size: 16px;">${(AppState_assignedPlayerMap.get(char2.name) || 'Sin asignar').replace(/🎩|🌟/g, '').trim()}${AppState_assignedPlayerMap.get(char2.name)?.includes('🎩') ? ' (Anfitrión)' : AppState_assignedPlayerMap.get(char2.name)?.includes('🌟') ? ' (Homenajeado)' : ''}</span>
                             </p>
                             <p style="margin: 5px 0;">
                                 <strong style="color: #c0a062;">🎭 Personalidad:</strong> 
@@ -1725,7 +1210,7 @@ function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, h
                                     margin-left: 5px;
                                     font-size: 13px;
                                 ">${(() => {
-                                    const interpretationText = getGenderedInterpretationText(char2.interpretationLevel, char2.gender);
+                                    const interpretationText = AppState.getGenderedInterpretationText(char2.interpretationLevel, char2.gender);
                                     const emojiMap = {'Extrovertido': '🔥', 'Extrovertida': '🔥', 'Introvertido': '🙈', 'Introvertida': '🙈', 'Camaleónico': '🎭', 'Camaleónica': '🎭'};
                                     return (emojiMap[interpretationText] || '🎭') + ' ' + interpretationText.toUpperCase();
                                 })()}</span>
