@@ -1488,11 +1488,13 @@ function setupProgressiveFlow() {
     dateInput.addEventListener('change', () => {
       if (dateInput.value) {
         showBloque(3);
-        if (hostInput) hostInput.focus();
       }
     });
     dateInput.addEventListener('blur', () => {
-      if (dateInput.value) showBloque(3);
+      if (dateInput.value) {
+        showBloque(3);
+        if (hostInput) hostInput.focus();
+      }
     });
   }
   if (hostInput) {
