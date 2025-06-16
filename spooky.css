@@ -1,0 +1,53 @@
+:root {
+  --primary-color: #4a0404;
+  --background-color: #0a0a0a;
+  --card-background-color: #1a1a1a;
+  --secondary-background-color: #2a2a2a;
+  --text-primary: #a0a0a0;
+  --text-secondary: #6b4f4f;
+  --accent-blood: #8B0000;
+  --border-eerie: #4a0404;
+  --font-eerie-title: 'Creepster', cursive;
+  --font-eerie-header: 'Metal Mania', cursive;
+  --font-eerie-body: 'Nosifier', cursive;
+  --font-standard-body: 'Helvetica Neue', sans-serif;
+}
+body {
+  background: var(--background-color);
+  color: var(--text-primary);
+  font-family: var(--font-standard-body);
+  padding: 1em;
+}
+.title {
+  font-family: var(--font-eerie-title);
+  color: var(--accent-blood);
+  text-align: center;
+  margin-bottom: 1em;
+}
+.section-title {
+  font-family: var(--font-eerie-header);
+  color: var(--accent-blood);
+  margin: 1em 0;
+}
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1em;
+}
+.card {
+  background: var(--card-background-color);
+  border: 1px solid var(--border-eerie);
+  border-radius: 8px;
+  padding: 1em;
+  box-shadow: 0 0 15px rgba(139,0,0,0.5);
+}
+.card h3 {
+  font-family: var(--font-eerie-body);
+  color: var(--accent-blood);
+  margin-top: 0.5em;
+}
+.card img {
+  width: 100%;
+  border: 2px solid var(--border-eerie);
+  border-radius: 4px;
+}
