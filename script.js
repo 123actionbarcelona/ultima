@@ -287,7 +287,6 @@ function initializeApp(initialChars, initialPacks) {
             assignedPlayerMap.clear();
 
             if(domElements['host-name-input']) domElements['host-name-input'].value = hostName; else hostName = "";
-            if(domElements['event-date-input']) domElements['event-date-input'].value = eventDateValue; else eventDateValue = "";
 
             if(domElements['has-honoree-checkbox']) {
                 domElements['has-honoree-checkbox'].checked = honoreeNames.length > 0;
@@ -1049,9 +1048,6 @@ function initializeApp(initialChars, initialPacks) {
                 // Restore previously entered host and date values
                 if (domElements['host-name-input']) {
                     domElements['host-name-input'].value = hostName;
-                }
-                if (domElements['event-date-input']) {
-                    domElements['event-date-input'].value = eventDateValue;
                 }
 
                 const existingNames = Array.from(domElements['player-names-grid-container']?.querySelectorAll('input.player-name-box'))
