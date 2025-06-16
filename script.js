@@ -1840,3 +1840,8 @@ function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, h
 
     return emailHTML;
 }
+// Fix para wallpaper en iOS
+if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+    document.documentElement.style.backgroundAttachment = 'scroll';
+    document.documentElement.style.backgroundBlendMode = 'normal';
+}
