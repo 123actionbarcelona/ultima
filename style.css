@@ -788,11 +788,11 @@ button .fas, button .fab { margin-right: 8px; }
 #detective-guide-section ol li { position: relative; margin-bottom: 12px; padding-left: 55px; line-height: 1.6; min-height: 40px; }
 #detective-guide-section ol li::before { counter-increment: guide-counter; content: counter(guide-counter) "."; position: absolute; left: 0px; top: -5px; font-family: var(--font-special), serif; font-weight: bold; font-size: 3em; line-height: 1; color: var(--color-gold-dark); width: 45px; text-align: right; padding-right: 10px; }
 #detective-guide-section strong { font-weight: 600; color: var(--color-text-dark); }
-.suspect-profiles { margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; align-items: center; gap: 12px; padding-left: 0; }
-.suspect-profile-card { max-width: 300px; width: 100%; text-align: center; border: 2px solid var(--color-gold-dark); border-radius: var(--border-radius-soft); padding: 8px 12px; background: var(--color-gold-pale); box-shadow: 1px 1px 1px rgba(0,0,0,0.15); }
+.suspect-profiles { margin-top: 10px; margin-bottom: 10px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; padding-left: 0; }
+.suspect-profile-card { max-width: 300px; width: 100%; text-align: center; font-family: var(--font-special), monospace; font-weight: bold; font-size: 0.9em; background: #fff5d0; border: 2px solid #444; border-radius: 0; color: #2a2a2a; padding: 6px 12px; box-shadow: 1px 1px 2px rgba(0,0,0,0.3); transform: rotate(-2deg); display: flex; flex-direction: column; align-items: center; letter-spacing: 0.5px; }
 :root.dark-mode #detective-guide-section .suspect-profile-card { background: #38352e; border-color: var(--color-gold-medium); color: var(--color-gold-light); }
-.suspect-profile-card .profile-title { font-weight: 600; }
-.suspect-profile-card .profile-desc { font-size: 0.9em; }
+.suspect-profile-card .profile-title { font-weight: 600; text-transform: uppercase; }
+.suspect-profile-card .profile-desc { font-size: 0.8em; text-transform: none; }
 
 :root.dark-mode #detective-guide-section { background-color: var(--color-gold-pale); border-color: var(--color-gold-dark); border-left-color: var(--color-gold-medium); }
 :root.dark-mode #detective-guide-section h4 { color: var(--color-gold-light); border-bottom-color: var(--color-gold-medium); }
@@ -1070,21 +1070,24 @@ button .fas, button .fab { margin-right: 8px; }
     border-radius: 6px;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
     text-transform: none;
     letter-spacing: normal;
     box-shadow: 2px 2px 5px rgba(0,0,0,0.3), inset 1px 1px 3px rgba(0,0,0,0.2);
+    transform: rotate(1deg);
+    width: 100%;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 .boton-whatsapp:hover {
     background: #333;
     border-color: var(--color-gold-light);
-    transform: scale(1.02);
+    transform: rotate(0deg) scale(1.02);
     box-shadow: 3px 3px 7px rgba(0,0,0,0.4), inset 1px 1px 4px rgba(0,0,0,0.3);
 }
 .boton-whatsapp:active {
-    transform: scale(1);
+    transform: rotate(0deg) scale(1);
     box-shadow: inset 2px 2px 5px rgba(0,0,0,0.35);
 }
 .boton-whatsapp img {
