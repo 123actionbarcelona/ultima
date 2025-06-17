@@ -235,6 +235,16 @@ input.player-name-box:focus,
     background-color: #fffefc;
 }
 
+input.invalid {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 3px rgba(211, 47, 47, .45), var(--box-shadow-inset);
+}
+
+:root.dark-mode input.invalid {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 3px rgba(239, 83, 80, .45), var(--box-shadow-inset);
+}
+
 :root.dark-mode input.player-name-box:focus,
 :root.dark-mode #setup-section input[type="number"]:focus,
 :root.dark-mode #setup-section input[type="text"]:focus,

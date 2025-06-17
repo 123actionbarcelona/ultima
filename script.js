@@ -220,6 +220,11 @@ function initializeApp(initialChars, initialPacks) {
             if (!silent && msg && showToast) {
                 showToastNotification(msg, 'error');
             }
+            if (!valid) {
+                input.classList.add('invalid');
+            } else {
+                input.classList.remove('invalid');
+            }
             return valid;
         }
 
@@ -272,7 +277,9 @@ function initializeApp(initialChars, initialPacks) {
                 const valid = validateNameInput(input, false, true);
                 updateFormProgress();
                 if (!valid) {
-                    setTimeout(() => input.focus(), 0);
+                    input.classList.add('invalid');
+                } else {
+                    input.classList.remove('invalid');
                 }
             };
             input.addEventListener('blur', validate);
