@@ -311,25 +311,25 @@ function initializeApp(initialChars, initialPacks) {
             generatePlayerNameInputs(parseInt(domElements['player-count'].value), existingNames);
         }
 
-        if(domElements['decrement-player-count'] && domElements['increment-player-count'] && domElements['player-count']) {
-            domElements['decrement-player-count'].addEventListener('click', () => {
-                let currentValue = parseInt(domElements['player-count'].value);
-                const minValue = parseInt(domElements['player-count'].min);
-                if (currentValue > minValue) {
-                    domElements['player-count'].value = currentValue - 1;
-                    domElements['player-count'].dispatchEvent(new Event('input', { bubbles: true }));
-                }
-            });
-
-            domElements['increment-player-count'].addEventListener('click', () => {
-                let currentValue = parseInt(domElements['player-count'].value);
-                const maxValue = parseInt(domElements['player-count'].max);
-                if (currentValue < maxValue) {
-                    domElements['player-count'].value = currentValue + 1;
-                    domElements['player-count'].dispatchEvent(new Event('input', { bubbles: true }));
-                }
-            });
-        }
+//         if(domElements['decrement-player-count'] && domElements['increment-player-count'] && domElements['player-count']) {
+//             domElements['decrement-player-count'].addEventListener('click', () => {
+//                 let currentValue = parseInt(domElements['player-count'].value);
+//                 const minValue = parseInt(domElements['player-count'].min);
+//                 if (currentValue > minValue) {
+//                     domElements['player-count'].value = currentValue - 1;
+//                     domElements['player-count'].dispatchEvent(new Event('input', { bubbles: true }));
+//                 }
+//             });
+// 
+//             domElements['increment-player-count'].addEventListener('click', () => {
+//                 let currentValue = parseInt(domElements['player-count'].value);
+//                 const maxValue = parseInt(domElements['player-count'].max);
+//                 if (currentValue < maxValue) {
+//                     domElements['player-count'].value = currentValue + 1;
+//                     domElements['player-count'].dispatchEvent(new Event('input', { bubbles: true }));
+//                 }
+//             });
+//         }
 
         if(domElements['player-count']){domElements['player-count'].addEventListener('input',()=>{const c=parseInt(domElements['player-count'].value);const mn=parseInt(domElements['player-count'].min);const mx=parseInt(domElements['player-count'].max);if(c>=mn&&c<=mx){generatePlayerNameInputs(c, Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value));}else if(domElements['player-names-grid-container']&&domElements['player-names-grid-container'].innerHTML!==""&&(c<mn||c>mx)){if(c<mn&&c>=1)generatePlayerNameInputs(mn);else if(c>mx)generatePlayerNameInputs(mx);}});}
 
@@ -344,12 +344,245 @@ function initializeApp(initialChars, initialPacks) {
             });
         }
 
+// Inicializar slider cuando se carga la página
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        generatePlayerCountSliderPrecision();
+    }, 500);
+});
+
+// Regenerar slider si es necesario
+const sliderInterval = setInterval(() => {
+    const slider = document.getElementById('player-count-slider');
+    const setupVisible = document.getElementById('setup-section')?.style.display !== 'none';
+    
+    if (!slider && setupVisible) {
+        console.log('🔄 Regenerando slider de precisión...');
+        generatePlayerCountSliderPrecision();
+    }
+    
+    // Limpiar interval después de encontrar el slider
+    if (slider) {
+        clearInterval(sliderInterval);
+    }
+}, 1000);
+
+// Función para testing manual
+window.testSliderPrecision = function() {
+    console.log('🧪 Regenerando slider manualmente...');
+    generatePlayerCountSliderPrecision();
+};
 // 👉👉 FIN BLOQUE 2: INICIALIZACIÓN Y GESTIÓN DEL ESTADO GLOBAL 👈👈
 
 
 // 👉👉 A PARTIR DE AQUÍ PEGAR EL BLOQUE 3: RENDERIZADO DE UI Y COMPONENTES VISUALES 👈👈
 // 👉👉 INICIO BLOQUE 3: RENDERIZADO DE UI Y COMPONENTES VISUALES 👈👈
 
+function generatePlayerCountSliderPrecision() {
+    const setupControlGroup = document.querySelector('.setup-control-group:has(#player-count)') || 
+                             document.querySelector('.player-count-wrapper')?.parentElement ||
+                             document.querySelector('.bloque-5');
+    
+    if (!setupControlGroup) {
+        console.warn('No se encontró el contenedor para el slider');
+        return;
+    }
+    
+    // Obtener valor actual
+    const currentValue = parseInt(document.getElementById('player-count')?.value || '8');
+    
+    // Crear marcas de precisión
+    let marksHTML = '';
+    for (let i = 8; i <= 20; i++) {
+        const isMajor = i % 2 === 0; // Marcas mayores cada 2 números
+        marksHTML += `<div class="slider-mark ${isMajor ? 'major' : ''}" data-value="${i}"></div>`;
+    }
+    
+    // HTML completo del slider de precisión
+    const sliderHTML = `
+        <div class="setup-control-group">
+            <label for="player-count-slider">Número de Jugadores:</label>
+            <div class="player-count-wrapper">
+                <div class="player-count-header">
+                    <div class="player-count-label">Jugadores</div>
+                    <div class="player-count-value" id="player-count-display">${currentValue}</div>
+                </div>
+                
+                <div style="position: relative;">
+                    <div class="slider-progress" id="slider-progress"></div>
+                    <input 
+                        type="range" 
+                        id="player-count-slider"
+                        class="player-count-slider"
+                        min="8" 
+                        max="20" 
+                        value="${currentValue}"
+                        step="1"
+                        aria-label="Seleccionar número de jugadores"
+                    >
+                </div>
+                
+                <div class="slider-marks">
+                    ${marksHTML}
+                </div>
+                
+                <div class="player-count-range">
+                    <span class="range-min">8 mín</span>
+                    <span class="range-max">20 máx</span>
+                </div>
+            </div>
+            
+            <!-- Input hidden para compatibilidad -->
+            <input type="hidden" id="player-count" value="${currentValue}">
+        </div>
+    `;
+    
+    // Buscar y reemplazar el contenido
+    const existingWrapper = setupControlGroup.querySelector('.player-count-wrapper');
+    const existingGroup = setupControlGroup.querySelector('.setup-control-group');
+    
+    if (existingWrapper) {
+        // Reemplazar wrapper existente
+        existingWrapper.parentElement.innerHTML = sliderHTML;
+    } else if (existingGroup) {
+        // Reemplazar grupo completo
+        existingGroup.outerHTML = sliderHTML;
+    } else {
+        // Añadir al final del contenedor
+        setupControlGroup.innerHTML += sliderHTML;
+    }
+    
+    // Configurar eventos inmediatamente
+    setTimeout(() => setupSliderPrecisionEvents(), 100);
+}
+
+function setupSliderPrecisionEvents() {
+    const slider = document.getElementById('player-count-slider');
+    const display = document.getElementById('player-count-display');
+    const hiddenInput = document.getElementById('player-count');
+    const progress = document.getElementById('slider-progress');
+    
+    if (!slider || !display || !hiddenInput) {
+        console.warn('Elementos del slider no encontrados');
+        return;
+    }
+    
+    console.log('🎛️ Slider de precisión inicializado');
+    
+    // Variables para precisión
+    let isDragging = false;
+    let lastValue = parseInt(slider.value);
+    
+    // Función principal de actualización
+    function updatePlayerCount(value, source = 'slider') {
+        const numValue = parseInt(value);
+        
+        // Validar rango
+        if (numValue < 8 || numValue > 20) return;
+        
+        // Actualizar displays
+        display.textContent = numValue;
+        hiddenInput.value = numValue;
+        slider.value = numValue;
+        
+        // Actualizar progreso visual
+        const progressPercent = ((numValue - 8) / (20 - 8)) * 100;
+        if (progress) {
+            progress.style.width = `${progressPercent}%`;
+        }
+        
+        // Feedback visual en el valor
+        if (numValue !== lastValue) {
+            display.style.transform = 'scale(1.15)';
+            display.style.background = 'var(--color-gold-light)';
+            
+            setTimeout(() => {
+                display.style.transform = 'scale(1)';
+                display.style.background = 'var(--color-gold-dark)';
+            }, 150);
+            
+            // Feedback háptico en móviles
+            if (navigator.vibrate && source === 'slider') {
+                navigator.vibrate(15);
+            }
+            
+            lastValue = numValue;
+            console.log(`🎯 Precisión: ${numValue} jugadores (desde ${source})`);
+        }
+        
+        // Disparar evento para compatibilidad
+        const inputEvent = new Event('input', { bubbles: true });
+        hiddenInput.dispatchEvent(inputEvent);
+    }
+    
+    // Event listeners de precisión
+    slider.addEventListener('input', (e) => {
+        updatePlayerCount(e.target.value, 'slider');
+    });
+    
+    // Precisión extra con eventos de mouse/touch
+    slider.addEventListener('mousedown', () => {
+        isDragging = true;
+        slider.style.cursor = 'grabbing';
+    });
+    
+    slider.addEventListener('mouseup', () => {
+        isDragging = false;
+        slider.style.cursor = 'pointer';
+    });
+    
+    slider.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        // Feedback háptico al empezar
+        if (navigator.vibrate) {
+            navigator.vibrate(10);
+        }
+    }, { passive: true });
+    
+    slider.addEventListener('touchend', () => {
+        isDragging = false;
+    });
+    
+    // Precisión con teclado
+    slider.addEventListener('keydown', (e) => {
+        let newValue = parseInt(slider.value);
+        
+        switch(e.key) {
+            case 'ArrowUp':
+            case 'ArrowRight':
+                e.preventDefault();
+                newValue = Math.min(20, newValue + 1);
+                updatePlayerCount(newValue, 'keyboard');
+                break;
+            case 'ArrowDown':
+            case 'ArrowLeft':
+                e.preventDefault();
+                newValue = Math.max(8, newValue - 1);
+                updatePlayerCount(newValue, 'keyboard');
+                break;
+            case 'Home':
+                e.preventDefault();
+                updatePlayerCount(8, 'keyboard');
+                break;
+            case 'End':
+                e.preventDefault();
+                updatePlayerCount(20, 'keyboard');
+                break;
+        }
+    });
+    
+    // Click en marcas para ir directamente
+    document.querySelectorAll('.slider-mark').forEach((mark, index) => {
+        const value = 8 + index;
+        mark.style.cursor = 'pointer';
+        mark.addEventListener('click', () => {
+            updatePlayerCount(value, 'mark');
+        });
+    });
+    
+    // Inicializar valor y progreso
+    updatePlayerCount(slider.value, 'init');
+}
         function addHonoreeInput(name = "") {
             const container = domElements['honorees-container'];
             const inputGroup = document.createElement('div');
