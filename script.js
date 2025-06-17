@@ -90,7 +90,6 @@ function triggerGoldenGlow(element) {
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) {
-        console.log("Movimiento reducido preferido, omitiendo animación de brillo.");
         return;
     }
 
@@ -114,7 +113,7 @@ function isDesktop() {
     return !/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
 }
 
-function initializeApp(initialChars, initialPacks) {
+function initializeApp(initialPacks) {
     const packs = initialPacks;
 
     try {
@@ -140,7 +139,7 @@ function initializeApp(initialChars, initialPacks) {
         let allElementsFound = true;
         domElementIds.forEach(id => {
             const element = document.getElementById(id);
-            if (!element && id !== 'guide-header-tab' && id !== 'load-config-btn' && id !== 'print-dashboard-btn') {
+            if (!element && id !== 'guide-header-tab') {
                 console.error(`ERROR DOM: ID '${id}' NO encontrado.`);
                 allElementsFound = false;
             }
@@ -486,11 +485,7 @@ function initializeApp(initialChars, initialPacks) {
 
         if(domElements['start-assignment'])domElements['start-assignment'].addEventListener('click',handleStartAssignment);
         if(domElements['back-to-setup-btn']) domElements['back-to-setup-btn'].addEventListener('click', handleBackToSetup);
-        if (domElements['print-dashboard-btn-new']) { // <-- CAMBIO: Apuntamos al nuevo botón
-            domElements['print-dashboard-btn-new'].addEventListener('click', async () => {
-                // ... La lógica de esta función es extensa y se moverá al Bloque 4
-            });
-        }
+
 
 // 👉👉 FIN BLOQUE 2: INICIALIZACIÓN Y GESTIÓN DEL ESTADO GLOBAL 👈👈
 
@@ -1602,7 +1597,7 @@ function initializeApp(initialChars, initialPacks) {
 // Código que se ejecuta fuera de initializeApp
 
 document.addEventListener('DOMContentLoaded', () => {
-    initializeApp(allCharacters_data, packs_data)
+    initializeApp(packs_data)
     setupProgressiveFlow();
 });
 
@@ -1783,21 +1778,6 @@ function validarClave() {
 
 // 👉👉 FIN BLOQUE 4: ACCIONES PRINCIPALES Y EXPORTACIÓN �👈
 function generateBeautifulEmailHTML(sortedCharacters, formattedDate, hostName, honoreeNames, totalCards, assignedPlayerMap) {
-
-    // Helper para obtener el texto de interpretación de la personalidad
-    function getGenderedInterpretationText(level, gender) {
-        const firstLetter = level ? level[0].toUpperCase() : "U";
-        let baseWord;
-
-        switch (firstLetter) {
-            case "E": baseWord = "Extrovertid"; break;
-            case "I": baseWord = "Introvertid"; break;
-            case "N": baseWord = "Camaleónic"; break;
-            default:  return "Indefinido";
-        }
-        const suffix = (gender && gender.toUpperCase() === "F") ? "a" : "o";
-        return baseWord + suffix;
-    }
 
     const generationDate = new Date();
     const options = { 

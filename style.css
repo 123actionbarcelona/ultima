@@ -98,7 +98,6 @@ html {
     background: url('Fotos_Personajes/fondo_victoriano.WEBP') repeat scroll;
     background-size: 300px 300px;
     background-color: #2a2520;
-    /* background-blend-mode: multiply; ← COMENTADO */
 }
 
 body {
