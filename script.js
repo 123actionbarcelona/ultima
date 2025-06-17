@@ -745,7 +745,7 @@ function initializeApp(initialChars, initialPacks) {
             }
         }
 
-        function updateAssignmentProgress(totalCharacters, assignedCharacters) {
+       function updateAssignmentProgress(totalCharacters, assignedCharacters) {
             const progressEl = domElements['assignment-progress'];
             if (!progressEl) return;
 
@@ -765,6 +765,46 @@ function initializeApp(initialChars, initialPacks) {
             } else {
                 progressEl.style.display = totalCharacters > 0 ? 'block' : 'none';
             }
+        }
+
+        function updateFormProgress(autoFocus = false) {
+            const invalidInputs = [];
+
+            const dateInput = domElements['event-date-input'];
+            if (dateInput) {
+                const valid = !!dateInput.value;
+                dateInput.classList.toggle('invalid', !valid);
+                if (!valid) invalidInputs.push(dateInput);
+            }
+
+            const nameInputs = domElements['player-names-grid-container']
+                ? Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box'))
+                : [];
+            const seen = new Set();
+            nameInputs.forEach(input => {
+                const val = input.value.trim();
+                const clean = val.toLowerCase();
+                const isDup = val && seen.has(clean);
+                const valid = !!val && !isDup;
+                input.classList.toggle('invalid', !valid);
+                if (!valid) invalidInputs.push(input);
+                if (val) seen.add(clean);
+            });
+
+            if (domElements['start-assignment']) {
+                domElements['start-assignment'].disabled = invalidInputs.length > 0;
+            }
+
+            if (autoFocus && invalidInputs.length > 0) {
+                focusFirstInvalidField();
+            }
+
+            return invalidInputs;
+        }
+
+        function focusFirstInvalidField() {
+            const invalid = document.querySelector('input.invalid');
+            if (invalid) invalid.focus();
         }
 
        function populateAndShowCompletionBanner() {
@@ -1079,9 +1119,11 @@ function initializeApp(initialChars, initialPacks) {
             hostName = domElements['host-name-input'] ? domElements['host-name-input'].value.trim() : "";
             eventDateValue = domElements['event-date-input'] ? domElements['event-date-input'].value : "";
 
+            updateFormProgress();
+
             if (!eventDateValue) {
                 showToastNotification('Por favor, selecciona la fecha del evento para continuar.', 'error');
-                if (domElements['event-date-input']) domElements['event-date-input'].focus();
+                focusFirstInvalidField();
                 return;
             }
 
@@ -1092,7 +1134,10 @@ function initializeApp(initialChars, initialPacks) {
             const playerCount = parseInt(domElements['player-count'].value);
             if (!packs[playerCount]) {
                 showToastNotification(`No hay pack para ${playerCount} jugadores. Packs: ${Object.keys(packs).join(', ')}.`, 'error');
-                domElements['main-content-area'].classList.remove('visible-section'); domElements['main-content-area'].classList.add('hidden-section'); return;
+                domElements['main-content-area'].classList.remove('visible-section');
+                domElements['main-content-area'].classList.add('hidden-section');
+                focusFirstInvalidField();
+                return;
             }
 
             availablePlayerNames = [];
@@ -1118,10 +1163,12 @@ function initializeApp(initialChars, initialPacks) {
 
             if (availablePlayerNames.length !== playerCount) {
                  showToastNotification(`El número de jugadores (${playerCount}) no coincide con los nombres proporcionados (${availablePlayerNames.length}, incluyendo anfitrión/homenajeados). Revisa los campos. Asegúrate de que todos los jugadores tengan nombre.`, 'error', 6000);
+                 focusFirstInvalidField();
                  return;
             }
             if (expectedEditableNames > 0 && actualEditableNamesEntered < expectedEditableNames) {
                 showToastNotification(`Faltan nombres de jugadores. Se esperan ${expectedEditableNames} nombres adicionales.`, 'error', 5000);
+                focusFirstInvalidField();
                 return;
             }
 
@@ -1143,6 +1190,7 @@ function initializeApp(initialChars, initialPacks) {
                     }
                 }
                 showToastNotification(`Error: El nombre "${duplicateNameFoundForMessage}" está duplicado. Por favor, usa nombres únicos o añade un distintivo (ej: Ana S.).`, 'error', 6000);
+                focusFirstInvalidField();
                 return;
             }
 
