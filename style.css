@@ -1028,105 +1028,225 @@ button .fas, button .fab { margin-right: 8px; }
 /* Botón de compartir en tarjeta */
 .character-card-actions { margin-top: auto;  padding-top: 10px; }
 .copy-char-btn-frame {
-    background: #222 !important;
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a) !important;
     color: var(--color-gold-light) !important;
     font-family: var(--font-special), monospace !important;
-    font-size: 0.95em !important;
+    font-size: 0.9em !important;
     border: 1px solid var(--color-gold-medium) !important;
     padding: 10px 15px !important;
     border-radius: 6px !important;
     display: flex !important;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    text-shadow: none !important;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.3), inset 1px 1px 3px rgba(0,0,0,0.2);
-    transform: rotate(1deg);
+    gap: 8px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    box-shadow:
+        0 3px 6px rgba(0,0,0,0.3),
+        inset 0 1px 2px rgba(255,255,255,0.1),
+        0 0 0 1px rgba(192, 160, 98, 0.2);
     width: 100%;
     text-transform: none;
-    letter-spacing: normal;
+    letter-spacing: 0.5px;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+
+    /* Reset cross-platform */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
 }
 .copy-char-btn-frame:hover {
-    background: #333 !important;
+    background: linear-gradient(145deg, #333, #222) !important;
     border-color: var(--color-gold-light) !important;
-    transform: rotate(0deg) scale(1.02);
-    box-shadow: 3px 3px 7px rgba(0,0,0,0.4), inset 1px 1px 4px rgba(0,0,0,0.3);
+    transform: translateY(-1px) scale(1.01);
+    box-shadow:
+        0 4px 8px rgba(0,0,0,0.4),
+        inset 0 1px 2px rgba(255,255,255,0.15),
+        0 0 0 1px var(--color-gold-light),
+        0 0 8px rgba(192, 160, 98, 0.3);
 }
-.copy-char-btn-frame:active {
-    transform: rotate(0deg) scale(1);
-    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.35);
-}
-.copy-char-btn-frame img { border-radius: 50%; width: 22px; height: 22px; }
-
-.boton-whatsapp {
-    background: #222;
-    color: var(--color-gold-light);
-    font-family: var(--font-special), monospace;
-    font-size: 0.95em;
-    border: 1px solid var(--color-gold-medium);
-    padding: 8px 15px;
-    border-radius: 6px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    text-transform: none;
-    letter-spacing: normal;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.3), inset 1px 1px 3px rgba(0,0,0,0.2);
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-}
-.boton-whatsapp:hover {
-    background: #333;
-    border-color: var(--color-gold-light);
-    transform: scale(1.02);
-    box-shadow: 3px 3px 7px rgba(0,0,0,0.4), inset 1px 1px 4px rgba(0,0,0,0.3);
-}
-.boton-whatsapp:active {
-    transform: scale(1);
-    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.35);
-}
-.boton-whatsapp img {
+.copy-char-btn-frame img {
     border-radius: 50%;
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
 .share-menu {
     position: absolute;
-    background: var(--color-content-bg);
-    border: 1px solid var(--color-gold-medium);
-    border-radius: 6px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    padding: 4px 0;
+    background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+    border: 2px solid var(--color-gold-medium);
+    border-radius: 8px;
+    box-shadow:
+        0 8px 25px rgba(0,0,0,0.5),
+        0 0 0 1px rgba(192, 160, 98, 0.3),
+        inset 0 1px 2px rgba(255,255,255,0.05);
+    padding: 8px 0;
     z-index: 2000;
-    min-width: 180px;
+    min-width: 220px;
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    animation: menuAppear 0.2s ease-out;
 }
+
+@keyframes menuAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
 .share-menu a,
 .share-menu button {
-    display: block;
+    display: flex;
+    align-items: center;
     width: 100%;
-    padding: 8px 15px;
+    padding: 12px 20px;
     background: none;
     border: none;
     text-align: left;
     text-decoration: none;
-    color: var(--color-text-dark);
-    font-family: var(--font-body), serif;
-    cursor: pointer;
-}
-.share-menu a:hover,
-.share-menu button:hover {
-    background: rgba(0,0,0,0.05);
-}
-:root.dark-mode .share-menu a,
-:root.dark-mode .share-menu button {
     color: var(--color-gold-light);
+    font-family: var(--font-special), monospace;
+    font-size: 0.9em;
+    font-weight: normal;
+    line-height: 1.4;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+
+    /* Reset completo */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    margin: 0;
+    box-sizing: border-box;
+    letter-spacing: 0.3px;
 }
+
+.share-menu a::before,
+.share-menu button::before {
+    content: '';
+    width: 18px;
+    height: 18px;
+    margin-right: 12px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: brightness(1.2) contrast(1.1);
+    flex-shrink: 0;
+}
+
+.share-menu a[href*="wa.me"]::before {
+    content: '📱';
+    background: radial-gradient(circle, var(--color-gold-medium), var(--color-gold-dark));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.share-menu button.share-copy-option::before {
+    content: '📋';
+    background: radial-gradient(circle, var(--color-gold-medium), var(--color-gold-dark));
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.share-menu a[href^="mailto:"]::before {
+    content: '✉️';
+    background: radial-gradient(circle, var(--color-gold-medium), var(--color-gold-dark));
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.share-menu a:hover,
+.share-menu button:hover,
+.share-menu a:focus,
+.share-menu button:focus {
+    background: linear-gradient(90deg,
+        rgba(192, 160, 98, 0.15),
+        rgba(192, 160, 98, 0.05)
+    );
+    color: #ffffff;
+    transform: translateX(3px);
+    box-shadow: inset 3px 0 0 var(--color-gold-medium);
+}
+
+.share-menu a:hover::before,
+.share-menu button:hover::before {
+    transform: scale(1.1);
+    box-shadow:
+        0 3px 6px rgba(0,0,0,0.4),
+        0 0 8px rgba(192, 160, 98, 0.4);
+}
+
+.share-menu a:not(:last-child)::after,
+.share-menu button:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    right: 20px;
+    height: 1px;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(192, 160, 98, 0.3),
+        transparent
+    );
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .share-menu a,
+    .share-menu button {
+        padding: 16px 20px;
+        font-size: 1em;
+    }
+
+    .share-menu a:active,
+    .share-menu button:active {
+        background: linear-gradient(90deg,
+            rgba(192, 160, 98, 0.25),
+            rgba(192, 160, 98, 0.1)
+        );
+        transform: scale(0.98);
+    }
+}
+
+:root.dark-mode .share-menu {
+    background: linear-gradient(145deg, #0a0a0a, #000);
+    border-color: var(--color-gold-dark);
+}
+
 :root.dark-mode .share-menu a:hover,
 :root.dark-mode .share-menu button:hover {
-    background: rgba(255,255,255,0.1);
+    background: linear-gradient(90deg,
+        rgba(232, 216, 176, 0.2),
+        rgba(232, 216, 176, 0.05)
+    );
+    box-shadow: inset 3px 0 0 var(--color-gold-light);
 }
 
 /* ============================================= */
