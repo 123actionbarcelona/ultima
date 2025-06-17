@@ -785,9 +785,13 @@ button .fas, button .fab { margin-right: 8px; }
 #detective-guide-section h4 .fas { margin-right: 10px; font-size: 0.9em; }
 
 #detective-guide-section ol { list-style-type: none; padding-left: 0; font-size: 1.05em; counter-reset: guide-counter; }
-#detective-guide-section ol li { position: relative; margin-bottom: 12px; padding-left: 55px; line-height: 1.6; min-height: 40px; }
+#detective-guide-section ol li { position: relative; margin-bottom: 20px; padding-left: 55px; line-height: 1.6; min-height: 40px; }
 #detective-guide-section ol li::before { counter-increment: guide-counter; content: counter(guide-counter) "."; position: absolute; left: 0px; top: -5px; font-family: var(--font-special), serif; font-weight: bold; font-size: 3em; line-height: 1; color: var(--color-gold-dark); width: 45px; text-align: right; padding-right: 10px; }
 #detective-guide-section strong { font-weight: 600; color: var(--color-text-dark); }
+.iconos-guia { margin-top: 25px; padding-top: 15px; border-top: 1px dashed var(--color-gold-medium); background-color: rgba(255,255,255,0.4); }
+.iconos-guia h5 { font-size: 1.2em; color: var(--color-gold-dark); margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed var(--color-gold-medium); }
+.iconos-guia .icono-box { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.iconos-guia .emoji { font-size: 1.3em; }
 .suspect-profiles { margin-top: 10px; margin-bottom: 10px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; padding-left: 0; }
 .suspect-profile-card { max-width: 300px; width: 100%; text-align: center; font-family: var(--font-special), monospace; font-weight: bold; font-size: 0.9em; background: #fff5d0; border: 2px solid #444; border-radius: 0; color: #2a2a2a; padding: 6px 12px; box-shadow: 1px 1px 2px rgba(0,0,0,0.3); transform: rotate(-2deg); display: flex; flex-direction: column; align-items: center; letter-spacing: 0.5px; }
 :root.dark-mode #detective-guide-section .suspect-profile-card { background: #38352e; border-color: var(--color-gold-medium); color: var(--color-gold-light); }
@@ -799,9 +803,9 @@ button .fas, button .fab { margin-right: 8px; }
 :root.dark-mode #detective-guide-section ol li::before { color: var(--color-gold-medium); }
 :root.dark-mode #detective-guide-section strong { color: var(--color-text-dark); }
 :root.dark-mode #detective-guide-section .extroversion-pill { background: #38352e; color: var(--color-gold-light); border-color: var(--color-gold-medium); }
-:root.dark-mode #detective-guide-section .special-considerations { border-top-color: var(--color-gold-dark); }
-:root.dark-mode #detective-guide-section .special-considerations h5 { color: var(--color-gold-light); }
-:root.dark-mode #detective-guide-section .special-considerations h5 .fas { color: var(--color-gold-medium); }
+:root.dark-mode #detective-guide-section .iconos-guia { border-top-color: var(--color-gold-dark); background-color: rgba(255,255,255,0.05); }
+:root.dark-mode #detective-guide-section .iconos-guia h5 { color: var(--color-gold-light); border-bottom-color: var(--color-gold-medium); }
+:root.dark-mode #detective-guide-section .iconos-guia h5 .fas { color: var(--color-gold-medium); }
 
 /* ============================================= */
 /* Estilos Columnas de Personajes                */
