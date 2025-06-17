@@ -622,7 +622,7 @@ function initializeApp(initialChars, initialPacks) {
 <div class="character-card-actions">
   <button class="copy-char-btn-frame">
     <img src="Fotos_Personajes/whatapp-logo.WEBP" alt="WhatsApp" />
-    Compartir por WhatsApp
+    Enviar personaje
   </button>
 </div>`;
             const nameHtml = `<h4>${character.name}</h4>`;
