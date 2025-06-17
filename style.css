@@ -787,16 +787,16 @@ button .fas, button .fab { margin-right: 8px; }
 #detective-guide-section ol { list-style-type: none; padding-left: 0; font-size: 1.05em; counter-reset: guide-counter; }
 #detective-guide-section ol li { position: relative; margin-bottom: 12px; padding-left: 55px; line-height: 1.6; min-height: 40px; }
 #detective-guide-section ol li::before { counter-increment: guide-counter; content: counter(guide-counter) "."; position: absolute; left: 0px; top: -5px; font-family: var(--font-special), serif; font-weight: bold; font-size: 3em; line-height: 1; color: var(--color-gold-dark); width: 45px; text-align: right; padding-right: 10px; }
-.guide-icon { margin-right: 8px; color: var(--color-gold-dark); width: 20px; text-align: center; font-size: 1em; vertical-align: middle; }
-.guide-icon.fa-whatsapp { color: var(--color-whatsapp); }
 #detective-guide-section strong { font-weight: 600; color: var(--color-text-dark); }
-.guide-pills-wrapper { margin-top: 10px; margin-bottom: 10px; display: flex; justify-content: flex-start; flex-wrap: wrap; gap: 8px; padding-left: 0; }
-#detective-guide-section .extroversion-pill { transform: rotate(0deg); font-size: 0.85em; padding: 5px 10px; box-shadow: 1px 1px 1px rgba(0,0,0,0.15); margin-bottom: 5px; }
+.suspect-profiles { margin-top: 10px; margin-bottom: 10px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; padding-left: 0; }
+.suspect-profile-card { max-width: 300px; width: 100%; text-align: center; font-family: var(--font-special), monospace; font-weight: bold; font-size: 0.9em; background: #fff5d0; border: 2px solid #444; border-radius: 0; color: #2a2a2a; padding: 6px 12px; box-shadow: 1px 1px 2px rgba(0,0,0,0.3); transform: rotate(-2deg); display: flex; flex-direction: column; align-items: center; letter-spacing: 0.5px; }
+:root.dark-mode #detective-guide-section .suspect-profile-card { background: #38352e; border-color: var(--color-gold-medium); color: var(--color-gold-light); }
+.suspect-profile-card .profile-title { font-weight: 600; text-transform: uppercase; }
+.suspect-profile-card .profile-desc { font-size: 0.8em; text-transform: none; }
 
 :root.dark-mode #detective-guide-section { background-color: var(--color-gold-pale); border-color: var(--color-gold-dark); border-left-color: var(--color-gold-medium); }
 :root.dark-mode #detective-guide-section h4 { color: var(--color-gold-light); border-bottom-color: var(--color-gold-medium); }
 :root.dark-mode #detective-guide-section ol li::before { color: var(--color-gold-medium); }
-:root.dark-mode .guide-icon { color: var(--color-gold-medium); }
 :root.dark-mode #detective-guide-section strong { color: var(--color-text-dark); }
 :root.dark-mode #detective-guide-section .extroversion-pill { background: #38352e; color: var(--color-gold-light); border-color: var(--color-gold-medium); }
 :root.dark-mode #detective-guide-section .special-considerations { border-top-color: var(--color-gold-dark); }
@@ -1105,7 +1105,9 @@ button .fas, button .fab { margin-right: 8px; }
 }
 .share-menu a,
 .share-menu button {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     width: 100%;
     padding: 8px 15px;
     background: none;
@@ -1127,6 +1129,14 @@ button .fas, button .fab { margin-right: 8px; }
 :root.dark-mode .share-menu a:hover,
 :root.dark-mode .share-menu button:hover {
     background: rgba(255,255,255,0.1);
+}
+.share-menu-icon {
+    color: var(--color-gold-dark);
+    width: 20px;
+    text-align: center;
+}
+:root.dark-mode .share-menu-icon {
+    color: var(--color-gold-medium);
 }
 
 /* ============================================= */
@@ -1884,6 +1894,15 @@ button .fas, button .fab { margin-right: 8px; }
     .initial-report-main-event { font-size: 1.5em; }
     .initial-report-instructions { font-size: 1.05em; }
     .popover { width: 210px; }
+
+    #detective-guide-section .suspect-profiles {
+        flex-direction: column;
+        align-items: center;
+    }
+    #detective-guide-section .suspect-profile-card {
+        width: 100%;
+        font-size: 0.8em;
+    }
 
     #completion-message {
         /* Reduce el tamaño del texto para que quepa en pantallas pequeñas */
