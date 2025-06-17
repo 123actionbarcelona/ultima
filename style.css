@@ -1073,7 +1073,7 @@ button .fas, button .fab { margin-right: 8px; }
 /* Nivel de interpretación (píldoras) y iconos */
 .extroversion-level-wrapper { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
 .extroversion-level-container { display: inline-flex; }
-.extroversion-pill { font-family: var(--font-special), monospace; font-weight: bold; font-size: 0.9em; border-radius: 0px;  background: #fff5d0;  border: 2px solid #444;  color: #2a2a2a;  padding: 6px 12px; box-shadow: 1px 1px 2px rgba(0,0,0,0.3); display: inline-flex; align-items: center; text-transform: uppercase; letter-spacing: 0.5px; }
+.extroversion-pill { font-family: var(--font-special), monospace; font-weight: bold; font-size: 0.9em; border-radius: 0px;  background: #fff5d0;  border: 2px solid #444;  color: #2a2a2a;  padding: 6px 12px; box-shadow: 1px 1px 2px rgba(0,0,0,0.3); transform: rotate(-2deg); display: inline-flex; align-items: center; text-transform: uppercase; letter-spacing: 0.5px; }
 .extroversion-pill .fas { margin-right: 6px; font-size: 0.85em; }
 .card-icons-indicators { display: flex; align-items: center; gap: 10px; margin-left: auto;  }
 
