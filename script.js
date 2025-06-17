@@ -216,7 +216,7 @@ function initializeApp(initialChars, initialPacks) {
             let valid = true;
             if (!val) { msg = '⚠️ Campo requerido'; valid = false; }
             else if (val.length < 2) { msg = '❌ Mínimo 2 caracteres'; valid = false; }
-            else if (isDuplicateName(val, input)) { msg = '❌ Nombre ya usado. Prueba con otro'; valid = false; }
+            else if (isDuplicateName(val, input)) { msg = '❌ Nombre ya usado. Añade un distintivo (ej. Ana López)'; valid = false; }
             if (!silent && msg && showToast) {
                 showToastNotification(msg, 'error');
             }
@@ -269,8 +269,11 @@ function initializeApp(initialChars, initialPacks) {
         function attachNameValidation(input) {
             if (!input) return;
             const validate = () => {
-                validateNameInput(input, false, true);
+                const valid = validateNameInput(input, false, true);
                 updateFormProgress();
+                if (!valid) {
+                    setTimeout(() => input.focus(), 0);
+                }
             };
             input.addEventListener('blur', validate);
         }
@@ -316,25 +319,30 @@ function initializeApp(initialChars, initialPacks) {
         }
 
         if (domElements['host-name-input']) {
+            attachNameValidation(domElements['host-name-input']);
             domElements['host-name-input'].addEventListener('blur', () => {
-                validateNameInput(domElements['host-name-input']);
-                 hostName = domElements['host-name-input'].value.trim();
-                 generatePlayerNameInputs(parseInt(domElements['player-count'].value),
-                    Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
-                 );
+                const isValid = validateNameInput(domElements['host-name-input'], true, false);
+                if (isValid) {
+                    hostName = domElements['host-name-input'].value.trim();
+                    generatePlayerNameInputs(
+                        parseInt(domElements['player-count'].value),
+                        Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
+                    );
+                }
                 updateFormProgress();
             });
             domElements['host-name-input'].addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
                     event.preventDefault();
-                    validateNameInput(domElements['host-name-input']);
+                    const isValid = validateNameInput(domElements['host-name-input']);
                     updateFormProgress();
+                    if (!isValid) return;
                     if (domElements['has-honoree-checkbox']) {
                         domElements['has-honoree-checkbox'].focus();
                     } else if (domElements['event-date-input']) {
                         domElements['event-date-input'].focus();
                     } else {
-                         const firstPlayerInput = domElements['player-names-grid-container'].querySelector('input.player-name-box:not([readonly])');
+                        const firstPlayerInput = domElements['player-names-grid-container'].querySelector('input.player-name-box:not([readonly])');
                         if (firstPlayerInput) {
                             firstPlayerInput.focus();
                         } else if (domElements['player-count']) {
@@ -476,17 +484,21 @@ function initializeApp(initialChars, initialPacks) {
             newInput.value = name;
             attachNameValidation(newInput);
             newInput.addEventListener('blur', () => {
-                validateNameInput(newInput);
-                generatePlayerNameInputs(parseInt(domElements['player-count'].value),
-                    Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
-                );
+                const isValid = validateNameInput(newInput, true, false);
+                if (isValid) {
+                    generatePlayerNameInputs(
+                        parseInt(domElements['player-count'].value),
+                        Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
+                    );
+                }
                 updateFormProgress();
             });
             newInput.addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
                     event.preventDefault();
-                    validateNameInput(newInput);
+                    const isValid = validateNameInput(newInput);
                     updateFormProgress();
+                    if (!isValid) return;
                     const allHonoreeInputs = Array.from(container.querySelectorAll('.honoree-name-input'));
                     const currentIndex = allHonoreeInputs.indexOf(this);
                     if (currentIndex > -1 && currentIndex < allHonoreeInputs.length - 1) {
@@ -623,8 +635,9 @@ function initializeApp(initialChars, initialPacks) {
                 input.addEventListener('keydown', function(event) {
                     if (event.key === 'Enter') {
                         event.preventDefault();
-                        validateNameInput(input);
+                        const isValid = validateNameInput(input);
                         updateFormProgress();
+                        if (!isValid) return;
                         const allPlayerInputs = Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])'));
                         const currentIndex = allPlayerInputs.indexOf(this);
                         if (currentIndex > -1 && currentIndex < allPlayerInputs.length - 1) {
@@ -635,7 +648,7 @@ function initializeApp(initialChars, initialPacks) {
                     }
                 });
                 input.addEventListener('blur', () => {
-                    validateNameInput(input);
+                    validateNameInput(input, true, false);
                     updateFormProgress();
                 });
                 if (shouldFocus && i === playerBoxIndex && !input.value) {
