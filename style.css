@@ -366,6 +366,11 @@ button .fas, button .fab { margin-right: 8px; }
     border-color: #2c1b17;
 }
 
+#start-assignment[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .error-message {
     color: var(--color-danger);
     font-weight: 600;
@@ -384,6 +389,15 @@ button .fas, button .fab { margin-right: 8px; }
     border-color: var(--color-danger);
 }
 .error-message .fas { margin-right: 8px; }
+
+.validation-message {
+    font-size: 0.9em;
+    margin-top: 4px;
+    font-family: var(--font-primary);
+}
+.validation-message.warning { color: #FFA000; }
+.validation-message.error { color: var(--color-error); }
+.validation-message.success { color: var(--color-success-darker); }
 
 
 /* 👉👉 FIN BLOQUE 1: ESTILOS GLOBALES Y DE CONFIGURACIÓN 👈👈 */
@@ -2060,6 +2074,37 @@ button .fas, button .fab { margin-right: 8px; }
     font-family: var(--font-special);
     color: var(--color-gold-light);
     box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+/* === PROGRESS BAR DEL FORMULARIO === */
+#form-progress {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+    font-family: var(--font-special);
+    color: var(--color-gold-dark);
+}
+#form-progress .progress-text {
+    text-align: center;
+    font-size: 0.9em;
+}
+#form-progress .progress-bar-bg {
+    width: 80%;
+    height: 8px;
+    background: var(--color-black-artdeco);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 5px;
+}
+#form-progress .progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, var(--color-gold-dark), var(--color-gold-light));
+    transition: width 0.3s ease;
+}
+:root.dark-mode #form-progress {
+    color: var(--color-gold-light);
 }
 
 #assignment-progress .progress-text {

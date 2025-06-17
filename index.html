@@ -51,6 +51,7 @@
             <div class="setup-control-group" style="margin-top: 20px; margin-bottom: 20px;">
                 <label for="event-date-input">🗓️ ¿<strong>Cuándo juegas</strong>?</label>
                 <input type="date" id="event-date-input" class="player-name-box" required/>
+                <div class="validation-message"></div>
             </div>
         </div>
 
@@ -58,6 +59,7 @@
             <div class="setup-control-group" style="margin-bottom: 15px;">
                 <label for="host-name-input">INTRODUCE TU NOMBRE:</label>
                 <input class="player-name-box" id="host-name-input" placeholder="Nombre del Organizador" type="text" required/>
+                <div class="validation-message"></div>
             </div>
         </div>
 
@@ -90,6 +92,11 @@
                 <label id="player-names-label">INTRODUCE EL NOMBRE DE TODOS LOS <strong>JUGADORES</strong>:</label>
                 <div id="player-names-grid-container"></div>
             </div>
+        </div>
+
+        <div id="form-progress" class="form-progress" style="display:none;">
+            <div class="progress-text">0%</div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
         </div>
 
         <div class="bloque bloque-7">
