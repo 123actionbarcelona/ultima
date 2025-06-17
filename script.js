@@ -997,9 +997,15 @@ function initializeApp(initialChars, initialPacks) {
             const menu = document.createElement('div');
             menu.className = 'share-menu';
             menu.innerHTML = `
-                <a href="https://wa.me/?text=${encodeURIComponent(txt)}" target="_blank">🟢 WhatsApp</a>
-                <button type="button" class="share-copy-option">📋 Copiar al portapapeles</button>
-                <a href="mailto:?subject=${encodeURIComponent('Tu personaje en el Cluedo: ' + name)}&body=${encodeURIComponent(txt)}">✉️ Enviar por email</a>
+                <a href="https://wa.me/?text=${encodeURIComponent(txt)}" target="_blank">
+                    <i class="fab fa-whatsapp share-menu-icon"></i>WhatsApp
+                </a>
+                <button type="button" class="share-copy-option">
+                    <i class="fas fa-copy share-menu-icon"></i>Copiar al portapapeles
+                </button>
+                <a href="mailto:?subject=${encodeURIComponent('Tu personaje en el Cluedo: ' + name)}&body=${encodeURIComponent(txt)}">
+                    <i class="fas fa-envelope share-menu-icon"></i>Enviar por email
+                </a>
             `;
             document.body.appendChild(menu);
             const rect = trigger.getBoundingClientRect();

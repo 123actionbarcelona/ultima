@@ -1105,7 +1105,9 @@ button .fas, button .fab { margin-right: 8px; }
 }
 .share-menu a,
 .share-menu button {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     width: 100%;
     padding: 8px 15px;
     background: none;
@@ -1127,6 +1129,14 @@ button .fas, button .fab { margin-right: 8px; }
 :root.dark-mode .share-menu a:hover,
 :root.dark-mode .share-menu button:hover {
     background: rgba(255,255,255,0.1);
+}
+.share-menu-icon {
+    color: var(--color-gold-dark);
+    width: 20px;
+    text-align: center;
+}
+:root.dark-mode .share-menu-icon {
+    color: var(--color-gold-medium);
 }
 
 /* ============================================= */
@@ -1884,6 +1894,15 @@ button .fas, button .fab { margin-right: 8px; }
     .initial-report-main-event { font-size: 1.5em; }
     .initial-report-instructions { font-size: 1.05em; }
     .popover { width: 210px; }
+
+    #detective-guide-section .guide-pills-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    #detective-guide-section .extroversion-pill {
+        width: 100%;
+        font-size: 0.8em;
+    }
 
     #completion-message {
         /* Reduce el tamaño del texto para que quepa en pantallas pequeñas */
