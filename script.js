@@ -1674,6 +1674,21 @@ function setupProgressiveFlow() {
       if (isDesktop() || !dateInput.value) return;
       showBloque(3);
     });
+
+    // Nuevo listener para detectar cambios en la fecha
+    dateInput.addEventListener('change', () => {
+      if (dateInput.value) {
+        showBloque(3);
+        // Activar automáticamente el campo de nombre del host
+        setTimeout(() => {
+          const hostInput = document.getElementById('host-name-input');
+          if (hostInput) {
+            hostInput.focus();
+            hostInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 300); // Pequeño delay para que la animación del bloque se complete
+      }
+    });
   }
   if (hostInput) {
     hostInput.addEventListener('blur', () => {
