@@ -268,18 +268,20 @@ function initializeApp(initialChars, initialPacks) {
 
         function attachNameValidation(input) {
             if (!input) return;
-            input.addEventListener('input', () => {
+            const validate = () => {
                 validateNameInput(input, false, true);
                 updateFormProgress();
-            });
+            };
+            input.addEventListener('blur', validate);
         }
 
         function attachDateValidation(input) {
             if (!input) return;
-            input.addEventListener('input', () => {
+            const validate = () => {
                 validateDateInput(input, false, true);
                 updateFormProgress();
-            });
+            };
+            input.addEventListener('blur', validate);
         }
 
         // La función addHonoreeInput se definirá en el Bloque 3, pero se llama desde aquí.
@@ -314,8 +316,8 @@ function initializeApp(initialChars, initialPacks) {
         }
 
         if (domElements['host-name-input']) {
-            attachNameValidation(domElements['host-name-input']);
             domElements['host-name-input'].addEventListener('blur', () => {
+                validateNameInput(domElements['host-name-input']);
                  hostName = domElements['host-name-input'].value.trim();
                  generatePlayerNameInputs(parseInt(domElements['player-count'].value),
                     Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
@@ -325,6 +327,8 @@ function initializeApp(initialChars, initialPacks) {
             domElements['host-name-input'].addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
                     event.preventDefault();
+                    validateNameInput(domElements['host-name-input']);
+                    updateFormProgress();
                     if (domElements['has-honoree-checkbox']) {
                         domElements['has-honoree-checkbox'].focus();
                     } else if (domElements['event-date-input']) {
@@ -346,9 +350,11 @@ function initializeApp(initialChars, initialPacks) {
                 eventDateValue = domElements['event-date-input'].value;
                 updateFormProgress();
             });
-             domElements['event-date-input'].addEventListener('keydown', function(event) {
+            domElements['event-date-input'].addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
                     event.preventDefault();
+                    validateDateInput(domElements['event-date-input']);
+                    updateFormProgress();
                      const hasHonoreeChecked = domElements['has-honoree-checkbox'] ? domElements['has-honoree-checkbox'].checked : false;
                     let nextFocusElement = null;
 
@@ -470,6 +476,7 @@ function initializeApp(initialChars, initialPacks) {
             newInput.value = name;
             attachNameValidation(newInput);
             newInput.addEventListener('blur', () => {
+                validateNameInput(newInput);
                 generatePlayerNameInputs(parseInt(domElements['player-count'].value),
                     Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
                 );
@@ -478,6 +485,8 @@ function initializeApp(initialChars, initialPacks) {
             newInput.addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
                     event.preventDefault();
+                    validateNameInput(newInput);
+                    updateFormProgress();
                     const allHonoreeInputs = Array.from(container.querySelectorAll('.honoree-name-input'));
                     const currentIndex = allHonoreeInputs.indexOf(this);
                     if (currentIndex > -1 && currentIndex < allHonoreeInputs.length - 1) {
@@ -614,6 +623,8 @@ function initializeApp(initialChars, initialPacks) {
                 input.addEventListener('keydown', function(event) {
                     if (event.key === 'Enter') {
                         event.preventDefault();
+                        validateNameInput(input);
+                        updateFormProgress();
                         const allPlayerInputs = Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])'));
                         const currentIndex = allPlayerInputs.indexOf(this);
                         if (currentIndex > -1 && currentIndex < allPlayerInputs.length - 1) {
@@ -623,7 +634,10 @@ function initializeApp(initialChars, initialPacks) {
                         }
                     }
                 });
-                 input.addEventListener('blur', () => {}); // Se deja el listener vacío por si se reintroduce lógica
+                input.addEventListener('blur', () => {
+                    validateNameInput(input);
+                    updateFormProgress();
+                });
                 if (shouldFocus && i === playerBoxIndex && !input.value) {
                      setTimeout(() => input.focus(), 50);
                 }
