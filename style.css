@@ -785,11 +785,59 @@ button .fas, button .fab { margin-right: 8px; }
 #detective-guide-section h4 .fas { margin-right: 10px; font-size: 0.9em; }
 
 #detective-guide-section ol { list-style-type: none; padding-left: 0; font-size: 1.05em; counter-reset: guide-counter; }
-#detective-guide-section ol li { position: relative; margin-bottom: 12px; padding-left: 55px; line-height: 1.6; min-height: 40px; }
+#detective-guide-section ol li { position: relative; margin-bottom: 20px; padding-left: 55px; line-height: 1.6; min-height: 40px; }
 #detective-guide-section ol li::before { counter-increment: guide-counter; content: counter(guide-counter) "."; position: absolute; left: 0px; top: -5px; font-family: var(--font-special), serif; font-weight: bold; font-size: 3em; line-height: 1; color: var(--color-gold-dark); width: 45px; text-align: right; padding-right: 10px; }
 #detective-guide-section strong { font-weight: 600; color: var(--color-text-dark); }
+.iconos-guia {
+    background: #fdf5e6;
+    border: 2px solid #d3b574;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 30px;
+    font-family: 'Special Elite', serif;
+    color: #3b2e1a;
+    max-width: 600px;
+    margin-inline: auto;
+    box-shadow: 0 0 6px rgba(0,0,0,0.1);
+}
+.iconos-guia h3 {
+    margin-bottom: 18px;
+    font-size: 18px;
+    color: #4a321a;
+    border-bottom: 1px dashed #c0a062;
+    padding-bottom: 6px;
+}
+.iconos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.icono-box {
+    display: flex;
+    align-items: flex-start;
+    text-align: left;
+    gap: 12px;
+}
+.icono-texto {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.icono-box .emoji {
+    font-size: 28px;
+    flex-shrink: 0;
+}
+.icono-box strong {
+    color: #3d2b1f;
+    font-weight: bold;
+    font-size: 15px;
+}
+.icono-box em {
+    color: #6b4a2f;
+    font-style: normal;
+}
 .suspect-profiles { margin-top: 10px; margin-bottom: 10px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; padding-left: 0; }
-.suspect-profile-card { max-width: 300px; width: 100%; text-align: center; font-family: var(--font-special), monospace; font-weight: bold; font-size: 0.9em; background: #fff5d0; border: 2px solid #444; border-radius: 0; color: #2a2a2a; padding: 6px 12px; box-shadow: 1px 1px 2px rgba(0,0,0,0.3); transform: rotate(-2deg); display: flex; flex-direction: column; align-items: center; letter-spacing: 0.5px; }
+.suspect-profile-card { max-width: 300px; width: 100%; text-align: center; font-family: var(--font-special), monospace; font-weight: bold; font-size: 0.9em; background: #fff5d0; border: 2px solid #444; border-radius: 0; color: #2a2a2a; padding: 6px 12px; box-shadow: 1px 1px 2px rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; letter-spacing: 0.5px; }
 :root.dark-mode #detective-guide-section .suspect-profile-card { background: #38352e; border-color: var(--color-gold-medium); color: var(--color-gold-light); }
 .suspect-profile-card .profile-title { font-weight: 600; text-transform: uppercase; }
 .suspect-profile-card .profile-desc { font-size: 0.8em; text-transform: none; }
@@ -799,9 +847,21 @@ button .fas, button .fab { margin-right: 8px; }
 :root.dark-mode #detective-guide-section ol li::before { color: var(--color-gold-medium); }
 :root.dark-mode #detective-guide-section strong { color: var(--color-text-dark); }
 :root.dark-mode #detective-guide-section .extroversion-pill { background: #38352e; color: var(--color-gold-light); border-color: var(--color-gold-medium); }
-:root.dark-mode #detective-guide-section .special-considerations { border-top-color: var(--color-gold-dark); }
-:root.dark-mode #detective-guide-section .special-considerations h5 { color: var(--color-gold-light); }
-:root.dark-mode #detective-guide-section .special-considerations h5 .fas { color: var(--color-gold-medium); }
+:root.dark-mode #detective-guide-section .iconos-guia {
+    background: #292520;
+    border-color: var(--color-gold-dark);
+    color: var(--color-gold-light);
+}
+:root.dark-mode #detective-guide-section .iconos-guia h3 {
+    color: var(--color-gold-light);
+    border-bottom-color: var(--color-gold-medium);
+}
+:root.dark-mode #detective-guide-section .icono-box strong {
+    color: var(--color-gold-light);
+}
+:root.dark-mode #detective-guide-section .icono-box em {
+    color: var(--color-gold-medium);
+}
 
 /* ============================================= */
 /* Estilos Columnas de Personajes                */
@@ -1010,7 +1070,7 @@ button .fas, button .fab { margin-right: 8px; }
 /* Nivel de interpretación (píldoras) y iconos */
 .extroversion-level-wrapper { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
 .extroversion-level-container { display: inline-flex; }
-.extroversion-pill { font-family: var(--font-special), monospace; font-weight: bold; font-size: 0.9em; border-radius: 0px;  background: #fff5d0;  border: 2px solid #444;  color: #2a2a2a;  padding: 6px 12px; box-shadow: 1px 1px 2px rgba(0,0,0,0.3); transform: rotate(-2deg);  display: inline-flex; align-items: center; text-transform: uppercase; letter-spacing: 0.5px; }
+.extroversion-pill { font-family: var(--font-special), monospace; font-weight: bold; font-size: 0.9em; border-radius: 0px;  background: #fff5d0;  border: 2px solid #444;  color: #2a2a2a;  padding: 6px 12px; box-shadow: 1px 1px 2px rgba(0,0,0,0.3); transform: rotate(-2deg); display: inline-flex; align-items: center; text-transform: uppercase; letter-spacing: 0.5px; }
 .extroversion-pill .fas { margin-right: 6px; font-size: 0.85em; }
 .card-icons-indicators { display: flex; align-items: center; gap: 10px; margin-left: auto;  }
 
@@ -1851,6 +1911,26 @@ button .fas, button .fab { margin-right: 8px; }
 
 @media (min-width: 580px) { .character-gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; } }
 @media (min-width: 768px) { .character-gallery-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+@media (min-width: 768px) {
+    .iconos-guia { max-width: 900px; }
+    .iconos-list { flex-direction: row; }
+    .icono-box {
+        flex: 1;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        background: var(--color-gold-pale);
+        border: 1px solid var(--color-gold-medium);
+        border-radius: 6px;
+        padding: 14px 10px;
+        gap: 6px;
+    }
+    .icono-texto { align-items: center; }
+    :root.dark-mode #detective-guide-section .icono-box {
+        background: #1c1c1c;
+        border-color: var(--color-gold-dark);
+    }
+}
 @media (min-width: 1024px) { .character-gallery-grid { grid-template-columns: repeat(4, 1fr); gap: 25px; } }
 
 @media (max-width: 767px) {
@@ -1903,7 +1983,6 @@ button .fas, button .fab { margin-right: 8px; }
         width: 100%;
         font-size: 0.8em;
     }
-
     #completion-message {
         /* Reduce el tamaño del texto para que quepa en pantallas pequeñas */
         font-size: 0.9em;
