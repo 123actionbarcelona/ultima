@@ -788,8 +788,11 @@ button .fas, button .fab { margin-right: 8px; }
 #detective-guide-section ol li { position: relative; margin-bottom: 12px; padding-left: 55px; line-height: 1.6; min-height: 40px; }
 #detective-guide-section ol li::before { counter-increment: guide-counter; content: counter(guide-counter) "."; position: absolute; left: 0px; top: -5px; font-family: var(--font-special), serif; font-weight: bold; font-size: 3em; line-height: 1; color: var(--color-gold-dark); width: 45px; text-align: right; padding-right: 10px; }
 #detective-guide-section strong { font-weight: 600; color: var(--color-text-dark); }
-.guide-pills-wrapper { margin-top: 10px; margin-bottom: 10px; display: flex; justify-content: flex-start; flex-wrap: wrap; gap: 8px; padding-left: 0; }
-#detective-guide-section .extroversion-pill { transform: rotate(0deg); font-size: 0.85em; padding: 5px 10px; box-shadow: 1px 1px 1px rgba(0,0,0,0.15); margin-bottom: 5px; }
+.suspect-profiles { margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; align-items: center; gap: 12px; padding-left: 0; }
+.suspect-profile-card { max-width: 300px; width: 100%; text-align: center; border: 2px solid var(--color-gold-dark); border-radius: var(--border-radius-soft); padding: 8px 12px; background: var(--color-gold-pale); box-shadow: 1px 1px 1px rgba(0,0,0,0.15); }
+:root.dark-mode #detective-guide-section .suspect-profile-card { background: #38352e; border-color: var(--color-gold-medium); color: var(--color-gold-light); }
+.suspect-profile-card .profile-title { font-weight: 600; }
+.suspect-profile-card .profile-desc { font-size: 0.9em; }
 
 :root.dark-mode #detective-guide-section { background-color: var(--color-gold-pale); border-color: var(--color-gold-dark); border-left-color: var(--color-gold-medium); }
 :root.dark-mode #detective-guide-section h4 { color: var(--color-gold-light); border-bottom-color: var(--color-gold-medium); }
@@ -1892,11 +1895,11 @@ button .fas, button .fab { margin-right: 8px; }
     .initial-report-instructions { font-size: 1.05em; }
     .popover { width: 210px; }
 
-    #detective-guide-section .guide-pills-wrapper {
+    #detective-guide-section .suspect-profiles {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
     }
-    #detective-guide-section .extroversion-pill {
+    #detective-guide-section .suspect-profile-card {
         width: 100%;
         font-size: 0.8em;
     }
