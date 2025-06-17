@@ -181,6 +181,142 @@ function initializeApp(initialChars, initialPacks) {
         let honoreeNames = [];
         let eventDateValue = "";
 
+        function getAllNameInputs() {
+            const inputs = [];
+            if (domElements['host-name-input']) inputs.push(domElements['host-name-input']);
+            if (domElements['honorees-container']) {
+                inputs.push(...domElements['honorees-container'].querySelectorAll('.honoree-name-input'));
+            }
+            if (domElements['player-names-grid-container']) {
+                inputs.push(...domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])'));
+            }
+            return inputs;
+        }
+
+
+        function normalizeName(str) {
+            return str
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase();
+        }
+
+        function isDuplicateName(value, currentInput) {
+            const valNorm = normalizeName(value);
+            const names = getAllNameInputs()
+                .filter(el => el !== currentInput)
+                .map(el => normalizeName(el.value.trim()))
+                .filter(n => n);
+            return names.includes(valNorm);
+        }
+
+        function setValidationMessage(input, message, type) {
+            const msgEl = input.nextElementSibling;
+            if (!msgEl || !msgEl.classList.contains('validation-message')) return;
+            msgEl.textContent = message || '';
+            msgEl.classList.remove('error', 'warning', 'success', 'show');
+            if (message) {
+                msgEl.classList.add(type, 'show');
+                if (type === 'success') {
+                    setTimeout(() => msgEl.classList.remove('show'), 1200);
+                }
+            }
+        }
+
+        function validateNameInput(input, silent = false, showToast = true) {
+            const val = input.value.trim();
+            let msg = '';
+            let type = 'success';
+            let valid = true;
+            if (!val) { msg = '⚠️ Campo requerido'; type = 'warning'; valid = false; }
+            else if (val.length < 2) { msg = '❌ Mínimo 2 caracteres'; type = 'error'; valid = false; }
+            else if (isDuplicateName(val, input)) { msg = '❌ Nombre ya usado'; type = 'error'; valid = false; }
+            else { msg = '✅ Válido'; }
+            if (!silent) {
+                setValidationMessage(input, msg, type);
+                if (!valid && showToast) {
+                    showToastNotification(msg, 'error');
+                }
+            }
+            if (!valid) {
+                input.classList.add('invalid');
+            } else {
+                input.classList.remove('invalid');
+            }
+            return valid;
+        }
+
+        function validateDateInput(input, silent = false, showToast = true) {
+            const val = input.value;
+            let msg = '';
+            let type = 'success';
+            let valid = true;
+            if (!val) { msg = '⚠️ Campo requerido'; type = 'warning'; valid = false; }
+            else { msg = '✅ Válido'; }
+            if (!silent) {
+                setValidationMessage(input, msg, type);
+                if (!valid && msg && showToast) {
+                    showToastNotification(msg, 'error');
+                }
+            }
+            return valid;
+        }
+
+        function updateFormProgress() {
+            const fields = [];
+            if (domElements['event-date-input']) fields.push({el: domElements['event-date-input'], type: 'date'});
+            if (domElements['host-name-input']) fields.push({el: domElements['host-name-input'], type: 'name'});
+            if (domElements['has-honoree-checkbox'] && domElements['has-honoree-checkbox'].checked) {
+                const hInputs = domElements['honorees-container'].querySelectorAll('.honoree-name-input');
+                hInputs.forEach(el => fields.push({el, type: 'name'}));
+            }
+            if (domElements['player-names-grid-container']) {
+                const pInputs = domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])');
+                pInputs.forEach(el => fields.push({el, type: 'name'}));
+            }
+            const total = fields.length;
+            let validCount = 0;
+            fields.forEach(f => {
+                if (f.type === 'date') {
+                    if (validateDateInput(f.el, true)) validCount++; }
+                else {
+                    if (validateNameInput(f.el, true)) validCount++; }
+            });
+            const progressEl = document.getElementById('form-progress');
+            if (progressEl) {
+                const percent = total > 0 ? Math.round((validCount / total) * 100) : 0;
+                progressEl.querySelector('.progress-text').textContent = `${percent}%`;
+                progressEl.querySelector('.progress-bar-fill').style.width = `${percent}%`;
+                progressEl.style.display = 'block';
+            }
+            if (domElements['start-assignment']) {
+                domElements['start-assignment'].disabled = !(validCount === total && total > 0);
+            }
+        }
+
+        function attachNameValidation(input) {
+            if (!input) return;
+            const validate = () => {
+                const valid = validateNameInput(input, false, true);
+                updateFormProgress();
+                if (!valid) {
+                    input.classList.add('invalid');
+                } else {
+                    input.classList.remove('invalid');
+                }
+            };
+            input.addEventListener('blur', validate);
+        }
+
+        function attachDateValidation(input) {
+            if (!input) return;
+            const validate = () => {
+                validateDateInput(input, false, true);
+                updateFormProgress();
+            };
+            input.addEventListener('blur', validate);
+        }
+
         // La función addHonoreeInput se definirá en el Bloque 3, pero se llama desde aquí.
         if (domElements['has-honoree-checkbox']) {
             domElements['has-honoree-checkbox'].addEventListener('change', function() {
@@ -202,30 +338,41 @@ function initializeApp(initialChars, initialPacks) {
                         .map(ip => ip.value),
                     false
                 );
+                updateFormProgress();
             });
         }
         if (domElements['add-honoree-btn']) {
             domElements['add-honoree-btn'].addEventListener('click', () => {
                 addHonoreeInput();
+                updateFormProgress();
             });
         }
 
-         if (domElements['host-name-input']) {
+        if (domElements['host-name-input']) {
+            attachNameValidation(domElements['host-name-input']);
             domElements['host-name-input'].addEventListener('blur', () => {
-                 hostName = domElements['host-name-input'].value.trim();
-                 generatePlayerNameInputs(parseInt(domElements['player-count'].value),
-                    Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
-                 );
+                const isValid = validateNameInput(domElements['host-name-input']);
+                if (isValid) {
+                    hostName = domElements['host-name-input'].value.trim();
+                    generatePlayerNameInputs(
+                        parseInt(domElements['player-count'].value),
+                        Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
+                    );
+                }
+                updateFormProgress();
             });
             domElements['host-name-input'].addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
                     event.preventDefault();
+                    const isValid = validateNameInput(domElements['host-name-input']);
+                    updateFormProgress();
+                    if (!isValid) return;
                     if (domElements['has-honoree-checkbox']) {
                         domElements['has-honoree-checkbox'].focus();
                     } else if (domElements['event-date-input']) {
                         domElements['event-date-input'].focus();
                     } else {
-                         const firstPlayerInput = domElements['player-names-grid-container'].querySelector('input.player-name-box:not([readonly])');
+                        const firstPlayerInput = domElements['player-names-grid-container'].querySelector('input.player-name-box:not([readonly])');
                         if (firstPlayerInput) {
                             firstPlayerInput.focus();
                         } else if (domElements['player-count']) {
@@ -236,12 +383,16 @@ function initializeApp(initialChars, initialPacks) {
             });
         }
         if (domElements['event-date-input']) {
+            attachDateValidation(domElements['event-date-input']);
             domElements['event-date-input'].addEventListener('change', () => {
                 eventDateValue = domElements['event-date-input'].value;
+                updateFormProgress();
             });
-             domElements['event-date-input'].addEventListener('keydown', function(event) {
+            domElements['event-date-input'].addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
                     event.preventDefault();
+                    validateDateInput(domElements['event-date-input']);
+                    updateFormProgress();
                      const hasHonoreeChecked = domElements['has-honoree-checkbox'] ? domElements['has-honoree-checkbox'].checked : false;
                     let nextFocusElement = null;
 
@@ -309,6 +460,7 @@ function initializeApp(initialChars, initialPacks) {
                                        .filter(name => name);
 
             generatePlayerNameInputs(parseInt(domElements['player-count'].value), existingNames);
+            updateFormProgress();
         }
 
         if(domElements['decrement-player-count'] && domElements['increment-player-count'] && domElements['player-count']) {
@@ -331,7 +483,7 @@ function initializeApp(initialChars, initialPacks) {
             });
         }
 
-        if(domElements['player-count']){domElements['player-count'].addEventListener('input',()=>{const c=parseInt(domElements['player-count'].value);const mn=parseInt(domElements['player-count'].min);const mx=parseInt(domElements['player-count'].max);if(c>=mn&&c<=mx){generatePlayerNameInputs(c, Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value));}else if(domElements['player-names-grid-container']&&domElements['player-names-grid-container'].innerHTML!==""&&(c<mn||c>mx)){if(c<mn&&c>=1)generatePlayerNameInputs(mn);else if(c>mx)generatePlayerNameInputs(mx);}});}
+        if(domElements['player-count']){domElements['player-count'].addEventListener('input',()=>{const c=parseInt(domElements['player-count'].value);const mn=parseInt(domElements['player-count'].min);const mx=parseInt(domElements['player-count'].max);if(c>=mn&&c<=mx){generatePlayerNameInputs(c, Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value));}else if(domElements['player-names-grid-container']&&domElements['player-names-grid-container'].innerHTML!==""&&(c<mn||c>mx)){if(c<mn&&c>=1)generatePlayerNameInputs(mn);else if(c>mx)generatePlayerNameInputs(mx);}updateFormProgress();});}
 
         // Las funciones de renderizado y acciones principales se definen en los siguientes bloques.
         // A continuación, se asocian los eventos a las funciones que se definirán más adelante.
@@ -360,14 +512,25 @@ function initializeApp(initialChars, initialPacks) {
             newInput.placeholder = `Nombre Homenajeado/a ${container.children.length + 1}`;
             newInput.className = 'player-name-box honoree-name-input';
             newInput.value = name;
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'validation-message';
+            attachNameValidation(newInput);
             newInput.addEventListener('blur', () => {
-                generatePlayerNameInputs(parseInt(domElements['player-count'].value),
-                    Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
-                );
+                const isValid = validateNameInput(newInput);
+                if (isValid) {
+                    generatePlayerNameInputs(
+                        parseInt(domElements['player-count'].value),
+                        Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
+                    );
+                }
+                updateFormProgress();
             });
             newInput.addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
                     event.preventDefault();
+                    const isValid = validateNameInput(newInput);
+                    updateFormProgress();
+                    if (!isValid) return;
                     const allHonoreeInputs = Array.from(container.querySelectorAll('.honoree-name-input'));
                     const currentIndex = allHonoreeInputs.indexOf(this);
                     if (currentIndex > -1 && currentIndex < allHonoreeInputs.length - 1) {
@@ -394,9 +557,11 @@ function initializeApp(initialChars, initialPacks) {
                 generatePlayerNameInputs(parseInt(domElements['player-count'].value),
                     Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
                 );
+                updateFormProgress();
             };
 
             inputGroup.appendChild(newInput);
+            inputGroup.appendChild(msgDiv);
             inputGroup.appendChild(removeBtn);
             container.appendChild(inputGroup);
         }
@@ -483,6 +648,8 @@ function initializeApp(initialChars, initialPacks) {
                 const input = document.createElement('input');
                 input.type = 'text'; input.classList.add('player-name-box');
 
+                attachNameValidation(input);
+
                 if (editableNamesIndex < preservedEditableNames.length) {
                     input.value = preservedEditableNames[editableNamesIndex];
                     editableNamesIndex++;
@@ -497,10 +664,16 @@ function initializeApp(initialChars, initialPacks) {
                 input.setAttribute('aria-label', input.placeholder);
                 input.style.animationDelay = `${(i - playerBoxIndex) * 0.05}s`;
                 domElements['player-names-grid-container'].appendChild(input);
+                const msgDiv = document.createElement('div');
+                msgDiv.className = 'validation-message';
+                domElements['player-names-grid-container'].appendChild(msgDiv);
 
                 input.addEventListener('keydown', function(event) {
                     if (event.key === 'Enter') {
                         event.preventDefault();
+                        const isValid = validateNameInput(input);
+                        updateFormProgress();
+                        if (!isValid) return;
                         const allPlayerInputs = Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])'));
                         const currentIndex = allPlayerInputs.indexOf(this);
                         if (currentIndex > -1 && currentIndex < allPlayerInputs.length - 1) {
@@ -510,11 +683,15 @@ function initializeApp(initialChars, initialPacks) {
                         }
                     }
                 });
-                 input.addEventListener('blur', () => {}); // Se deja el listener vacío por si se reintroduce lógica
+                input.addEventListener('blur', () => {
+                    validateNameInput(input);
+                    updateFormProgress();
+                });
                 if (shouldFocus && i === playerBoxIndex && !input.value) {
                      setTimeout(() => input.focus(), 50);
                 }
             }
+            updateFormProgress();
         }
 
         function setupCharacterSelection(playerCount) {
@@ -1069,12 +1246,17 @@ function initializeApp(initialChars, initialPacks) {
                 domElements['assignment-progress'].style.display = 'none';
             }
 
+            updateFormProgress();
+
             showToastNotification('Has vuelto a la configuración. Los datos se conservan.', 'info');
         }
 
         function handleStartAssignment() {
             if (!domElements['player-count'] || !domElements['player-count-error'] || !domElements['main-content-area'] ||
                 !domElements['player-names-grid-container'] || !domElements['setup-section']) { return; }
+
+            const formProg = document.getElementById('form-progress');
+            if(formProg) formProg.style.display = 'none';
 
             hostName = domElements['host-name-input'] ? domElements['host-name-input'].value.trim() : "";
             eventDateValue = domElements['event-date-input'] ? domElements['event-date-input'].value : "";
