@@ -181,6 +181,96 @@ function initializeApp(initialChars, initialPacks) {
         let honoreeNames = [];
         let eventDateValue = "";
 
+        function getAllNameInputs() {
+            const inputs = [];
+            if (domElements['host-name-input']) inputs.push(domElements['host-name-input']);
+            if (domElements['honorees-container']) {
+                inputs.push(...domElements['honorees-container'].querySelectorAll('.honoree-name-input'));
+            }
+            if (domElements['player-names-grid-container']) {
+                inputs.push(...domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])'));
+            }
+            return inputs;
+        }
+
+
+        function isDuplicateName(value, currentInput) {
+            const names = getAllNameInputs().filter(el => el !== currentInput).map(el => el.value.trim().toLowerCase()).filter(n => n);
+            return names.includes(value.trim().toLowerCase());
+        }
+
+        function validateNameInput(input, silent = false, showToast = true) {
+            const val = input.value.trim();
+            let msg = '';
+            let valid = true;
+            if (!val) { msg = '⚠️ Campo requerido'; valid = false; }
+            else if (val.length < 2) { msg = '❌ Mínimo 2 caracteres'; valid = false; }
+            else if (isDuplicateName(val, input)) { msg = '❌ Nombre ya usado'; valid = false; }
+            if (!silent && msg && showToast) {
+                showToastNotification(msg, 'error');
+            }
+            return valid;
+        }
+
+        function validateDateInput(input, silent = false, showToast = true) {
+            const val = input.value;
+            let msg = '';
+            let valid = true;
+            if (!val) { msg = '⚠️ Campo requerido'; valid = false; }
+            if (!silent && msg && showToast) {
+                showToastNotification(msg, 'error');
+            }
+            return valid;
+        }
+
+        function updateFormProgress() {
+            const fields = [];
+            if (domElements['event-date-input']) fields.push({el: domElements['event-date-input'], type: 'date'});
+            if (domElements['host-name-input']) fields.push({el: domElements['host-name-input'], type: 'name'});
+            if (domElements['has-honoree-checkbox'] && domElements['has-honoree-checkbox'].checked) {
+                const hInputs = domElements['honorees-container'].querySelectorAll('.honoree-name-input');
+                hInputs.forEach(el => fields.push({el, type: 'name'}));
+            }
+            if (domElements['player-names-grid-container']) {
+                const pInputs = domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])');
+                pInputs.forEach(el => fields.push({el, type: 'name'}));
+            }
+            const total = fields.length;
+            let validCount = 0;
+            fields.forEach(f => {
+                if (f.type === 'date') {
+                    if (validateDateInput(f.el, true)) validCount++; }
+                else {
+                    if (validateNameInput(f.el, true)) validCount++; }
+            });
+            const progressEl = document.getElementById('form-progress');
+            if (progressEl) {
+                const percent = total > 0 ? Math.round((validCount / total) * 100) : 0;
+                progressEl.querySelector('.progress-text').textContent = `${percent}%`;
+                progressEl.querySelector('.progress-bar-fill').style.width = `${percent}%`;
+                progressEl.style.display = 'block';
+            }
+            if (domElements['start-assignment']) {
+                domElements['start-assignment'].disabled = !(validCount === total && total > 0);
+            }
+        }
+
+        function attachNameValidation(input) {
+            if (!input) return;
+            input.addEventListener('input', () => {
+                validateNameInput(input, false, true);
+                updateFormProgress();
+            });
+        }
+
+        function attachDateValidation(input) {
+            if (!input) return;
+            input.addEventListener('input', () => {
+                validateDateInput(input, false, true);
+                updateFormProgress();
+            });
+        }
+
         // La función addHonoreeInput se definirá en el Bloque 3, pero se llama desde aquí.
         if (domElements['has-honoree-checkbox']) {
             domElements['has-honoree-checkbox'].addEventListener('change', function() {
@@ -202,20 +292,24 @@ function initializeApp(initialChars, initialPacks) {
                         .map(ip => ip.value),
                     false
                 );
+                updateFormProgress();
             });
         }
         if (domElements['add-honoree-btn']) {
             domElements['add-honoree-btn'].addEventListener('click', () => {
                 addHonoreeInput();
+                updateFormProgress();
             });
         }
 
-         if (domElements['host-name-input']) {
+        if (domElements['host-name-input']) {
+            attachNameValidation(domElements['host-name-input']);
             domElements['host-name-input'].addEventListener('blur', () => {
                  hostName = domElements['host-name-input'].value.trim();
                  generatePlayerNameInputs(parseInt(domElements['player-count'].value),
                     Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
                  );
+                updateFormProgress();
             });
             domElements['host-name-input'].addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
@@ -236,8 +330,10 @@ function initializeApp(initialChars, initialPacks) {
             });
         }
         if (domElements['event-date-input']) {
+            attachDateValidation(domElements['event-date-input']);
             domElements['event-date-input'].addEventListener('change', () => {
                 eventDateValue = domElements['event-date-input'].value;
+                updateFormProgress();
             });
              domElements['event-date-input'].addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
@@ -309,6 +405,7 @@ function initializeApp(initialChars, initialPacks) {
                                        .filter(name => name);
 
             generatePlayerNameInputs(parseInt(domElements['player-count'].value), existingNames);
+            updateFormProgress();
         }
 
         if(domElements['decrement-player-count'] && domElements['increment-player-count'] && domElements['player-count']) {
@@ -331,7 +428,7 @@ function initializeApp(initialChars, initialPacks) {
             });
         }
 
-        if(domElements['player-count']){domElements['player-count'].addEventListener('input',()=>{const c=parseInt(domElements['player-count'].value);const mn=parseInt(domElements['player-count'].min);const mx=parseInt(domElements['player-count'].max);if(c>=mn&&c<=mx){generatePlayerNameInputs(c, Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value));}else if(domElements['player-names-grid-container']&&domElements['player-names-grid-container'].innerHTML!==""&&(c<mn||c>mx)){if(c<mn&&c>=1)generatePlayerNameInputs(mn);else if(c>mx)generatePlayerNameInputs(mx);}});}
+        if(domElements['player-count']){domElements['player-count'].addEventListener('input',()=>{const c=parseInt(domElements['player-count'].value);const mn=parseInt(domElements['player-count'].min);const mx=parseInt(domElements['player-count'].max);if(c>=mn&&c<=mx){generatePlayerNameInputs(c, Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value));}else if(domElements['player-names-grid-container']&&domElements['player-names-grid-container'].innerHTML!==""&&(c<mn||c>mx)){if(c<mn&&c>=1)generatePlayerNameInputs(mn);else if(c>mx)generatePlayerNameInputs(mx);}updateFormProgress();});}
 
         // Las funciones de renderizado y acciones principales se definen en los siguientes bloques.
         // A continuación, se asocian los eventos a las funciones que se definirán más adelante.
@@ -360,10 +457,12 @@ function initializeApp(initialChars, initialPacks) {
             newInput.placeholder = `Nombre Homenajeado/a ${container.children.length + 1}`;
             newInput.className = 'player-name-box honoree-name-input';
             newInput.value = name;
+            attachNameValidation(newInput);
             newInput.addEventListener('blur', () => {
                 generatePlayerNameInputs(parseInt(domElements['player-count'].value),
                     Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
                 );
+                updateFormProgress();
             });
             newInput.addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
@@ -394,6 +493,7 @@ function initializeApp(initialChars, initialPacks) {
                 generatePlayerNameInputs(parseInt(domElements['player-count'].value),
                     Array.from(domElements['player-names-grid-container'].querySelectorAll('input.player-name-box:not([readonly])')).map(ip => ip.value)
                 );
+                updateFormProgress();
             };
 
             inputGroup.appendChild(newInput);
@@ -483,6 +583,8 @@ function initializeApp(initialChars, initialPacks) {
                 const input = document.createElement('input');
                 input.type = 'text'; input.classList.add('player-name-box');
 
+                attachNameValidation(input);
+
                 if (editableNamesIndex < preservedEditableNames.length) {
                     input.value = preservedEditableNames[editableNamesIndex];
                     editableNamesIndex++;
@@ -515,6 +617,7 @@ function initializeApp(initialChars, initialPacks) {
                      setTimeout(() => input.focus(), 50);
                 }
             }
+            updateFormProgress();
         }
 
         function setupCharacterSelection(playerCount) {
@@ -1069,12 +1172,17 @@ function initializeApp(initialChars, initialPacks) {
                 domElements['assignment-progress'].style.display = 'none';
             }
 
+            updateFormProgress();
+
             showToastNotification('Has vuelto a la configuración. Los datos se conservan.', 'info');
         }
 
         function handleStartAssignment() {
             if (!domElements['player-count'] || !domElements['player-count-error'] || !domElements['main-content-area'] ||
                 !domElements['player-names-grid-container'] || !domElements['setup-section']) { return; }
+
+            const formProg = document.getElementById('form-progress');
+            if(formProg) formProg.style.display = 'none';
 
             hostName = domElements['host-name-input'] ? domElements['host-name-input'].value.trim() : "";
             eventDateValue = domElements['event-date-input'] ? domElements['event-date-input'].value : "";
