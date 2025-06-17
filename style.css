@@ -787,8 +787,6 @@ button .fas, button .fab { margin-right: 8px; }
 #detective-guide-section ol { list-style-type: none; padding-left: 0; font-size: 1.05em; counter-reset: guide-counter; }
 #detective-guide-section ol li { position: relative; margin-bottom: 12px; padding-left: 55px; line-height: 1.6; min-height: 40px; }
 #detective-guide-section ol li::before { counter-increment: guide-counter; content: counter(guide-counter) "."; position: absolute; left: 0px; top: -5px; font-family: var(--font-special), serif; font-weight: bold; font-size: 3em; line-height: 1; color: var(--color-gold-dark); width: 45px; text-align: right; padding-right: 10px; }
-.guide-icon { margin-right: 8px; color: var(--color-gold-dark); width: 20px; text-align: center; font-size: 1em; vertical-align: middle; }
-.guide-icon.fa-whatsapp { color: var(--color-whatsapp); }
 #detective-guide-section strong { font-weight: 600; color: var(--color-text-dark); }
 .guide-pills-wrapper { margin-top: 10px; margin-bottom: 10px; display: flex; justify-content: flex-start; flex-wrap: wrap; gap: 8px; padding-left: 0; }
 #detective-guide-section .extroversion-pill { transform: rotate(0deg); font-size: 0.85em; padding: 5px 10px; box-shadow: 1px 1px 1px rgba(0,0,0,0.15); margin-bottom: 5px; }
@@ -796,7 +794,6 @@ button .fas, button .fab { margin-right: 8px; }
 :root.dark-mode #detective-guide-section { background-color: var(--color-gold-pale); border-color: var(--color-gold-dark); border-left-color: var(--color-gold-medium); }
 :root.dark-mode #detective-guide-section h4 { color: var(--color-gold-light); border-bottom-color: var(--color-gold-medium); }
 :root.dark-mode #detective-guide-section ol li::before { color: var(--color-gold-medium); }
-:root.dark-mode .guide-icon { color: var(--color-gold-medium); }
 :root.dark-mode #detective-guide-section strong { color: var(--color-text-dark); }
 :root.dark-mode #detective-guide-section .extroversion-pill { background: #38352e; color: var(--color-gold-light); border-color: var(--color-gold-medium); }
 :root.dark-mode #detective-guide-section .special-considerations { border-top-color: var(--color-gold-dark); }
