@@ -1481,9 +1481,15 @@ function setupProgressiveFlow() {
   const namesContainer = document.getElementById('player-names-grid-container');
 
   if (dateInput) {
-    dateInput.addEventListener('blur', () => {
-      if (dateInput.value) showBloque(3);
-    });
+    const handleDateEvent = evt => {
+      if (!dateInput.value) return;
+      showBloque(3);
+      if (evt.type === 'change' && isDesktop() && hostInput) {
+        hostInput.focus();
+      }
+    };
+    dateInput.addEventListener('change', handleDateEvent);
+    dateInput.addEventListener('blur', handleDateEvent);
   }
   if (hostInput) {
     hostInput.addEventListener('blur', () => {
