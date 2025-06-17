@@ -33,6 +33,7 @@
     --color-error-darker: #B71C1C;
     --color-info: #1976D2;
     --color-info-darker: #0D47A1;
+    --color-warning: #FF9800;
 
     --color-extrovertido-pill-bg: #E63946;
     --color-introvertido-pill-bg: #457B9D;
@@ -80,6 +81,7 @@
     --color-error-darker: #D32F2F;
     --color-info: #42A5F5;
     --color-info-darker: #1E88E5;
+    --color-warning: #FFB74D;
 
     --color-danger: #e57373;
 
@@ -235,6 +237,16 @@ input.player-name-box:focus,
     background-color: #fffefc;
 }
 
+input.invalid {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 3px rgba(211, 47, 47, .45), var(--box-shadow-inset);
+}
+
+:root.dark-mode input.invalid {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 3px rgba(239, 83, 80, .45), var(--box-shadow-inset);
+}
+
 :root.dark-mode input.player-name-box:focus,
 :root.dark-mode #setup-section input[type="number"]:focus,
 :root.dark-mode #setup-section input[type="text"]:focus,
@@ -366,6 +378,11 @@ button .fas, button .fab { margin-right: 8px; }
     border-color: #2c1b17;
 }
 
+#start-assignment[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .error-message {
     color: var(--color-danger);
     font-weight: 600;
@@ -384,6 +401,19 @@ button .fas, button .fab { margin-right: 8px; }
     border-color: var(--color-danger);
 }
 .error-message .fas { margin-right: 8px; }
+
+.validation-message {
+    display: none;
+    font-size: 0.8em;
+    margin-top: 4px;
+    font-family: var(--font-primary);
+    font-weight: 600;
+}
+.validation-message.show { display: block; }
+.validation-message.error { color: var(--color-error); }
+.validation-message.warning { color: var(--color-warning); }
+
+
 
 
 /* 👉👉 FIN BLOQUE 1: ESTILOS GLOBALES Y DE CONFIGURACIÓN 👈👈 */
@@ -2060,6 +2090,37 @@ button .fas, button .fab { margin-right: 8px; }
     font-family: var(--font-special);
     color: var(--color-gold-light);
     box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+/* === PROGRESS BAR DEL FORMULARIO === */
+#form-progress {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+    font-family: var(--font-special);
+    color: var(--color-gold-dark);
+}
+#form-progress .progress-text {
+    text-align: center;
+    font-size: 0.9em;
+}
+#form-progress .progress-bar-bg {
+    width: 80%;
+    height: 8px;
+    background: var(--color-black-artdeco);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 5px;
+}
+#form-progress .progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, var(--color-gold-dark), var(--color-gold-light));
+    transition: width 0.3s ease;
+}
+:root.dark-mode #form-progress {
+    color: var(--color-gold-light);
 }
 
 #assignment-progress .progress-text {
