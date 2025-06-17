@@ -1031,46 +1031,206 @@ function initializeApp(initialChars, initialPacks) {
 // 👉👉 A PARTIR DE AQUÍ PEGAR EL BLOQUE 4: ACCIONES PRINCIPALES Y EXPORTACIÓN 👈👈
 // 👉👉 INICIO BLOQUE 4: ACCIONES PRINCIPALES Y EXPORTACIÓN 👈👈
 
+        // 🛠️ SOLUCIÓN COMPLETA: Fix para campos que desaparecen
+        // REEMPLAZAR la función handleBackToSetup() en script.js
+
         function handleBackToSetup() {
             if (!domElements['setup-section'] || !domElements['main-content-area']) return;
 
+            console.log('🔄 Volviendo a setup - iniciando transición...');
+
+            // PASO 1: Preparar el estado antes de cualquier scroll
+            // Restaurar valores ANTES de hacer visible el setup
+            if (domElements['host-name-input']) {
+                domElements['host-name-input'].value = hostName || '';
+            }
+            if (domElements['event-date-input']) {
+                domElements['event-date-input'].value = eventDateValue || '';
+            }
+
+            // PASO 2: Asegurar que todos los bloques necesarios estén visibles
+            const essentialBlocks = [
+                document.querySelector('.bloque-2'), // Fecha
+                document.querySelector('.bloque-3'), // Host name
+                document.querySelector('.bloque-4'), // Honoree
+                document.querySelector('.bloque-5'), // Player count
+                document.querySelector('.bloque-6'), // Player names
+                document.querySelector('.bloque-7')  // Start button
+            ];
+
+            essentialBlocks.forEach((block, index) => {
+                if (block) {
+                    // Forzar visibilidad de bloques esenciales
+                    block.classList.remove('hidden-section');
+                    block.classList.add('visible-section');
+                    block.style.display = 'block';
+                    block.style.opacity = '1';
+
+                    console.log(`✅ Bloque ${index + 2} restaurado`);
+                }
+            });
+
+            // PASO 3: Ocultar main-content y mostrar setup SIN scroll todavía
             domElements['main-content-area'].classList.add('hidden-section');
             domElements['main-content-area'].classList.remove('visible-section');
             domElements['setup-section'].style.display = 'block';
+            domElements['setup-section'].style.opacity = '1';
 
-            // Cancel any smooth scroll still in progress from the assignment view
-            window.scrollTo({ top: 0, behavior: 'auto' });
+            // PASO 4: Restaurar estado de honorees si existen
+            if (honoreeNames && honoreeNames.length > 0) {
+                const honChk = domElements['has-honoree-checkbox'];
+                if (honChk) {
+                    honChk.checked = true;
+                    // Disparar el evento para restaurar inputs de honorees
+                    honChk.dispatchEvent(new Event('change'));
 
-            // Delay slightly so the layout settles before revealing fields again
+                    // Esperar un poco y restaurar los nombres
+                    setTimeout(() => {
+                        const honoreeInputs = domElements['honorees-container']?.querySelectorAll('.honoree-name-input');
+                        if (honoreeInputs) {
+                            honoreeInputs.forEach((input, index) => {
+                                if (honoreeNames[index]) {
+                                    input.value = honoreeNames[index];
+                                }
+                            });
+                        }
+                    }, 50);
+                }
+            }
+
+            // PASO 5: Restaurar player names si existen
             setTimeout(() => {
-                // Ensure previously revealed blocks remain visible when returning
-                document.querySelectorAll('#setup-section .bloque').forEach(b => {
-                    if (b.classList.contains('hidden-section')) {
-                        b.classList.remove('hidden-section');
-                        b.classList.add('visible-section');
-                    }
-                });
+                const playerCount = parseInt(domElements['player-count']?.value || '8');
+                const existingNames = [];
 
-                // Restore previously entered host and date values
-                if (domElements['host-name-input']) {
-                    domElements['host-name-input'].value = hostName;
+                // Recopilar nombres existentes preservando orden
+                if (hostName) existingNames.push(hostName + ' 🎩');
+                honoreeNames.forEach(name => existingNames.push(name + ' 🌟'));
+
+                // Regenerar inputs con nombres preservados
+                if (typeof generatePlayerNameInputs === 'function') {
+                    generatePlayerNameInputs(playerCount, existingNames, false);
                 }
 
-                const existingNames = Array.from(domElements['player-names-grid-container']?.querySelectorAll('input.player-name-box'))
-                                            .map(input => input.value);
-                if (existingNames.length > 0) {
-                    generatePlayerNameInputs(parseInt(domElements['player-count'].value), existingNames);
-                }
-
-                domElements['setup-section'].scrollIntoView({ behavior: 'smooth', block: 'start' });
+                console.log('✅ Player names restaurados:', existingNames.length);
             }, 100);
 
-            if(domElements['assignment-progress']){
+            // PASO 6: AHORA SÍ hacer scroll, pero suave y después de todo
+            setTimeout(() => {
+                // Cancelar cualquier scroll en progreso
+                if (window.currentScrollAnimation) {
+                    window.currentScrollAnimation = null;
+                }
+
+                // Scroll suave al top
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+
+                // Después del scroll, enfocar en setup
+                setTimeout(() => {
+                    const initialReport = domElements['initial-report-target'];
+                    if (initialReport) {
+                        initialReport.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start',
+                            inline: 'nearest'
+                        });
+                    }
+                }, 300);
+            }, 200);
+
+            // PASO 7: Ocultar progress bar si existe
+            if (domElements['assignment-progress']) {
                 domElements['assignment-progress'].style.display = 'none';
             }
 
-            showToastNotification('Has vuelto a la configuración. Los datos se conservan.', 'info');
+            // PASO 8: Verificación final y feedback
+            setTimeout(() => {
+                // Verificar que todo esté visible
+                const dateInput = domElements['event-date-input'];
+                const hostInput = domElements['host-name-input'];
+
+                if (dateInput && dateInput.offsetParent === null) {
+                    console.warn('⚠️ Campo fecha no visible, forzando...');
+                    dateInput.closest('.bloque')?.classList.add('visible-section');
+                    dateInput.closest('.bloque')?.classList.remove('hidden-section');
+                }
+
+                if (hostInput && hostInput.offsetParent === null) {
+                    console.warn('⚠️ Campo host no visible, forzando...');
+                    hostInput.closest('.bloque')?.classList.add('visible-section');
+                    hostInput.closest('.bloque')?.classList.remove('hidden-section');
+                }
+
+                // Toast notification
+                if (window.showToastNotification) {
+                    showToastNotification('🔄 Vuelto a configuración. Datos preservados.', 'info', 2000);
+                }
+
+                console.log('✅ Transición de vuelta completada');
+            }, 500);
         }
+
+        // 🔧 FUNCIÓN AUXILIAR: Forzar visibilidad de elementos críticos
+        function forceElementsVisibility() {
+            const criticalElements = [
+                '#event-date-input',
+                '#host-name-input',
+                '.bloque-2',
+                '.bloque-3'
+            ];
+
+            criticalElements.forEach(selector => {
+                const element = document.querySelector(selector);
+                if (element) {
+                    element.style.display = 'block';
+                    element.style.visibility = 'visible';
+                    element.style.opacity = '1';
+
+                    // Si es un bloque, asegurar clases correctas
+                    if (element.classList.contains('bloque')) {
+                        element.classList.remove('hidden-section');
+                        element.classList.add('visible-section');
+                    }
+                }
+            });
+        }
+
+        // 🔧 MEJORAR: Interceptar scroll rápido problemático
+        let lastScrollTime = 0;
+        let scrollVelocityHigh = false;
+
+        window.addEventListener('scroll', () => {
+            const now = Date.now();
+            const timeDiff = now - lastScrollTime;
+
+            if (timeDiff < 16) { // ~60fps o más rápido
+                scrollVelocityHigh = true;
+                setTimeout(() => { scrollVelocityHigh = false; }, 200);
+            }
+
+            lastScrollTime = now;
+        });
+
+        // 🔧 OVERRIDE: Interceptar transiciones cuando hay scroll rápido
+        const originalHandleBackToSetup = handleBackToSetup;
+        handleBackToSetup = function() {
+            if (scrollVelocityHigh) {
+                console.log('⚠️ Scroll rápido detectado, usando transición robusta…');
+
+                // Forzar visibilidad inmediata antes de cualquier otra cosa
+                forceElementsVisibility();
+
+                // Pequeña pausa para estabilizar
+                setTimeout(() => {
+                    originalHandleBackToSetup.call(this);
+                }, 50);
+            } else {
+                originalHandleBackToSetup.call(this);
+            }
+        };
 
         function handleStartAssignment() {
             if (!domElements['player-count'] || !domElements['player-count-error'] || !domElements['main-content-area'] ||
