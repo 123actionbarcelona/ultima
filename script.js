@@ -67,6 +67,18 @@ const comboIconDetails = {
 
 // 👉👉 FIN BLOQUE 1: CONFIGURACIÓN Y DATOS MAESTROS 👈👈
 
+// === Persistencia Local ===
+const AUTH_KEY = 'cluedo_auth';
+const SESSION_KEY = 'cluedo_current_session';
+function getStoredAuth(){ try{return JSON.parse(localStorage.getItem(AUTH_KEY));}catch(e){return null;} }
+function setStoredAuth(d){ localStorage.setItem(AUTH_KEY, JSON.stringify(d)); }
+function saveAuth(date=null){ setStoredAuth({authenticated:true,timestamp:new Date().toISOString(),linkedEventDate:date}); }
+function getStoredSession(){ try{return JSON.parse(localStorage.getItem(SESSION_KEY));}catch(e){return null;} }
+function saveSessionToStorage(d){ localStorage.setItem(SESSION_KEY, JSON.stringify(d)); }
+function cleanExpiredData(){ const s=getStoredSession(); if(!s||!s.formData||!s.isComplete) return; const ed=s.formData.eventDate; if(!ed) return; const exp=new Date(ed); exp.setDate(exp.getDate()+1); if(new Date()>exp){ if(confirm("¿Guardar esta configuración como plantilla antes de limpiar?")){ /* saveAsTemplate(s); */ } localStorage.removeItem(SESSION_KEY); localStorage.removeItem(AUTH_KEY); } }
+function autoAuthenticate(){ const a=getStoredAuth(); if(!a||!a.authenticated) return; if(a.linkedEventDate){ const expiry=new Date(a.linkedEventDate); expiry.setDate(expiry.getDate()+1); if(new Date()>expiry){ localStorage.removeItem(AUTH_KEY); return; } } const intro=document.getElementById('intro-detective'); if(intro) intro.style.display='none'; }
+function normalStart(cb){ const app=initializeApp(allCharacters_data,packs_data); window.cluedoApp=app; setupProgressiveFlow(); autoAuthenticate(); if(cb) cb(app); }
+function initializeWithPersistence(){ const s=getStoredSession(); if(!s){ normalStart(); return; } const ev=new Date(s.formData.eventDate); const today=new Date(); const dayAfter=new Date(ev); dayAfter.setDate(dayAfter.getDate()+1); if(!s.isComplete){ if(confirm(`Continuar preparando el evento del ${ev.toLocaleDateString('es-ES')}`)){ normalStart(()=>window.cluedoApp.restoreSession(s)); }else{ normalStart(); } return; } if(today<=ev){ if(confirm(`Asignaciones listas para el ${ev.toLocaleDateString('es-ES')}. ¿Recuperar?`)){ normalStart(()=>window.cluedoApp.restoreSession(s)); }else{ normalStart(); } return; } if(today>ev && today<=dayAfter){ if(confirm("¿Consultar asignaciones del evento pasado?")){ normalStart(()=>window.cluedoApp.restoreSession(s)); }else{ localStorage.removeItem(SESSION_KEY); localStorage.removeItem(AUTH_KEY); normalStart(); } return; } localStorage.removeItem(SESSION_KEY); localStorage.removeItem(AUTH_KEY); normalStart(); }
 
 // 👉👉 A PARTIR DE AQUÍ PEGAR EL BLOQUE 2: INICIALIZACIÓN Y GESTIÓN DEL ESTADO GLOBAL 👈👈
 // �👉 INICIO BLOQUE 2: INICIALIZACIÓN Y GESTIÓN DEL ESTADO GLOBAL 👈👈
@@ -181,9 +193,70 @@ function initializeApp(initialChars, initialPacks) {
         let honoreeNames = [];
         let eventDateValue = "";
 
+        let sessionCompleteAt = null;
+        function collectSessionData() {
+            const playerNames = Array.from(domElements['player-names-grid-container']?.querySelectorAll('input.player-name-box')).map(i => i.value);
+            const data = {
+                version: "1.1",
+                timestamp: new Date().toISOString(),
+                formData: {
+                    hostName,
+                    eventDate: eventDateValue,
+                    honoreeNames,
+                    playerCount: parseInt(domElements['player-count'].value),
+                    playerNames,
+                    assignments: Object.fromEntries(assignedPlayerMap.entries())
+                }
+            };
+            const totalChars = currentCharacters.length;
+            const complete = totalChars > 0 && assignedPlayerMap.size === totalChars;
+            data.currentStep = complete ? 'completed' : (domElements['main-content-area'].classList.contains('visible-section') ? 'assignment' : 'setup');
+            data.isComplete = complete;
+            data.completedAt = complete ? (sessionCompleteAt || new Date().toISOString()) : null;
+            return data;
+        }
+
+        function saveSessionData() {
+            const sessionData = collectSessionData();
+            saveSessionToStorage(sessionData);
+            if (sessionData.isComplete && eventDateValue) {
+                saveAuth(eventDateValue);
+            }
+        }
+
+        function restoreSession(saved) {
+            if (!saved || !saved.formData) return;
+            hostName = saved.formData.hostName || "";
+            honoreeNames = saved.formData.honoreeNames || [];
+            eventDateValue = saved.formData.eventDate || "";
+            sessionCompleteAt = saved.completedAt || null;
+            if(domElements['host-name-input']) domElements['host-name-input'].value = hostName;
+            if(domElements['event-date-input']) domElements['event-date-input'].value = eventDateValue;
+            if(domElements['has-honoree-checkbox']) {
+                domElements['has-honoree-checkbox'].checked = honoreeNames.length>0;
+                domElements['honorees-container'].innerHTML = '';
+                if (honoreeNames.length>0) {
+                    domElements['add-honoree-btn'].style.display = 'inline-block';
+                    honoreeNames.forEach(n => addHonoreeInput(n));
+                } else {
+                    domElements['add-honoree-btn'].style.display = 'none';
+                }
+            }
+            if(domElements['player-count']) domElements['player-count'].value = saved.formData.playerCount;
+            generatePlayerNameInputs(saved.formData.playerCount, saved.formData.playerNames, false);
+            availablePlayerNames = [];
+            if (hostName) availablePlayerNames.push(hostName + " 🎩");
+            honoreeNames.forEach(h => availablePlayerNames.push(h + " 🌟"));
+            saved.formData.playerNames.forEach(n => { if(!n.includes('🎩') && !n.includes('🌟')) availablePlayerNames.push(n); });
+            if(saved.currentStep !== 'setup') {
+                handleStartAssignment();
+                assignedPlayerMap = new Map(Object.entries(saved.formData.assignments || {}));
+                updateAllPlayerSelects();
+                checkCompletionState();
+            }
+        }
         function getAllNameInputs() {
             const inputs = [];
-            if (domElements['host-name-input']) inputs.push(domElements['host-name-input']);
             if (domElements['honorees-container']) {
                 inputs.push(...domElements['honorees-container'].querySelectorAll('.honoree-name-input'));
             }
@@ -285,6 +358,7 @@ function initializeApp(initialChars, initialPacks) {
                 progressEl.querySelector('.progress-bar-fill').style.width = `${percent}%`;
                 progressEl.style.display = 'block';
             }
+            saveSessionData();
             if (domElements['start-assignment']) {
                 domElements['start-assignment'].disabled = !(validCount === total && total > 0);
             }
@@ -912,10 +986,13 @@ function initializeApp(initialChars, initialPacks) {
                     setTimeout(() => {
                         banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }, 250);
+                sessionCompleteAt = sessionCompleteAt || new Date().toISOString();
+                saveSessionData();
                 }
             } else {
                 banner.classList.remove('visible');
             }
+            saveSessionData();
         }
 
         function updateAssignmentProgress(totalCharacters, assignedCharacters) {
@@ -1549,6 +1626,7 @@ function initializeApp(initialChars, initialPacks) {
             });
         }
         initializeFreshSetupState();
+        setInterval(saveSessionData, 30000);
 
         const initialReportTargetElement = domElements['initial-report-target'];
         const coffinIconContainer = domElements['intro-line-1-heading'];
@@ -1601,9 +1679,9 @@ function initializeApp(initialChars, initialPacks) {
 
 // Código que se ejecuta fuera de initializeApp
 
-document.addEventListener('DOMContentLoaded', () => {
-    initializeApp(allCharacters_data, packs_data)
-    setupProgressiveFlow();
+document.addEventListener("DOMContentLoaded", () => {
+    cleanExpiredData();
+    initializeWithPersistence();
 });
 
 function runTypewriterOnElement(el, speed = 75) {
@@ -1761,6 +1839,7 @@ function validarClave() {
   if (clave === 'cluedo') {
     if(intro) {
         intro.style.transition = "opacity 0.5s ease";
+        saveAuth();
         intro.style.opacity = "0";
 
         setTimeout(() => {
