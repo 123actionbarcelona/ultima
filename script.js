@@ -2035,3 +2035,215 @@ if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
     document.documentElement.style.backgroundAttachment = 'scroll';
     document.documentElement.style.backgroundBlendMode = 'normal';
 }
+// \ud83d\udcf1 DEBUG VISUAL PARA iPHONE
+function createDebugPanel() {
+    const debugPanel = document.createElement('div');
+    debugPanel.id = 'debug-panel-iphone';
+    debugPanel.style.cssText = `position: fixed; top: 10px; right: 10px; width: 300px; max-height: 400px; background: rgba(0, 0, 0, 0.9); color: #00ff00; font-family: monospace; font-size: 10px; padding: 10px; border: 1px solid #00ff00; border-radius: 5px; z-index: 9999; overflow-y: auto; display: none;`;
+
+    const debugButton = document.createElement('button');
+    debugButton.innerHTML = '🐛';
+    debugButton.style.cssText = `
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        width: 40px;
+        height: 40px;
+        background: #ff0000;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        font-size: 20px;
+        z-index: 10000;
+        cursor: pointer;
+    `;
+
+    debugButton.onclick = () => {
+        const isVisible = debugPanel.style.display === 'block';
+        debugPanel.style.display = isVisible ? 'none' : 'block';
+        if (!isVisible) {
+            debugPanel.innerHTML = '<div style="color: #ffff00;">📱 DEBUG PANEL ACTIVO</div>';
+            checkElementsStatus();
+        }
+    };
+
+    document.body.appendChild(debugPanel);
+    document.body.appendChild(debugButton);
+
+    return debugPanel;
+}
+
+function debugLog(message, type = 'info') {
+    const panel = document.getElementById('debug-panel-iphone');
+    if (!panel) return;
+
+    const timestamp = new Date().toLocaleTimeString();
+    const colors = {
+        info: '#00ff00',
+        warn: '#ffff00',
+        error: '#ff0000',
+        success: '#00ffff'
+    };
+
+    const logEntry = document.createElement('div');
+    logEntry.style.color = colors[type] || '#00ff00';
+    logEntry.style.marginBottom = '2px';
+    logEntry.innerHTML = `[${timestamp}] ${message}`;
+
+    panel.appendChild(logEntry);
+    panel.scrollTop = panel.scrollHeight;
+
+    while (panel.children.length > 50) {
+        panel.removeChild(panel.firstChild);
+    }
+}
+
+function checkElementsStatus() {
+    debugLog('=== VERIFICANDO ELEMENTOS ===', 'info');
+
+    const elements = {
+        'setup-section': document.getElementById('setup-section'),
+        'main-content': document.getElementById('main-content-area'),
+        'date-input': document.getElementById('event-date-input'),
+        'host-input': document.getElementById('host-name-input'),
+        'bloque-2': document.querySelector('.bloque-2'),
+        'bloque-3': document.querySelector('.bloque-3')
+    };
+
+    Object.entries(elements).forEach(([name, el]) => {
+        if (el) {
+            const rect = el.getBoundingClientRect();
+            const style = window.getComputedStyle(el);
+            const isVisible = el.offsetParent !== null;
+            const hasSize = rect.width > 0 && rect.height > 0;
+
+            const status = isVisible && hasSize ? '✅' : '❌';
+            const value = el.value ? ` VAL:"${el.value}"` : '';
+
+            debugLog(`${status} ${name}: ${style.display} ${isVisible ? 'VIS' : 'HID'}${value}`,
+                     isVisible && hasSize ? 'success' : 'error');
+        } else {
+            debugLog(`❌ ${name}: NO ENCONTRADO`, 'error');
+        }
+    });
+}
+
+function handleBackToSetupDEBUG_iPhone() {
+    debugLog('🔄 INICIO: handleBackToSetup', 'warn');
+    checkElementsStatus();
+
+    if (!domElements['setup-section'] || !domElements['main-content-area']) {
+        debugLog('❌ Elementos principales no encontrados', 'error');
+        return;
+    }
+
+    const currentHost = domElements['host-name-input']?.value || '';
+    const currentDate = domElements['event-date-input']?.value || '';
+    debugLog(`💾 Valores actuales: host="${currentHost}" date="${currentDate}"`, 'info');
+
+    debugLog('📱 Cambiando pantallas...', 'info');
+    domElements['main-content-area'].classList.add('hidden-section');
+    domElements['main-content-area'].classList.remove('visible-section');
+    domElements['setup-section'].style.display = 'block';
+
+    debugLog('🔧 Forzando visibilidad bloques...', 'info');
+    document.querySelectorAll('#setup-section .bloque').forEach((bloque, index) => {
+        bloque.classList.remove('hidden-section');
+        bloque.classList.add('visible-section');
+        bloque.style.display = 'block';
+        bloque.style.visibility = 'visible';
+        bloque.style.opacity = '1';
+        debugLog(`  Bloque ${index + 1}: activado`, 'success');
+    });
+
+    debugLog('🔄 Restaurando valores...', 'info');
+    if (domElements['host-name-input']) {
+        domElements['host-name-input'].value = hostName || currentHost;
+        debugLog(`  Host: "${domElements['host-name-input'].value}"`, 'success');
+    }
+
+    if (domElements['event-date-input']) {
+        domElements['event-date-input'].value = eventDateValue || currentDate;
+        debugLog(`  Date: "${domElements['event-date-input'].value}"`, 'success');
+    }
+
+    setTimeout(() => {
+        debugLog('⏱️ Verificación 100ms después:', 'warn');
+        checkElementsStatus();
+
+        const dateInput = domElements['event-date-input'];
+        const hostInput = domElements['host-name-input'];
+
+        if (dateInput && dateInput.offsetParent === null) {
+            debugLog('🚨 CORRIGIENDO date input invisible', 'error');
+            dateInput.style.display = 'block !important';
+            dateInput.style.visibility = 'visible !important';
+            dateInput.style.opacity = '1 !important';
+            dateInput.closest('.bloque')?.style.setProperty('display', 'block', 'important');
+        }
+
+        if (hostInput && hostInput.offsetParent === null) {
+            debugLog('🚨 CORRIGIENDO host input invisible', 'error');
+            hostInput.style.display = 'block !important';
+            hostInput.style.visibility = 'visible !important';
+            hostInput.style.opacity = '1 !important';
+            hostInput.closest('.bloque')?.style.setProperty('display', 'block', 'important');
+        }
+    }, 100);
+
+    setTimeout(() => {
+        debugLog('📜 Iniciando scroll...', 'info');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        setTimeout(() => {
+            debugLog('✅ VERIFICACIÓN FINAL:', 'warn');
+            checkElementsStatus();
+        }, 500);
+    }, 200);
+
+    if (domElements['assignment-progress']) {
+        domElements['assignment-progress'].style.display = 'none';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+        createDebugPanel();
+        debugLog('📱 Debug panel para iPhone activado', 'success');
+        debugLog('🐛 Toca el botón rojo para ver logs', 'info');
+
+        setTimeout(() => {
+            const backBtn = document.getElementById('back-to-setup-btn');
+            if (backBtn) {
+                const newBackBtn = backBtn.cloneNode(true);
+                backBtn.parentNode.replaceChild(newBackBtn, backBtn);
+
+                newBackBtn.addEventListener('click', handleBackToSetupDEBUG_iPhone);
+                debugLog('🔧 Botón interceptado para debug', 'success');
+            }
+        }, 1000);
+    }
+});
+
+window.testDebugPhone = function() {
+    debugLog('🧪 TEST MANUAL INICIADO', 'warn');
+    checkElementsStatus();
+};
+
+setInterval(() => {
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+        const setupVisible = document.getElementById('setup-section')?.style.display !== 'none';
+        const dateInput = document.getElementById('event-date-input');
+        const hostInput = document.getElementById('host-name-input');
+
+        if (setupVisible && dateInput && hostInput) {
+            const dateHidden = dateInput.offsetParent === null;
+            const hostHidden = hostInput.offsetParent === null;
+
+            if (dateHidden || hostHidden) {
+                debugLog('🚨 PROBLEMA DETECTADO! Campos invisibles', 'error');
+                checkElementsStatus();
+            }
+        }
+    }
+}, 2000);
